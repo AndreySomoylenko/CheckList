@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".CameraActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <ImageView
+        android:id="@+id/preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingVertical="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,23 +26,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler">
+        app:layout_constraintTop_toBottomOf="@id/preview">
 
         <Button
-            android:id="@+id/scan"
+            android:id="@+id/cancel"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Scan" />
+            android:text="Отмена" />
 
         <Button
-            android:id="@+id/add"
+            android:id="@+id/recognize"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add" />
+            android:text="Распознать" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
