@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button scan;
+    Button add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         scan = findViewById(R.id.scan);
+        add = findViewById(R.id.add);
         scan.setOnClickListener(v -> {
             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try{
@@ -26,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
             }catch (ActivityNotFoundException e){
                 Toast.makeText(this, "Камера не обнаружена", Toast.LENGTH_SHORT).show();
             }
+        });
+        add.setOnClickListener(v -> {
+            Intent add_intent = new Intent(this, AddActivity.class);
+            startActivity(add_intent);
         });
     }
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
