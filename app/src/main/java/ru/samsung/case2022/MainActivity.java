@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, CameraActivity.class);
                     intent.putExtra("BitmapImage", bitmap);
                     startActivity(intent);
+                    finish();
                 }
                 else {
                     Toast.makeText(this, "Ошибка подключения к камере", Toast.LENGTH_SHORT).show();
