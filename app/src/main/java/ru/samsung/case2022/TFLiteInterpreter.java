@@ -3,7 +3,9 @@ package ru.samsung.case2022;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
+import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.image.TensorImage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,14 +16,15 @@ public class TFLiteInterpreter {
 
     private Interpreter interpreter;
 
-    public TFLiteInterpreter(FileInputStream modelPath) throws IOException {
+    public TFLiteInterpreter(FileInputStream modelPath, long start, long end) throws IOException {
         FileChannel fileChannel = modelPath.getChannel();
         long fileSize = fileChannel.size();
-        MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
+        MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, start, end);
         this.interpreter = new Interpreter(buffer);
     }
 
     public float[] runInference(Bitmap bitmap) {
+        TensorImage img = new TensorImage(DataType.UINT8);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float[][] input = new float[1][width * height];
@@ -57,7 +60,6 @@ public class TFLiteInterpreter {
         }
         return index;
     }
-
     public void close() {
         this.interpreter.close();
     }
