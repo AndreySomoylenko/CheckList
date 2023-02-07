@@ -30,6 +30,7 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
             MainActivity.buys.add(s);
+            MainActivity.dbManager.insertNewElement(s);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

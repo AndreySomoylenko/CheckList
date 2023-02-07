@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recycler;
 
     public static Bitmap  bitmap;
+    public static DBManager dbManager;
 
     public static ArrayList<String> buys = new ArrayList<>();
     @Override
@@ -30,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        CustomAdapter adapter = new CustomAdapter(buys, this);
+        dbManager = new DBManager(this);
         recycler = findViewById(R.id.recycler);
-        recycler.setAdapter(adapter);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
+
         scan.setOnClickListener(v -> {
             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try{
@@ -65,4 +66,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbManager.openDB();
+        buys = dbManager.getList();
+        CustomAdapter adapter = new CustomAdapter(buys, this);
+        recycler.setAdapter(adapter);
+    }
 }

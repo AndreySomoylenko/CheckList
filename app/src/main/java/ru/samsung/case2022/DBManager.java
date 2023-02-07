@@ -1,9 +1,11 @@
 package ru.samsung.case2022;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,14 @@ public class DBManager {
     public void openDB() {
         db = dbHelper.getWritableDatabase();
     }
-    public void insertNewElement() {
-        db.execSQL("INSERT INTO lists (element) VALUES ('')");
+    public void insertNewElement(String element) {
+        ContentValues cv = new ContentValues();
+        cv.put("element", element);
+        db.insert("lists", null, cv);
     }
-    public List<String> getList() {
-        List<String> res = new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM lists", null);
+    public ArrayList<String> getList() {
+        ArrayList<String> res = new ArrayList<>();
+        Cursor cur = db.query("lists", null, null, null, null, null, null);
         while (cur.moveToNext()) {;
             res.add(cur.getString(1));
         }
