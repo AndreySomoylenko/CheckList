@@ -3,6 +3,7 @@ package ru.samsung.case2022;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,13 +13,22 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     Button scan;
     Button add;
+    RecyclerView recycler;
+
+    public static ArrayList<String> buys = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CustomAdapter adapter = new CustomAdapter(buys, this);
+        recycler = findViewById(R.id.recycler);
+        recycler.setAdapter(adapter);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
         scan.setOnClickListener(v -> {
