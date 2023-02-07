@@ -19,21 +19,21 @@ public class DBManager {
     public void openDB() {
         db = dbHelper.getWritableDatabase();
     }
-    public void insertNewUser() {
-        db.execSQL("INSERT INTO users (lists) VALUES ('')");
+    public void insertNewElement() {
+        db.execSQL("INSERT INTO lists (element) VALUES ('')");
     }
-    public List<String> getList(int id) {
+    public List<String> getList() {
         List<String> res = new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM users WHERE id=" + Integer.toString(id), null);
-        if (cur.moveToNext()) {;
+        Cursor cur = db.rawQuery("SELECT * FROM lists", null);
+        while (cur.moveToNext()) {;
             res.add(cur.getString(1));
         }
         cur.close();
         return res;
     }
 
-    public void updateList(int id, String newList) {
-        db.execSQL("UPDATE users SET lists='" + newList + "' WHERE id=" + Integer.toString(id));
+    public void updateList(int id, String newElement) {
+        db.execSQL("UPDATE lists SET element='" + newElement + "' WHERE id=" + Integer.toString(id));
     }
 
 

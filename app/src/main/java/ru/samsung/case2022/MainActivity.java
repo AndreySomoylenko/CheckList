@@ -12,15 +12,22 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     Button scan;
     Button add;
+    private List<String> buys;
+    private DBManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbManager = new DBManager(this);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
+        buys = dbManager.getList();
         scan.setOnClickListener(v -> {
             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try{
@@ -51,4 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbManager.openDB();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        dbManager.closeDB();
+    }
 }

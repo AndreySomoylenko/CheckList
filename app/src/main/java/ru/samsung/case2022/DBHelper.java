@@ -17,13 +17,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE users (id INTEGER PRIMARY KEY, list TEXT)");
+        db.execSQL("CREATE TABLE lists (id INTEGER PRIMARY KEY, element TEXT)");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS lists");
         onCreate(db);
 
     }
