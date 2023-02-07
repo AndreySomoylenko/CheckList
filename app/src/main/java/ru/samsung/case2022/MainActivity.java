@@ -3,6 +3,8 @@ package ru.samsung.case2022;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -18,16 +20,21 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     Button scan;
     Button add;
-    private List<String> buys;
-    private DBManager dbManager;
+    RecyclerView recycler;
+
+    public static Bitmap  bitmap;
+
+    public static ArrayList<String> buys = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbManager = new DBManager(this);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        CustomAdapter adapter = new CustomAdapter(buys, this);
+        recycler = findViewById(R.id.recycler);
+        recycler.setAdapter(adapter);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
-        buys = dbManager.getList();
         scan.setOnClickListener(v -> {
             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try{
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         add.setOnClickListener(v -> {
             Intent add_intent = new Intent(this, AddActivity.class);
             startActivity(add_intent);
+            finish();
         });
     }
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
@@ -47,9 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                     Intent data = result.getData();
                     Bundle extras = data.getExtras();
-                    Bitmap bitmap = (Bitmap) extras.get("data");
+                    bitmap = (Bitmap) extras.get("data");
                     Intent intent = new Intent(this, CameraActivity.class);
-                    intent.putExtra("BitmapImage", bitmap);
                     startActivity(intent);
                     finish();
                 }
@@ -58,17 +65,4 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dbManager.openDB();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        dbManager.closeDB();
-    }
 }
