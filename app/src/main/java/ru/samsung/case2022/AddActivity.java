@@ -26,14 +26,13 @@ public class AddActivity extends AppCompatActivity {
 
     public void updateText(View view) {
         s = String.valueOf(editText.getText());
-
-        System.out.println(s);
         if (Objects.equals(s, "")) {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
             MainActivity.buys.add(s);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }

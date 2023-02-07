@@ -23,7 +23,7 @@ public class CameraActivity extends AppCompatActivity {
     Button recognize;
     Button cancel;
 
-    Bitmap[] bitmap;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class CameraActivity extends AppCompatActivity {
         recognize = findViewById(R.id.recognize);
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
-        bitmap = new Bitmap[]{(Bitmap) getIntent().getParcelableExtra("BitmapImage")};
-        image.setImageBitmap(bitmap[0]);
+        image.setImageBitmap(MainActivity.bitmap);
+        bitmap = MainActivity.bitmap;
         cancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -55,11 +55,11 @@ public class CameraActivity extends AppCompatActivity {
             FileDescriptor fileDescriptor = assetFileDescriptor.getFileDescriptor();
             FileInputStream stream = new FileInputStream(fileDescriptor);
             TFLiteInterpreter tf = new TFLiteInterpreter(stream, a, b);
-            bitmap[0] = tf.scaleBitmap(bitmap[0], 300, 300);
-            float[] output = tf.runInference(bitmap[0]);
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            float[] output = tf.runInference(bitmap);
             int ans = tf.getResult(output);
-            recognize.setText(ans);
-
+            recognize.setText(Integer.toString(ans));
+            tf.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
