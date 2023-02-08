@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CameraActivity.class);
                 startActivity(intent);
             }
+            else {
+                Bundle extras = data.getExtras();
+                bitmap = (Bitmap) extras.get("data");
+                Intent intent = new Intent(this, CameraActivity.class);
+                startActivity(intent);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

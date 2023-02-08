@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -39,8 +40,7 @@ public class CameraActivity extends AppCompatActivity {
             startActivity(intent);
         });
         recognize.setOnClickListener(v -> {
-            DoRecognize doo = new DoRecognize();
-            doo.execute();
+            recognize();
             /*Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();*/
@@ -50,8 +50,8 @@ public class CameraActivity extends AppCompatActivity {
     private void recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
+            image.setImageBitmap(bitmap);
             float[] output = tf.runInference(bitmap);
             int ans = tf.getResult(output);
             recognize.setText(Integer.toString(ans));
@@ -61,12 +61,4 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-    class DoRecognize extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            recognize();
-            return null;
-        }
-    }
 }

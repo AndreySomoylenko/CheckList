@@ -8,6 +8,7 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import ru.samsung.case2022.ml.Model;
 
@@ -33,7 +34,7 @@ public class TFLiteInterpreter {
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 400 * 400 * 3);
             int [] intValues = new int[400 * 400];
             bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-            inputFeature0.loadBuffer(byteBuffer);
+            byteBuffer.order(ByteOrder.nativeOrder());
             int pixel = 0;
             for (int i = 0; i < 400; i++) {
                 for (int j = 0; j < 400; j++) {
@@ -43,6 +44,7 @@ public class TFLiteInterpreter {
                      byteBuffer.putFloat((val & 0xFF) * (1.f / 1));
                 }
             }
+            inputFeature0.loadBuffer(byteBuffer);
 
             // Runs model inference and gets result.
             Model.Outputs outputs = model.process(inputFeature0);
