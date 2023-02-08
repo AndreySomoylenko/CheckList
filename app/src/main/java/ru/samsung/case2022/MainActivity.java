@@ -4,23 +4,32 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Button scan;
     Button add;
     RecyclerView recycler;
+
+    private String pictureImagePath = "";
 
     public static Bitmap  bitmap;
     public static DBManager dbManager;
@@ -37,9 +46,17 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.add);
 
         scan.setOnClickListener(v -> {
-            Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try{
-                startActivityForResult.launch(takePhotoIntent);
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = timeStamp + ".jpg";
+                    File storageDir = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES);
+                    pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                    File file = new File(pictureImagePath);
+                    Uri outputFileUri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                    startActivityForResult(cameraIntent, 1);
             }catch (ActivityNotFoundException e){
                 Toast.makeText(this, "Камера не обнаружена", Toast.LENGTH_SHORT).show();
             }
@@ -50,22 +67,18 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
     }
-    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                    Intent data = result.getData();
-                    Bundle extras = data.getExtras();
-                    bitmap = (Bitmap) extras.get("data");
-                    Intent intent = new Intent(this, CameraActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Toast.makeText(this, "Ошибка подключения к камере", Toast.LENGTH_SHORT).show();
-                }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            File imgFile = new File(pictureImagePath);
+            if (imgFile.exists()) {
+                bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                Intent intent = new Intent(this, CameraActivity.class);
+                startActivity(intent);
             }
-    );
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onResume() {

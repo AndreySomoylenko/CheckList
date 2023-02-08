@@ -1,60 +1,70 @@
 package ru.samsung.case2022;
 
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 
 import org.tensorflow.lite.DataType;
-import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.gpu.CompatibilityList;
-import org.tensorflow.lite.gpu.GpuDelegate;
-import org.tensorflow.lite.support.image.ImageProcessor;
-import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.support.image.ops.ResizeOp;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
-import org.tensorflow.lite.support.tensorbuffer.TensorBufferUint8;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
+import java.nio.ByteBuffer;
+
+import ru.samsung.case2022.ml.Model;
+
 
 public class TFLiteInterpreter {
 
-    private Interpreter interpreter;
+    Model model;
 
-    public TFLiteInterpreter(FileInputStream modelPath, long start, long end) throws IOException {
-        FileChannel fileChannel = modelPath.getChannel();
-        MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, start, end);
-        this.interpreter = new Interpreter(buffer);
+    public TFLiteInterpreter(Context context) throws IOException {
+        try {
+            model = Model.newInstance(context);
+
+        } catch (IOException e) {
+            // TODO Handle the exception
+        }
     }
 
     public float[] runInference(Bitmap bitmap) {
-        TensorImage img = new TensorImage(DataType.UINT8);
-        img.load(bitmap);
-        ImageProcessor imageProcessor =
-                new ImageProcessor.Builder()
-                        .add(new ResizeOp(800, 800, ResizeOp.ResizeMethod.BILINEAR))
-                        .build();
-        img = imageProcessor.process(img);
-        TensorBuffer probabilityBuffer =
-                TensorBuffer.createFixedSize(new int[]{1, 1001}, DataType.UINT8);
-        this.interpreter.run(img.getBuffer(), probabilityBuffer.getBuffer());
+        try {
 
-        return probabilityBuffer.getFloatArray();
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 400,400, 3}, DataType.FLOAT32);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 400 * 400 * 3);
+            int [] intValues = new int[400 * 400];
+            bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+            inputFeature0.loadBuffer(byteBuffer);
+            int pixel = 0;
+            for (int i = 0; i < 400; i++) {
+                for (int j = 0; j < 400; j++) {
+                     int val =  intValues[pixel++];
+                     byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 1));
+                     byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 1));
+                     byteBuffer.putFloat((val & 0xFF) * (1.f / 1));
+                }
+            }
+
+            // Runs model inference and gets result.
+            Model.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+            // Releases model resources if no longer used.
+            model.close();
+            return outputFeature0.getFloatArray();
+        } catch (Exception e) {
+            // TODO Handle the exception
+        }
+        return null;
     }
 
     public int getResult(float[] outputs) {
         int index = -1;
         float max = -1;
         for (int i = 0; i < outputs.length; i++) {
-            if (outputs[i] / 250 > max) {
-                max = outputs[i] / 250;
+            if (outputs[i] > max) {
+                max = outputs[i];
                 index = i;
             }
         }
         return index;
-    }
-    public void close() {
-        this.interpreter.close();
     }
 }

@@ -49,17 +49,13 @@ public class CameraActivity extends AppCompatActivity {
 
     private void recognize() {
         try {
-            AssetFileDescriptor assetFileDescriptor = getAssets().openFd("model.tflite");
-            long a = assetFileDescriptor.getStartOffset();
-            long b = assetFileDescriptor.getLength();
-            FileDescriptor fileDescriptor = assetFileDescriptor.getFileDescriptor();
-            FileInputStream stream = new FileInputStream(fileDescriptor);
-            TFLiteInterpreter tf = new TFLiteInterpreter(stream, a, b);
+            TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
             float[] output = tf.runInference(bitmap);
             int ans = tf.getResult(output);
             recognize.setText(Integer.toString(ans));
-            tf.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
