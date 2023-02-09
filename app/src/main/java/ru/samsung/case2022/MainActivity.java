@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     public static ArrayList<String> buys = new ArrayList<>();
 
+    public static DBJson db;
+
     private static AppDao appDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
-        appDao = new AppDao(this);
+        db = new DBJson(this);
+        buys = db.buys;
 
         scan.setOnClickListener(v -> {
             try{
@@ -94,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         dbManager.openDB();
         //buys = dbManager.getList();
-        if (appDao.getList() != null) {
-            buys = appDao.getList();
-        } else {
-            buys = new ArrayList<>();
-        }
         CustomAdapter adapter = new CustomAdapter(buys, this, this);
         recycler.setAdapter(adapter);
     }
