@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     public static DBManager dbManager;
 
     public static ArrayList<String> buys = new ArrayList<>();
+
+    private static AppDao appDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
+        appDao = new AppDao(this);
 
         scan.setOnClickListener(v -> {
             try{
@@ -90,7 +93,12 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     protected void onResume() {
         super.onResume();
         dbManager.openDB();
-        buys = dbManager.getList();
+        //buys = dbManager.getList();
+        if (appDao.getList() != null) {
+            buys = appDao.getList();
+        } else {
+            buys = new ArrayList<>();
+        }
         CustomAdapter adapter = new CustomAdapter(buys, this, this);
         recycler.setAdapter(adapter);
     }
@@ -98,5 +106,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     public void OnNoteClick(int position) {
         Toast.makeText(this, Integer.toString(position), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        appDao.putList(buys);
     }
 }
