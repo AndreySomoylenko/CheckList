@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
     Button scan;
     Button add;
     RecyclerView recycler;
@@ -47,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         scan.setOnClickListener(v -> {
             try{
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = timeStamp + ".jpg";
-                    File storageDir = Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_PICTURES);
-                    pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
-                    File file = new File(pictureImagePath);
-                    Uri outputFileUri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    startActivityForResult(cameraIntent, 1);
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = timeStamp + ".jpg";
+                File storageDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                File file = new File(pictureImagePath);
+                Uri outputFileUri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                startActivityForResult(cameraIntent, 1);
             }catch (ActivityNotFoundException e){
                 Toast.makeText(this, "Камера не обнаружена", Toast.LENGTH_SHORT).show();
             }
@@ -91,7 +91,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         dbManager.openDB();
         buys = dbManager.getList();
-        CustomAdapter adapter = new CustomAdapter(buys, this);
+        CustomAdapter adapter = new CustomAdapter(buys, this, this);
         recycler.setAdapter(adapter);
+    }
+
+    @Override
+    public void OnNoteClick(int position) {
+        Toast.makeText(this, Integer.toString(position), Toast.LENGTH_SHORT).show();
     }
 }

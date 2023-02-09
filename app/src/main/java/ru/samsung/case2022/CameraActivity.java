@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -23,7 +25,6 @@ public class CameraActivity extends AppCompatActivity {
     ImageView image;
     Button recognize;
     Button cancel;
-
     Bitmap bitmap;
 
     @Override
@@ -53,8 +54,8 @@ public class CameraActivity extends AppCompatActivity {
             bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
             image.setImageBitmap(bitmap);
             float[] output = tf.runInference(bitmap);
-            int ans = tf.getResult(output);
-            recognize.setText(Integer.toString(ans));
+            String ans = tf.getResult(output);
+            recognize.setText(ans);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

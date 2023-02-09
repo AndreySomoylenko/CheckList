@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,23 +16,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final ArrayList<String> localDataSet;
     private final Context context;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+    private OnNoteListener mOnNoteListener;
 
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-            textView = (TextView) view.findViewById(R.id.text);
-        }
 
-        public TextView getTextView() {
-            return textView;
-        }
-    }
-
-    public CustomAdapter(ArrayList<String> localDataSet, Context context) {
+    public CustomAdapter(ArrayList<String> localDataSet, Context context, OnNoteListener onNoteListener) {
         this.localDataSet = localDataSet;
         this.context = context;
+        this.mOnNoteListener = onNoteListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -41,7 +32,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.custom_layout, viewGroup, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnNoteListener );
     }
 
 
@@ -54,5 +45,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return localDataSet.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView text;
+
+        OnNoteListener onNoteListener;
+
+        public ViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
+            super(itemView);
+            text = itemView.findViewById(R.id.text);
+
+            itemView.setOnClickListener(this);
+            this.onNoteListener = onNoteListener;
+        }
+
+        public TextView getTextView() {
+            return text;
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.OnNoteClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnNoteListener {
+        void OnNoteClick(int position);
     }
 }

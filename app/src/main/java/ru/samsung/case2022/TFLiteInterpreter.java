@@ -17,6 +17,8 @@ public class TFLiteInterpreter {
 
     Model model;
 
+    String[] products = {"biscuits", "broccoli", "cheese", "coffee", "curd", "dough", "milk", "pancakes", "sourcream", "tea"};
+
     public TFLiteInterpreter(Context context) throws IOException {
         try {
             model = Model.newInstance(context);
@@ -58,7 +60,7 @@ public class TFLiteInterpreter {
         return null;
     }
 
-    public int getResult(float[] outputs) {
+    public String getResult(float[] outputs) {
         int index = -1;
         float max = -1;
         for (int i = 0; i < outputs.length; i++) {
@@ -67,6 +69,6 @@ public class TFLiteInterpreter {
                 index = i;
             }
         }
-        return index;
+        return products[index];
     }
 }
