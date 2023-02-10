@@ -32,24 +32,20 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     private String pictureImagePath = "";
 
     public static Bitmap  bitmap;
-    public static DBManager dbManager;
 
-    public static ArrayList<String> buys = new ArrayList<>();
 
     public static DBJson db;
 
-    private static AppDao appDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        dbManager = new DBManager(this);
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
-        db = new DBJson(this);
-        buys = db.buys;
+        DBJson.init(this);
 
         scan.setOnClickListener(v -> {
             try{
@@ -95,9 +91,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     protected void onResume() {
         super.onResume();
-        dbManager.openDB();
-        //buys = dbManager.getList();
-        CustomAdapter adapter = new CustomAdapter(buys, this, this);
+        CustomAdapter adapter = new CustomAdapter(DBJson.buys, this, this);
         recycler.setAdapter(adapter);
     }
 
@@ -109,6 +103,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        appDao.putList(buys);
+        DBJson.save();
     }
 }

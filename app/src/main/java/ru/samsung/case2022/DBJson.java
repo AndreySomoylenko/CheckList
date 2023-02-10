@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class DBJson {
 
-    public ArrayList<String> buys = new ArrayList<>();
+    public static ArrayList<String> buys;
 
-    private AppDao appDao;
+    private static AppDao appDao;
 
-    public DBJson(Context context) {
+    public static void init(Context context) {
         appDao = new AppDao(context);
         if (appDao.getList() != null) {
             buys = appDao.getList();
@@ -19,11 +19,12 @@ public class DBJson {
         }
     }
 
-    public void add(String item) {
+    public static void add(String item) {
         buys.add(item);
+        save();
     }
 
-    public boolean removeByName(String item) {
+    public static boolean removeByName(String item) {
         int index = buys.indexOf(item);
         if (index == -1) return false;
         else {
@@ -32,15 +33,16 @@ public class DBJson {
         }
     }
 
-    public boolean removeByIndex(int index) {
+    public static boolean removeByIndex(int index) {
         if (index == -1) return false;
         else {
             buys.remove(index);
+            save();
             return true;
         }
     }
 
-    public void save() {
+    public static void save() {
         appDao.putList(buys);
     }
 }

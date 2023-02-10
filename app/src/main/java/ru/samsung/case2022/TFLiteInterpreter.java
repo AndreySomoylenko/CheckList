@@ -34,9 +34,9 @@ public class TFLiteInterpreter {
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 400,400, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 400 * 400 * 3);
+            byteBuffer.order(ByteOrder.nativeOrder());
             int [] intValues = new int[400 * 400];
             bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-            byteBuffer.order(ByteOrder.nativeOrder());
             int pixel = 0;
             for (int i = 0; i < 400; i++) {
                 for (int j = 0; j < 400; j++) {
