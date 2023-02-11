@@ -16,7 +16,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final ArrayList<String> localDataSet;
     private final Context context;
 
-    private OnNoteListener mOnNoteListener;
+    private final OnNoteListener mOnNoteListener;
 
 
     public CustomAdapter(ArrayList<String> localDataSet, Context context, OnNoteListener onNoteListener) {

@@ -41,9 +41,9 @@ public class TFLiteInterpreter {
             for (int i = 0; i < 400; i++) {
                 for (int j = 0; j < 400; j++) {
                      int val =  intValues[pixel++];
-                     byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 1));
-                     byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 1));
-                     byteBuffer.putFloat((val & 0xFF) * (1.f / 1));
+                     byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255));
+                     byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255));
+                     byteBuffer.putFloat((val & 0xFF) * (1.f / 255));
                 }
             }
             inputFeature0.loadBuffer(byteBuffer);

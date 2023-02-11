@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager {
-    private Context context;
-    private DBHelper dbHelper;
+    private final Context context;
+    private final DBHelper dbHelper;
     private SQLiteDatabase db;
 
     public DBManager(Context context) {
@@ -29,7 +29,7 @@ public class DBManager {
     public ArrayList<String> getList() {
         ArrayList<String> res = new ArrayList<>();
         Cursor cur = db.query("lists", null, null, null, null, null, null);
-        while (cur.moveToNext()) {;
+        while (cur.moveToNext()) {
             res.add(cur.getString(1));
         }
         cur.close();
@@ -37,7 +37,7 @@ public class DBManager {
     }
 
     public void updateList(int id, String newElement) {
-        db.execSQL("UPDATE lists SET element='" + newElement + "' WHERE id=" + Integer.toString(id));
+        db.execSQL("UPDATE lists SET element='" + newElement + "' WHERE id=" + id);
     }
 
 

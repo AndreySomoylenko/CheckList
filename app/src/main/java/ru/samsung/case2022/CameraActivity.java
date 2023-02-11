@@ -58,12 +58,11 @@ public class CameraActivity extends AppCompatActivity {
     private String recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
-            bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
             float[] output = tf.runInference(bitmap);
             return tf.getResult(output);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
