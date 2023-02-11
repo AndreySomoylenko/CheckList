@@ -23,7 +23,8 @@ public class EditAcicity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         position = (int) getIntent().getSerializableExtra("position");
-        editText = (EditText) findViewById(R.id.editText);
+        editText = (EditText) findViewById(R.id.editProductName);
+        editText.setText(DBJson.buys.get(position));
     }
 
 

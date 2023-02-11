@@ -54,7 +54,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
-            text = itemView.findViewById(R.id.text);
+            text = itemView.findViewById(R.id.productName);
 
             itemView.setOnClickListener(this);
             this.onNoteListener = onNoteListener;

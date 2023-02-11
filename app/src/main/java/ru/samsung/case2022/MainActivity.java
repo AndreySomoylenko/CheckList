@@ -1,12 +1,5 @@
 package ru.samsung.case2022;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,11 +11,14 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
     Button scan;
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         add.setOnClickListener(v -> {
             Intent add_intent = new Intent(this, AddActivity.class);
             startActivity(add_intent);
-            finish();
         });
     }
 
@@ -100,12 +95,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         Intent intent = new Intent(this, EditAcicity.class);
         intent.putExtra("position", position);
         startActivity(intent);
-        finish();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         DBJson.save();
     }
 }

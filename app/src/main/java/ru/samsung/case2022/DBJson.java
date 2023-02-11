@@ -25,12 +25,11 @@ public class DBJson {
     }
 
     public static boolean removeByName(String item) {
-        int index = buys.indexOf(item);
-        if (index == -1) return false;
-        else {
-            buys.remove(index);
-            return true;
+        while (buys.contains(item)) {
+            buys.remove(item);
         }
+        save();
+        return true;
     }
 
     public static boolean removeByIndex(int index) {

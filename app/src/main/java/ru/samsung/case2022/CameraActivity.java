@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,29 +35,32 @@ public class CameraActivity extends AppCompatActivity {
         recognize = findViewById(R.id.recognize);
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
-        image.setImageBitmap(MainActivity.bitmap);
         bitmap = MainActivity.bitmap;
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(-90);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
+        image.setImageBitmap(MainActivity.bitmap);
         cancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
         recognize.setOnClickListener(v -> {
-            recognize();
-            /*Intent intent = new Intent(this, MainActivity.class);
+            String s = recognize();
+            DBJson.removeByName(s);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            finish();*/
+            finish();
         });
     }
 
-    private void recognize() {
+    private String recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
-            bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
-            image.setImageBitmap(bitmap);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
             float[] output = tf.runInference(bitmap);
-            String ans = tf.getResult(output);
-            recognize.setText(ans);
-
+            return tf.getResult(output);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

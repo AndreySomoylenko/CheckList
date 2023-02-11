@@ -7,7 +7,7 @@
     tools:context=".AddActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editProductName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="5dp"
@@ -16,7 +16,7 @@
         android:layout_marginBottom="5dp"
         android:hint="@string/text_input"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,37 +30,38 @@
         android:layout_marginBottom="9dp"
         android:text="@string/edit_string"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/editProductName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="295dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="385dp"
-        android:text="@string/edit_button"
         android:onClick="updateText"
+        android:text="@string/edit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/editProductName" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="deleteItem"
-        android:text="delete"
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editProductName"
         app:layout_constraintVertical_bias="0.025"
 
         />
