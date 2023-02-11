@@ -1,4 +1,4 @@
-package ru.samsung.case2022;
+package ru.samsung.case2022.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,40 +10,33 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
-public class EditAcicity extends AppCompatActivity {
+import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.R;
+
+public class AddActivity extends AppCompatActivity {
 
     String s;
 
     EditText editText;
 
-    int position;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
-        position = (int) getIntent().getSerializableExtra("position");
-        editText = findViewById(R.id.editProductName);
-        editText.setText(DBJson.buys.get(position));
-    }
+        setContentView(R.layout.activity_add);
 
+        editText = findViewById(R.id.editProductName);
+    }
 
     public void updateText(View view) {
         s = String.valueOf(editText.getText());
         if (Objects.equals(s, "")) {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
-            DBJson.buys.set(position, s);
-            DBJson.save();
-            Intent intent = new Intent(this, MainActivity.class);
+            DBJson.add(s);
+            //MainActivity.db.save();
+            Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
         }
-    }
-    public void deleteItem(View view) {
-        DBJson.removeByIndex(position);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

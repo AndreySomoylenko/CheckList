@@ -1,13 +1,13 @@
-package ru.samsung.case2022;
+package ru.samsung.case2022.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
+import ru.samsung.case2022.db.DBHelper;
 
 public class DBManager {
     private final Context context;

@@ -1,4 +1,4 @@
-package ru.samsung.case2022;
+package ru.samsung.case2022.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -20,7 +20,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
+import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.R;
+
+public class RootActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
     Button scan;
     Button add;
     RecyclerView recycler;

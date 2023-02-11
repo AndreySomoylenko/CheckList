@@ -1,4 +1,4 @@
-package ru.samsung.case2022;
+package ru.samsung.case2022.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
