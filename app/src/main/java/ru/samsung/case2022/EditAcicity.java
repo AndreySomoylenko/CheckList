@@ -2,6 +2,7 @@ package ru.samsung.case2022;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -15,11 +16,13 @@ public class EditAcicity extends AppCompatActivity {
 
     EditText editText;
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
+        position = (int) getIntent().getSerializableExtra("position");
         editText = (EditText) findViewById(R.id.editText);
     }
 
@@ -29,8 +32,17 @@ public class EditAcicity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
-            int position = (int) getIntent().getSerializableExtra("position");
-            Toast.makeText(this, "position" + Integer.toString(position), Toast.LENGTH_SHORT).show();
+            DBJson.buys.set(position, s);
+            DBJson.save();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
+    }
+    public void deleteItem(View view) {
+        DBJson.removeByIndex(position);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
