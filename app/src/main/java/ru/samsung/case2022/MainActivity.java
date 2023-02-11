@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     @Override
     public void OnNoteClick(int position) {
-        Toast.makeText(this, Integer.toString(position), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, EditAcicity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
+        finish();
     }
 
     @Override

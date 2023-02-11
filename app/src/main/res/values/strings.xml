@@ -3,4 +3,6 @@
     <string name="input_string">Добавление нового элемента:</string>
     <string name="add_button">Add</string>
     <string name="text_input">Введите текст</string>
+    <string name="edit_button">Rename</string>
+    <string name="edit_string">Редактирование элемента:</string>
 </resources>
