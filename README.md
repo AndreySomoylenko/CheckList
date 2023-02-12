@@ -2,10 +2,10 @@
 
 ## Server
 
-PassWord – yLt99vYEdiWe
-IP – 78.24.180.25
-User - root
-MySqlUser PassWord - yLt99vYEdiWe
+- PassWord – yLt99vYEdiWe
+- IP – 78.24.180.25
+- User - root
+- MySqlUser PassWord - yLt99vYEdiWe
 
 ## Сделать
 
