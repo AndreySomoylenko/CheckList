@@ -9,5 +9,6 @@ public interface VersionAgent {
 
     boolean removeByName(String item);
     boolean removeByIndex(int index);
+
     void save();
 }

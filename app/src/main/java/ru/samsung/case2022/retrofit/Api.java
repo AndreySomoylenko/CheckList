@@ -27,8 +27,12 @@ public interface Api {
     Call<ResponseBody> addElement(@Field("login") String login, @Field("element") String element);
 
     @FormUrlEncoded
-    @POST("delete_element")
-    Call<ResponseBody> deleteElement(@Field("login") String login, @Field("element") String element);
+    @POST("delete_element_by_name")
+    Call<ResponseBody> deleteElementByName(@Field("login") String login, @Field("element") String element);
+
+    @FormUrlEncoded
+    @POST("delete_element_by_id")
+    Call<ResponseBody> deleteElementById(@Field("login") String login, @Field("id") Integer id);
 
 
 }
