@@ -4,35 +4,31 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-public class DBJson {
+import ru.samsung.case2022.vcs.VersionAgent;
+
+public class DBJson implements VersionAgent {
 
     public static ArrayList<String> buys;
 
     private static AppDao appDao;
 
-    public static void init(Context context) {
-        appDao = new AppDao(context);
-        if (appDao.getList() != null) {
-            buys = appDao.getList();
-        } else {
-            buys = new ArrayList<>();
-        }
-    }
-
-    public static void add(String item) {
+    @Override
+    public void add(String item) {
         buys.add(item);
         save();
     }
 
-    public static boolean removeByName(String item) {
+
+    @Override
+    public boolean removeByName(String item) {
         while (buys.contains(item)) {
             buys.remove(item);
         }
         save();
         return true;
     }
-
-    public static boolean removeByIndex(int index) {
+    @Override
+    public boolean removeByIndex(int index) {
         if (index == -1) return false;
         else {
             buys.remove(index);
@@ -41,7 +37,18 @@ public class DBJson {
         }
     }
 
-    public static void save() {
+    @Override
+    public void init(Context context) {
+        appDao = new AppDao(context);
+        if (appDao.getList() != null) {
+            buys = appDao.getList();
+        } else {
+            buys = new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void save() {
         appDao.putList(buys);
     }
 }

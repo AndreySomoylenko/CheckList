@@ -1,5 +1,7 @@
 package ru.samsung.case2022.ui;
 
+import static ru.samsung.case2022.ui.RootActivity.db;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,9 +13,9 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 
-import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
+import ru.samsung.case2022.vcs.VersionAgent;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class CameraActivity extends AppCompatActivity {
         });
         recognize.setOnClickListener(v -> {
             String s = recognize();
-            DBJson.removeByName(s);
+            db.removeByName(s);
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

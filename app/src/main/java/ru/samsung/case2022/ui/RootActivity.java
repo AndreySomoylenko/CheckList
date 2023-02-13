@@ -45,7 +45,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
-        DBJson.init(this);
+        db = new DBJson();
+        db.init(this);
 
         scan.setOnClickListener(v -> {
             try{
@@ -104,6 +105,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     protected void onStop() {
         super.onStop();
-        DBJson.save();
+        db.save();
     }
 }
