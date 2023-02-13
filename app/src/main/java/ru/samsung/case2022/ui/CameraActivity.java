@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -44,6 +45,7 @@ public class CameraActivity extends AppCompatActivity {
         });
         recognize.setOnClickListener(v -> {
             String s = recognize();
+            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
             db.removeByName(s);
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
