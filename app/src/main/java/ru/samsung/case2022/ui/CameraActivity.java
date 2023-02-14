@@ -35,10 +35,10 @@ public class CameraActivity extends AppCompatActivity {
         bitmap = RootActivity.bitmap;
         if (bitmap.getWidth() > bitmap.getHeight()) {
             Matrix matrix = new Matrix();
-            matrix.postRotate(-90);
+            matrix.postRotate(90);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         }
-        image.setImageBitmap(RootActivity.bitmap);
+        image.setImageBitmap(bitmap);
         cancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
