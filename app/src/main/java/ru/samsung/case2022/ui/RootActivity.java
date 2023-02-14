@@ -31,6 +31,7 @@ import java.util.Date;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.ServerDB;
 
 public class RootActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
     Button scan;
@@ -144,6 +145,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
             case R.id.log_in:
                 Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
+
                 return true;
 
             default:

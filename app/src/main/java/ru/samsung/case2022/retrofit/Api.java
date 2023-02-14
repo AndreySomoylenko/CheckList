@@ -34,6 +34,9 @@ public interface Api {
     @POST("delete_element_by_id")
     Call<ResponseBody> deleteElementById(@Field("login") String login, @Field("id") Integer id);
 
+    @GET("check_reg")  // returns '1' if registered and '0' if not registered
+    Call<ResponseBody> checkIfUserRegistered(@Field("login") String login);
+
 
 }
 

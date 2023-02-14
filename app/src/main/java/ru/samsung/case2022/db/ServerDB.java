@@ -33,10 +33,21 @@ public class ServerDB implements VersionAgent {
         }
     }
 
-    public void getList() {
+    public List<String> getList() {
         Call<List<String>> call = RetrofitClient.getInstance().getApi().getList(getLogin());
         try {
             Response<List<String>> resp = call.execute();
+            return resp.body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkIfUserRegistered(String login) {
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().checkIfUserRegistered(login);
+        try {
+            Response<ResponseBody> resp = call.execute();
+            return resp.body().string().equals("1");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -52,6 +63,7 @@ public class ServerDB implements VersionAgent {
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().addElement(getLogin(), item);
         try {
             Response<ResponseBody> resp = call.execute();
+            dbJson.add(item);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +72,7 @@ public class ServerDB implements VersionAgent {
 
     @Override
     public boolean removeByName(String item) {
-        dbJson.add(item);
+        dbJson.removeByName(item);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().deleteElementByName(getLogin(), item);
         try {
             Response<ResponseBody> resp = call.execute();
@@ -72,6 +84,7 @@ public class ServerDB implements VersionAgent {
 
     @Override
     public boolean removeByIndex(int index) {
+        dbJson.removeByIndex(index);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().deleteElementById(getLogin(), index);
         try {
             Response<ResponseBody> resp = call.execute();
