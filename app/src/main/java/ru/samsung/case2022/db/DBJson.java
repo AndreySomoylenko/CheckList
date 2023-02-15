@@ -3,52 +3,45 @@ package ru.samsung.case2022.db;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import ru.samsung.case2022.vcs.VersionAgent;
-
-public class DBJson implements VersionAgent {
-
-    public static ArrayList<String> buys;
+public class DBJson {
 
     private static AppDao appDao;
 
-    @Override
     public void add(String item) {
-        buys.add(item);
+        BuysManager.buys.add(item);
         save();
     }
 
 
-    @Override
     public boolean removeByName(String item) {
-        while (buys.contains(item)) {
-            buys.remove(item);
+        while (BuysManager.buys.contains(item)) {
+            BuysManager.buys.remove(item);
         }
         save();
         return true;
     }
-    @Override
+
     public boolean removeByIndex(int index) {
         if (index == -1) return false;
         else {
-            buys.remove(index);
+            BuysManager.buys.remove(index);
             save();
             return true;
         }
     }
 
-    @Override
     public void init(Context context) {
         appDao = new AppDao(context);
         if (appDao.getList() != null) {
-            buys = appDao.getList();
+            BuysManager.buys = appDao.getList();
         } else {
-            buys = new ArrayList<>();
+            BuysManager.buys = new ArrayList<>();
         }
     }
 
-    @Override
     public void save() {
-        appDao.putList(buys);
+        appDao.putList(BuysManager.buys);
     }
 }

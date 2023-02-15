@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
-    String BASE_URL = "";
+    String BASE_URL = "https://developer.android.com/develop/ui/views/components/appbar/setting-up/";
 
     @FormUrlEncoded
     @POST("reg_user")

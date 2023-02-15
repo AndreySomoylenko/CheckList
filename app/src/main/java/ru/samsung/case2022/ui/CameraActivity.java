@@ -1,6 +1,6 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.MainActivity.db;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,6 @@ import java.io.IOException;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
-import ru.samsung.case2022.vcs.VersionAgent;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -32,7 +31,7 @@ public class CameraActivity extends AppCompatActivity {
         recognize = findViewById(R.id.recognize);
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
-        bitmap = RootActivity.bitmap;
+        bitmap = MainActivity.bitmap;
         if (bitmap.getWidth() > bitmap.getHeight()) {
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
@@ -40,14 +39,14 @@ public class CameraActivity extends AppCompatActivity {
         }
         image.setImageBitmap(bitmap);
         cancel.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RootActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
         recognize.setOnClickListener(v -> {
             String s = recognize();
             Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
             db.removeByName(s);
-            Intent intent = new Intent(this, RootActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         });

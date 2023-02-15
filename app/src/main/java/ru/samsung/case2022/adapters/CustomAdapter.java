@@ -9,19 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ru.samsung.case2022.R;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private final ArrayList<String> localDataSet;
+    private final List<String> localDataSet;
     private final Context context;
 
     private final OnNoteListener mOnNoteListener;
 
 
-    public CustomAdapter(ArrayList<String> localDataSet, Context context, OnNoteListener onNoteListener) {
+    public CustomAdapter(List<String> localDataSet, Context context, OnNoteListener onNoteListener) {
         this.localDataSet = localDataSet;
         this.context = context;
         this.mOnNoteListener = onNoteListener;

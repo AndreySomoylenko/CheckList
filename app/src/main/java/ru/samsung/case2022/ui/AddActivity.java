@@ -1,6 +1,6 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.MainActivity.db;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
-import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.R;
 
 public class AddActivity extends AppCompatActivity {
@@ -36,7 +35,7 @@ public class AddActivity extends AppCompatActivity {
         } else {
             db.add(s);
             //MainActivity.db.save();
-            Intent intent = new Intent(this, RootActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }
