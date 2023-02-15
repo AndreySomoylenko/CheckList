@@ -41,56 +41,13 @@ public class ServerDB {
         }
     }
 
-    public boolean checkIfUserRegistered(String login) {
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().checkIfUserRegistered(login);
+    public void sync(List<String> buys) {
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
         try {
             Response<ResponseBody> resp = call.execute();
-            return resp.body().string().equals("1");
-        } catch (IOException e) {
+        } catch(IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void init(Context context) {
-        this.context = context;
-        this.appDao = new AppDao(context);
-    }
-
-    public void add(String item) {
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().addElement(appDao.getLogin(), item);
-        try {
-            Response<ResponseBody> resp = call.execute();
-            dbJson.add(item);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public boolean removeByName(String item) {
-        dbJson.removeByName(item);
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().deleteElementByName(appDao.getLogin(), item);
-        try {
-            Response<ResponseBody> resp = call.execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
-
-    public boolean removeByIndex(int index) {
-        dbJson.removeByIndex(index);
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().deleteElementById(appDao.getLogin(), index);
-        try {
-            Response<ResponseBody> resp = call.execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
-
-    public void save() {
-        dbJson.save();
     }
 
 }

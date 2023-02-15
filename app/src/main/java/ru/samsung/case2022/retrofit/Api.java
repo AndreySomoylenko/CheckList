@@ -23,20 +23,8 @@ public interface Api {
     Call<List<String>> getList(@Query("login") String login);
 
     @FormUrlEncoded
-    @POST("add_element")
-    Call<ResponseBody> addElement(@Field("login") String login, @Field("element") String element);
-
-    @FormUrlEncoded
-    @POST("delete_element_by_name")
-    Call<ResponseBody> deleteElementByName(@Field("login") String login, @Field("element") String element);
-
-    @FormUrlEncoded
-    @POST("delete_element_by_id")
-    Call<ResponseBody> deleteElementById(@Field("login") String login, @Field("id") Integer id);
-
-    @GET("check_reg")  // returns '1' if registered and '0' if not registered
-    Call<ResponseBody> checkIfUserRegistered(@Field("login") String login);
-
+    @POST("sync")
+    Call<ResponseBody> sync(@Query("login") String login, @Query("buys") List<String> buys);
 
 }
 
