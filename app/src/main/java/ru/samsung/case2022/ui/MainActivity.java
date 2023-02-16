@@ -25,6 +25,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +33,7 @@ import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.ServerDB;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener {
     Button scan;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
 
 
     public static DBJson db;
+    public static ServerDB serverDB;
 
 
     @Override
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         CustomAdapter adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
+        serverDB.sync(BuysManager.buys); // позже посмотрю как всё-таки обрабатывать тут ошибку catchем
     }
 
     @Override

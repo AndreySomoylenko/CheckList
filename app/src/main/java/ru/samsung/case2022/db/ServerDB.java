@@ -50,4 +50,14 @@ public class ServerDB {
         }
     }
 
+    public boolean checkLogin(String login, String password) {
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_login(login, password);
+        try {
+            Response<ResponseBody> resp = call.execute();
+            return resp.body().string().equals("1");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -26,6 +26,10 @@ public interface Api {
     @POST("sync")
     Call<ResponseBody> sync(@Query("login") String login, @Query("buys") List<String> buys);
 
+    @FormUrlEncoded
+    @POST("check_login") // returns 1 if OK else 0
+    Call<ResponseBody> check_login(@Query("login") String login, @Query("password") String password);
+
 }
 
 
