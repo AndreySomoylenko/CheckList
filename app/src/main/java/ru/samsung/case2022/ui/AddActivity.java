@@ -1,6 +1,6 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.MainActivity.db;
+import static ru.samsung.case2022.ui.RootActivity.db;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,8 +34,8 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-            //MainActivity.db.save();
-            Intent intent = new Intent(this, MainActivity.class);
+            //RootActivity.db.save();
+            Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
         }
