@@ -55,28 +55,21 @@ public class CameraActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
         bitmap = RootActivity.bitmap;
-        /*
-        Check if the Bitmap has wrong rotation. If has, change rotation
-         */
+        //Check if the Bitmap has wrong rotation. If has, change rotation
         if (bitmap.getWidth() > bitmap.getHeight()) {
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         }
         image.setImageBitmap(bitmap);
-        /*
-        Set Listener for the cancel button
-         */
+        //Set Listener for the cancel button
         cancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
         });
-        /*
-        Set Listener for the recognize button
-         */
+        //Set Listener for the recognize button
         recognize.setOnClickListener(v -> {
             String s = recognize();
-//            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
             db.removeByName(s);
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);

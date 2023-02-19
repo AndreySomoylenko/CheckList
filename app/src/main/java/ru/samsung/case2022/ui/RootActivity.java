@@ -73,7 +73,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     public static DBJson db;
 
     /**
-     * Meyhod to start this activity
+     * Method to start this activity
      * @param savedInstanceState
      */
     @Override
@@ -89,15 +89,11 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         add = findViewById(R.id.add);
         db = new DBJson();
         db.init(this);
-        /*
-        Listener for scan button
-         */
+        // Listener for scan button
         scan.setOnClickListener(v -> {
             takePicture();
         });
-        /*
-        Listener for add button
-         */
+        // Listener for add button
         add.setOnClickListener(v -> {
             Intent add_intent = new Intent(this, AddActivity.class);
             startActivity(add_intent);
@@ -142,9 +138,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         Intent data = result.getData();
                         try {
                             File imgFile = new File(pictureImagePath);
-                            /*
-                            Check if file exists
-                             */
+                            // Check if file exists
                             if (imgFile.exists()) {
                                 bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                             } else {

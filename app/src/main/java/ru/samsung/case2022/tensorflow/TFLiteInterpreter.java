@@ -12,22 +12,39 @@ import java.nio.ByteOrder;
 
 import ru.samsung.case2022.ml.Model;
 
-
+/**
+ * The TFLiteInterpreter class
+ * @author IsmailVelidzhanov
+ * @version 1.0
+ * This class is used to manage tflite model
+ */
 public class TFLiteInterpreter {
 
+    /**
+     * Variable model which contains model
+     */
     Model model;
 
+    /**
+     * List of products for model
+     */
     String[] products = {"biscuits", "broccoli", "cheese", "coffee", "curd", "dough", "milk", "pancakes", "sourcream", "tea"};
 
-    public TFLiteInterpreter(Context context) throws IOException {
-        try {
-            model = Model.newInstance(context);
-
-        } catch (IOException e) {
-            // TODO Handle the exception
-        }
+    /**
+     * Constructor of class
+     * Is used to initialize model
+     * @param context aplication context
+     * @throws IOException if model not exists
+     */
+    public TFLiteInterpreter(Context context) throws IOException{
+        model = Model.newInstance(context);
     }
 
+    /**
+     * This method is used to run model
+     * @param bitmap which contains user photo
+     * @return array of weights
+     */
     public float[] runInference(Bitmap bitmap) {
         try {
 
@@ -60,6 +77,11 @@ public class TFLiteInterpreter {
         return null;
     }
 
+    /**
+     * This method returns product which has the most weight in the array
+     * @param outputs weights
+     * @return name of product which model recognized images
+     */
     public String getResult(float[] outputs) {
         int index = -1;
         float max = -1;
