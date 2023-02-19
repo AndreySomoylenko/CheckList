@@ -19,7 +19,7 @@ import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
 
 /**
  * The Camera Activity
- * @author ismailvelidzhanov
+ * @author IsmailVelidzhanov
  * @version 1.0
  * This is the screen with image preview, recognize and cancel buttons
  */
@@ -31,11 +31,11 @@ public class CameraActivity extends AppCompatActivity {
      */
     ImageView image;
     /**
-     * Button wich start recognition of image
+     * Button which start recognition of image
      */
     Button recognize;
     /**
-     * Button wich cancel recognition if user doesn't like photo
+     * Button which cancel recognition if user doesn't like photo
      */
     Button cancel;
     /**
@@ -44,7 +44,8 @@ public class CameraActivity extends AppCompatActivity {
     Bitmap bitmap;
 
     /**
-     *
+     * start this activity
+     * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +55,25 @@ public class CameraActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
         bitmap = RootActivity.bitmap;
+        /*
+        Check if the Bitmap has wrong rotation. If has, change rotation
+         */
         if (bitmap.getWidth() > bitmap.getHeight()) {
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         }
         image.setImageBitmap(bitmap);
+        /*
+        Set Listener for the cancel button
+         */
         cancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
         });
+        /*
+        Set Listener for the recognize button
+         */
         recognize.setOnClickListener(v -> {
             String s = recognize();
 //            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
@@ -74,6 +84,10 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * We use this method to recognize product from image
+     * @return name of the product
+     */
     private String recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
