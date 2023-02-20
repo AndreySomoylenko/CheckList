@@ -18,7 +18,7 @@ import ru.samsung.case2022.retrofit.RetrofitClient;
 
 /**
  * The Main Activity1
- * @author IsmailVelidzhanov PhilippShepnov
+ * @author Ismail Velidzhanov Philipp Shepnov
  * @version 1.0
  * This will be the first screen the user see
  * In this activity we synchronized list of products with server

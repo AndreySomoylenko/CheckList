@@ -14,7 +14,7 @@ import ru.samsung.case2022.ml.Model;
 
 /**
  * The TFLiteInterpreter class
- * @author IsmailVelidzhanov
+ * @author Ismail Velidzhanov
  * @version 1.0
  * This class is used to manage tflite model
  */

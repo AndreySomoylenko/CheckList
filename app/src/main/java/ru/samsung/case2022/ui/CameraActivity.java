@@ -19,7 +19,7 @@ import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
 
 /**
  * The Camera Activity
- * @author IsmailVelidzhanov
+ * @author Ismail Velidzhanov
  * @version 1.0
  * This is the screen with image preview, recognize and cancel buttons
  */

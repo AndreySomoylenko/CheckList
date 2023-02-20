@@ -35,7 +35,7 @@ import ru.samsung.case2022.db.DBJson;
 
 /**
  * The RootActivity
- * @author IsmailVelidzhanov PhilippShepnov
+ * @author Ismail Velidzhanov Philipp Shepnov
  * @version 1.0
  * It is the first screen the user see
  * In this screen user can manage his list of products
