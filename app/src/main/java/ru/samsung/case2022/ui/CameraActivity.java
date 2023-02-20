@@ -44,7 +44,7 @@ public class CameraActivity extends AppCompatActivity {
     Bitmap bitmap;
 
     /**
-     * start this activity
+     * Start this activity
      * @param savedInstanceState
      */
     @Override

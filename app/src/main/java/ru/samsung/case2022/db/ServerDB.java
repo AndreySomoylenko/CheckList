@@ -12,16 +12,35 @@ import retrofit2.Response;
 import ru.samsung.case2022.retrofit.RetrofitClient;
 import ru.samsung.case2022.retrofit.models.User;
 
+
+/**
+ * The ServerDB class
+ * @author Philipp Schepnov
+ * This class is used to send requests and get responses from server in the context of buys list
+ */
+
 public class ServerDB {
 
-
-    public static ArrayList<String> buys;
-
+    /**
+     * Class to sync online and offline save
+     */
     private DBJson dbJson = new DBJson();
-;
+
+    /**
+     * This class is used to get data from Shared Preferences
+     */
     private AppDao appDao;
+
+    /**
+     * Application context
+     */
     Context context;
 
+
+    /**
+     * This method is used to send request to register new account
+     * @param user is the user data(login, name, password)
+     */
     public void regUser(User user){
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().regUser(user);
         try {
@@ -30,6 +49,11 @@ public class ServerDB {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * This method is used to send request to get list of buys from server by user login
+     * @return list of buys
+     */
 
     public List<String> getList() {
         Call<List<String>> call = RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
@@ -41,6 +65,11 @@ public class ServerDB {
         }
     }
 
+    /**
+     * This method is used to send request to update list of buys in server database
+     * @param buys is the list of buys
+     */
+
     public void sync(List<String> buys) {
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
         try {
@@ -50,6 +79,12 @@ public class ServerDB {
         }
     }
 
+    /**
+     * This method is used to send request to check if account in database exists
+     * @param login is the user login
+     * @param password is the user password
+     * @return true if account exists or false if doesn’t exist
+     */
     public boolean checkLogin(String login, String password) {
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_login(login, password);
         try {
