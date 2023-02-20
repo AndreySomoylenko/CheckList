@@ -86,8 +86,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         OnNoteListener onNoteListener;
 
         /**
+         * Class wich contains item of recycler and it's onClicklistener
          * @param itemView
-         * @param onNoteListener
+         * @param onNoteListener is interface to catch clicks
          */
         public ViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
@@ -98,13 +99,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
 
         /**
-         * @return
+         * Detter for Textview text
+         * @return value of text
          */
         public TextView getTextView() {
             return text;
         }
 
         /**
+         * I's function to catch user OnItemClick
          * @param view
          */
         @Override
@@ -114,7 +117,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     /**
-     *This interface is used to hear catch click on element
+     *This interface is used to catch click on element
      */
     public interface OnNoteListener {
         void OnNoteClick(int position);
