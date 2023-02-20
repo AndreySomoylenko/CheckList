@@ -13,8 +13,18 @@ import java.util.List;
 
 import ru.samsung.case2022.R;
 
+/**
+ * The CustomAdapter class
+ * @author Dmitry Kovalchuk
+ * This class is used to work with RecyclerView
+ */
+
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
+
+    /**
+     *
+     */
     private final List<String> localDataSet;
     private final Context context;
 
@@ -27,7 +37,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.mOnNoteListener = onNoteListener;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item

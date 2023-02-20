@@ -15,13 +15,34 @@ import java.util.Objects;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.R;
 
+/**
+ * The EditActivity
+ * @author Dmitry Kovalchuk
+ * The screen of renaming and deleting elements
+ */
+
 public class EditActivity extends AppCompatActivity {
 
-    String s;
-
+    /**
+     * Widget to edit name of product
+     */
     EditText editText;
 
+    /**
+     * String which we get from editText
+     */
+    String s;
+
+
+    /**
+     * Position of element, which we clicked on
+     */
     int position;
+
+    /**
+     * Method to start this activity
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +53,10 @@ public class EditActivity extends AppCompatActivity {
         editText.setText(BuysManager.buys.get(position));
     }
 
+    /**
+     * Method, which called when you clicked button "Переименовать"
+     * @param view
+     */
 
     public void updateText(View view) {
         s = String.valueOf(editText.getText());
@@ -45,6 +70,12 @@ public class EditActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    /**
+     * Method, which called when you clicked button "Удалить"
+     * @param view
+     */
+
     public void deleteItem(View view) {
         db.removeByIndex(position);
         Intent intent = new Intent(this, RootActivity.class);

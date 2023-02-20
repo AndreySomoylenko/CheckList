@@ -14,11 +14,29 @@ import java.util.Objects;
 
 import ru.samsung.case2022.R;
 
+/**
+ * The AddActivity
+ *
+ * @author Dmitry Kovalchuk
+ * The screen of adding elements
+ */
+
 public class AddActivity extends AppCompatActivity {
 
+    /**
+     * Widget to input name of product
+     */
+    EditText editText;
+
+    /**
+     * String which we get from editText
+     */
     String s;
 
-    EditText editText;
+    /**
+     * Method to start this activity
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +45,11 @@ public class AddActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.editProductName);
     }
+
+    /**
+     * Method, which called when you clicked on button "Добавить"
+     * @param view
+     */
 
     public void updateText(View view) {
         s = String.valueOf(editText.getText());
