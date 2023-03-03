@@ -188,7 +188,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.bar_menu, menu);
+        mi.inflate(R.menu.main_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -204,6 +204,11 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             case R.id.log_in:
                 Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
 
+                return true;
+
+            case R.id.bag:
+                Intent intent = new Intent(getApplicationContext(), BagActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

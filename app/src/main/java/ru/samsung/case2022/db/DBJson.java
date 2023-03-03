@@ -2,9 +2,6 @@ package ru.samsung.case2022.db;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The DBJson class
  * @author Philipp Schepnov
@@ -27,6 +24,11 @@ public class DBJson {
         save();
     }
 
+    public void addToBag(String item) {
+        BuysManager.bag.add(item);
+        save();
+    }
+
     /**
      * This method is used to remove item from list of buys by its name
      * @param item is the item to remove
@@ -37,6 +39,12 @@ public class DBJson {
         // This cycle is needed to delete all elements that equal to item
         while (BuysManager.buys.contains(item)) {
             BuysManager.buys.remove(item);
+            addToBag(item);
+            BuysManager buy = new BuysManager();
+            if (buy.prices.get(item) != null) {
+                float price = buy.prices.get(item);
+                BuysManager.sum += price;
+            }
         }
         save();
         return true;
@@ -57,6 +65,14 @@ public class DBJson {
         }
     }
 
+    public boolean removeByIndexBag(int index) {
+        if (index == -1) return false;
+        else {
+            BuysManager.bag.remove(index);
+            save();
+            return true;
+        }
+    }
 
     /**
      * This method is used to initialise this class and put list from Shared Preferences in list of buys from BuysManager
@@ -66,9 +82,11 @@ public class DBJson {
         appDao = new AppDao(context);
         if (appDao.getList() != null) {
             BuysManager.buys = appDao.getList();
-        } else {
-            BuysManager.buys = new ArrayList<>();
         }
+        if (appDao.getBagList() != null) {
+            BuysManager.bag = appDao.getBagList();
+        }
+        BuysManager.sum = appDao.getSum();
     }
 
     /**
@@ -76,5 +94,7 @@ public class DBJson {
      */
     public void save() {
         appDao.putList(BuysManager.buys);
+        appDao.putBagList(BuysManager.bag);
+        appDao.putSum(BuysManager.sum);
     }
 }

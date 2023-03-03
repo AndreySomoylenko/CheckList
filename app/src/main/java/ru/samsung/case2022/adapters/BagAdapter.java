@@ -17,11 +17,11 @@ import ru.samsung.case2022.db.BuysManager;
 
 /**
  * The CustomAdapter class
- * @author Dmitry Kovalchuk
+ * @author Ismail Velidzhanov
  * This class is used to work with RecyclerView
  */
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
 
 
 
@@ -37,7 +37,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param context is the application context
      * @param onNoteListener is the api we use to catch click on element
      */
-    public CustomAdapter(List<String> localDataSet, Context context, OnNoteListener onNoteListener) {
+    public BagAdapter(List<String> localDataSet, Context context, OnNoteListener onNoteListener) {
         this.localDataSet = localDataSet;
         this.context = context;
         this.mOnNoteListener = onNoteListener;

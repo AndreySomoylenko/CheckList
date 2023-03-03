@@ -46,6 +46,17 @@ public class AppDao {
                 .apply();
     }
 
+    public void putBagList(List<String> strings) {
+        // Creates class to convert list to json format string
+        Gson gson = new Gson();
+        String json = gson.toJson(strings);
+        // Updates Shared Preferences and saves
+        spref
+                .edit()
+                .putString("bag", json)
+                .apply();
+    }
+
     /**
      * This method is used to get list of buys from Shared Preferences
      * @return list of buys
@@ -59,11 +70,31 @@ public class AppDao {
         return gson.fromJson(json, listType);
     }
 
+    public List<String> getBagList() {
+        // Creates class to convert json format string to list of strings
+        Gson gson = new Gson();
+        String json = spref.getString("bag", null);
+        // Defines type of structure to which to convert from string
+        Type listType = new TypeToken<List<String>>(){}.getType();
+        return gson.fromJson(json, listType);
+    }
+
     /**
      * This method is used to get user login from Shared Preferences
      * @return login if exists else empty string
      */
     public String getLogin() {
         return spref.getString("login", "");
+    }
+
+    public void putSum(float sum) {
+        spref
+                .edit()
+                .putFloat("sum", sum)
+                .apply();
+    }
+
+    public float getSum() {
+        return spref.getFloat("sum", 0.00f);
     }
 }
