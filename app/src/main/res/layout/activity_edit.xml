@@ -74,5 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         app:backgroundTint="@color/yellow"
+        app:fabCustomSize="55dp"
+        app:maxImageSize="40dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

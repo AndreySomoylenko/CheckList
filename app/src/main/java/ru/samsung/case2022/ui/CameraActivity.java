@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.IOException;
 
 import ru.samsung.case2022.R;
@@ -33,11 +35,11 @@ public class CameraActivity extends AppCompatActivity {
     /**
      * Button which start recognition of image
      */
-    Button recognize;
+    FloatingActionButton recognize;
     /**
      * Button which cancel recognition if user doesn't like photo
      */
-    Button cancel;
+    FloatingActionButton cancel;
     /**
      * Variable that stores the image user takes
      */

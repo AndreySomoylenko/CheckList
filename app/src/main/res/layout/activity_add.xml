@@ -55,5 +55,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         app:backgroundTint="@color/yellow"
+        app:fabCustomSize="55dp"
+        app:maxImageSize="40dp"
         />
 </RelativeLayout>
