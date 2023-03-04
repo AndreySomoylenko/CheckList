@@ -41,7 +41,7 @@ public class ServerDB {
      * This method is used to send request to register new account
      * @param user is the user data(login, name, password)
      */
-    public void regUser(User user){
+    public static void regUser(User user){
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().regUser(user);
         try {
             Response<ResponseBody> resp = call.execute();
@@ -85,8 +85,23 @@ public class ServerDB {
      * @param password is the user password
      * @return true if account exists or false if doesn’t exist
      */
-    public boolean checkLogin(String login, String password) {
+    public static boolean checkLogin(String login, String password) {
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_login(login, password);
+        try {
+            Response<ResponseBody> resp = call.execute();
+            return resp.body().string().equals("1");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method is used to send request to check if login in database exists
+     * @param login is the user login
+     * @return true if login exists or false if doesn’t exist
+     */
+    public static boolean checkRegister(String login) {
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_register(login);
         try {
             Response<ResponseBody> resp = call.execute();
             return resp.body().string().equals("1");

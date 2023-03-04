@@ -21,7 +21,7 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://developer.android.com/develop/ui/views/components/appbar/setting-up/";
+    String BASE_URL = "https://reqbin.com/";
 
     /**
      * This POST-request method is used to register new account on server
@@ -60,4 +60,14 @@ public interface Api {
     @FormUrlEncoded
     @POST("check_login")
     Call<ResponseBody> check_login(@Query("login") String login, @Query("password") String password);
+
+    /**
+     * This POST-request method is used to check if login on server exists
+     * @param login is the user login
+     * @return simple retrofit response (“1” if exists, else “0”)
+     */
+    @FormUrlEncoded
+    @POST("check_register")
+    Call<ResponseBody> check_register(@Query("login") String login);
+
 }
