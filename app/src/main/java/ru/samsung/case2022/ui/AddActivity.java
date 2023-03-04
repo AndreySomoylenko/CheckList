@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
@@ -28,6 +30,8 @@ public class AddActivity extends AppCompatActivity {
      */
     EditText editText;
 
+    FloatingActionButton back;
+
     /**
      * String which we get from editText
      */
@@ -44,6 +48,11 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
 
         editText = findViewById(R.id.editProductName);
+        back = findViewById(R.id.back_add);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RootActivity.class);
+            startActivity(intent);
+        });
     }
 
     /**

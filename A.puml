@@ -1,0 +1,56 @@
+@startuml
+class ru.samsung.case2022.ui.RootActivity {
+~ Button scan
+~ Button add
+~ RecyclerView recycler
+- String pictureImagePath
++ {static} Bitmap bitmap
++ {static} DBJson db
+~ ActivityResultLauncher<Intent> someActivityResultLauncher
+# void onCreate(Bundle)
+- void takePicture()
+# void onResume()
++ void OnNoteClick(int)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+# void onStop()
+}
+
+interface ru.samsung.case2022.adapters.OnNoteListener
+class ru.samsung.case2022.ui.EditActivity {
+~ EditText editText
+~ String s
+~ int position
+# void onCreate(Bundle)
++ void updateText(View)
++ void deleteItem(View)
+}
+class ru.samsung.case2022.ui.AddActivity {
+~ EditText editText
+~ String s
+# void onCreate(Bundle)
++ void updateText(View)
+}
+class ru.samsung.case2022.ui.MainActivity1 {
+- ServerDB db
+- AppDao appDao
+# void onCreate(Bundle)
+}
+class ru.samsung.case2022.ui.CameraActivity {
+~ ImageView image
+~ Button recognize
+~ Button cancel
+~ Bitmap bitmap
+# void onCreate(Bundle)
+- String recognize()
+}
+
+
+
+ru.samsung.case2022.adapters.OnNoteListener <|.. ru.samsung.case2022.ui.RootActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.RootActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.EditActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.AddActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.MainActivity1
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.CameraActivity
+@enduml

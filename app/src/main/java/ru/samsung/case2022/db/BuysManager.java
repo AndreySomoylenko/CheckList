@@ -19,19 +19,20 @@ public class BuysManager {
     public static List<String> buys = new ArrayList<>();
     public static List<String> bag = new ArrayList<>();
 
-    public final Map<String, Float> prices= new HashMap<>();
-    {
-        prices.put("biscuits", 29.901f);
-        prices.put("broccoli", 249.901f);
-        prices.put("cheese", 359.901f);
-        prices.put("coffee", 489.901f);
-        prices.put("curd", 144.491f);
-        prices.put("dough", 144.001f);
-        prices.put("milk", 61.991f);
-        prices.put("pancakes", 140.801f);
-        prices.put("sourcream", 74.901f);
-        prices.put("tea", 506.801f);
-    }
+    public static final Map<String, Float> prices = Map.of(
+
+
+        "biscuits", 29.901f,
+        "broccoli", 249.901f,
+        "cheese", 359.901f,
+        "coffee", 489.901f,
+        "curd", 144.491f,
+        "dough", 144.001f,
+        "milk", 61.991f,
+        "pancakes", 140.801f,
+        "sourcream", 74.901f,
+        "tea", 506.801f
+        );
 
     public static float sum;
 }

@@ -6,10 +6,5 @@
         android:icon="@drawable/baseline_login_24"
         android:title="log_in"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/bag"
-        android:icon="@drawable/baseline_shopping_cart_24"
-        android:title="bag"
-        app:showAsAction="ifRoom"/>
 
 </menu>

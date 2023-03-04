@@ -105,9 +105,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
         String rubles;
         String cents;
-        BuysManager buy = new BuysManager();
-        if (buy.prices.get(localDataSet.get(position)) != null) {
-            double price = buy.prices.get(localDataSet.get(position));
+        if (BuysManager.prices.get(localDataSet.get(position)) != null) {
+            double price = BuysManager.prices.get(localDataSet.get(position));
             rubles = String.valueOf((int) price);
             cents = String.valueOf((int)((price % 1) * 100));
         } else {

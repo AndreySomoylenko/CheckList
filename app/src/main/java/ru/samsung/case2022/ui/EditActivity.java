@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Objects;
 
 import ru.samsung.case2022.db.BuysManager;
@@ -39,6 +41,8 @@ public class EditActivity extends AppCompatActivity {
      */
     int position;
 
+    FloatingActionButton back;
+
     /**
      * Method to start this activity
      * @param savedInstanceState
@@ -51,6 +55,11 @@ public class EditActivity extends AppCompatActivity {
         position = (int) getIntent().getSerializableExtra("position");
         editText = findViewById(R.id.editProductName);
         editText.setText(BuysManager.buys.get(position));
+        back = findViewById(R.id.back_edit);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RootActivity.class);
+            startActivity(intent);
+        });
     }
 
     /**

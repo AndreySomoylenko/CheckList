@@ -21,9 +21,6 @@
         <activity
             android:name=".ui.BagActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.RootActivity" />
         </activity>
 
         <activity

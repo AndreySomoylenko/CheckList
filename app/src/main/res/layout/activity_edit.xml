@@ -63,6 +63,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProductName"
         app:layout_constraintVertical_bias="0.025"
-
+        />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:id="@+id/back_edit"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:backgroundTint="@color/yellow"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

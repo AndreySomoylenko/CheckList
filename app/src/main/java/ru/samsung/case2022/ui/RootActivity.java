@@ -24,6 +24,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,12 +47,14 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     /**
      * Button which starts camera
      */
-    Button scan;
+    FloatingActionButton scan;
 
     /**
      * Button which open AddActivity to add element to list
      */
-    Button add;
+    FloatingActionButton add;
+
+    FloatingActionButton bag;
 
     /**
      * Recyclerview which shows list of products
@@ -87,6 +91,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
+        bag = findViewById(R.id.bag);
         db = new DBJson();
         db.init(this);
         // Listener for scan button
@@ -97,6 +102,10 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         add.setOnClickListener(v -> {
             Intent add_intent = new Intent(this, AddActivity.class);
             startActivity(add_intent);
+        });
+        bag.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BagActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -204,11 +213,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             case R.id.log_in:
                 Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
 
-                return true;
-
-            case R.id.bag:
-                Intent intent = new Intent(getApplicationContext(), BagActivity.class);
-                startActivity(intent);
                 return true;
 
             default:
