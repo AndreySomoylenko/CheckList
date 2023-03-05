@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.samsung.case2022.R;
@@ -20,6 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         
         Button loginBtn = findViewById(R.id.registerBtn);
+        TextView hasAccount = findViewById(R.id.hasAccountText);
         loginBtn.setOnClickListener(v -> {
             String name = ((EditText)findViewById(R.id.nameInput)).getText().toString();
             String login = ((EditText)findViewById(R.id.loginInput)).getText().toString();
@@ -37,6 +39,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(this, "Неправильные данные", Toast.LENGTH_LONG).show();
                 }
             }
+        });
+
+        hasAccount.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
         });
     }
 }
