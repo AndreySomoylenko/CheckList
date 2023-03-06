@@ -20,8 +20,6 @@ public class BuysManager {
     public static List<String> bag = new ArrayList<>();
 
     public static final Map<String, Float> prices = Map.of(
-
-
         "biscuits", 29.901f,
         "broccoli", 249.901f,
         "cheese", 359.901f,

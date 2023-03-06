@@ -211,7 +211,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         switch (item.getItemId()) {
 
             case R.id.log_in:
-                Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
 
                 return true;
 

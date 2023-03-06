@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
-
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.BagAdapter;
 import ru.samsung.case2022.db.BuysManager;
@@ -51,7 +49,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             if (BuysManager.prices.get(BuysManager.bag.get(position)) != null) {
                 float price = BuysManager.prices.get(BuysManager.bag.get(position));
-                BuysManager.sum -= price + 0.001f;
+                BuysManager.sum -= price - 0.001d;
             }
             float sum = BuysManager.sum;
             String rubles = String.valueOf((int) sum);
