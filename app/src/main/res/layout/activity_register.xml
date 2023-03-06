@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/passInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="109sp"
+        android:layout_height="33sp"
+        android:layout_marginTop="32sp"
         android:text="Пароль"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/loginInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="48sp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Введите логин"
@@ -32,7 +32,7 @@
         android:id="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="48sp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Введите имя"
@@ -44,7 +44,7 @@
         android:id="@+id/passInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="36sp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,9 +53,9 @@
 
     <Button
         android:id="@+id/registerBtn"
-        android:layout_width="272dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="272sp"
+        android:layout_height="52sp"
+        android:layout_marginTop="60sp"
         android:text="Зарегистрироваться"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -64,9 +64,9 @@
 
     <TextView
         android:id="@+id/loginInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="109sp"
+        android:layout_height="33sp"
+        android:layout_marginTop="48sp"
         android:text="Логин"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,9 +74,9 @@
 
     <TextView
         android:id="@+id/nameInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="109sp"
+        android:layout_height="33sp"
+        android:layout_marginTop="80sp"
         android:text="Имя"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +84,9 @@
 
     <TextView
         android:id="@+id/hasAccountText"
-        android:layout_width="171dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="171sp"
+        android:layout_height="28sp"
+        android:layout_marginTop="36sp"
         android:clickable="true"
         android:text="У меня уже есть аккаунт"
         app:layout_constraintBottom_toBottomOf="parent"
