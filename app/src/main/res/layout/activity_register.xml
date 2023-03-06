@@ -7,93 +7,113 @@
     tools:context=".ui.RegisterActivity">
 
     <TextView
-        android:id="@+id/passInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="32dp"
-        android:text="Пароль"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginInput" />
-
-    <EditText
-        android:id="@+id/loginInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Введите логин"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="50dp"
+        android:text="Имя пользователя"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginInputText" />
+        android:layout_marginStart="20dp"
+        />
 
     <EditText
         android:id="@+id/nameInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:hint="Введите имя"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInputText" />
+        app:layout_constraintBottom_toTopOf="@+id/loginInputText"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        />
 
-    <EditText
-        android:id="@+id/passInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passInputText" />
 
-    <Button
-        android:id="@+id/registerBtn"
-        android:layout_width="272dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="60dp"
-        android:text="Зарегистрироваться"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passInput" />
 
     <TextView
         android:id="@+id/loginInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:text="Логин"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/loginInput"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
-
-    <TextView
-        android:id="@+id/nameInputText"
-        android:layout_width="109dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="80dp"
-        android:text="Имя"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/hasAccountText"
-        android:layout_width="171dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="36dp"
-        android:clickable="true"
-        android:text="У меня уже есть аккаунт"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/loginInput"
+        android:layout_height="50dp"
+        android:hint="Введите логин"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/passInputText"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/loginInput"
+        android:layout_marginTop="20dp"
+        android:text="Пароль"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"/>
+    <EditText
+        android:id="@+id/passInput"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Введите пароль"
+        app:layout_constraintTop_toBottomOf="@+id/passInputText"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passInput"
+        android:layout_marginTop="20dp"
+        android:text="Зарегистрироваться"
+        android:layout_marginEnd="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/registerBtn"
-        app:layout_constraintVertical_bias="0.329" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/hasAccount_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Уже есть аккаунт?  "
+            />
+
+        <TextView
+            android:id="@+id/hasAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            android:textColor="@color/blue"
+            android:clickable="true"
+            />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:id="@+id/back_register"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:backgroundTint="@color/yellow"
+        app:fabCustomSize="55dp"
+        app:maxImageSize="40dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

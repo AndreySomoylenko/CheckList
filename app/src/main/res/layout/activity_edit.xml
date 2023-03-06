@@ -10,71 +10,59 @@
         android:id="@+id/editProductName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:hint="@string/text_input"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginBottom="55sp"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="185dp"
-        android:layout_marginBottom="9dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/edit_string"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/editProductName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/editProductName"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/input_string"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="295dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="385dp"
-        android:onClick="updateText"
-        android:text="@string/edit_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProductName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.88"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProductName" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:onClick="updateText"
+        android:text="@string/edit_button" />
 
     <Button
         android:id="@+id/remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="deleteItem"
         android:text="@string/delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProductName"
-        app:layout_constraintVertical_bias="0.071" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:onClick="deleteItem"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/back_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:backgroundTint="@color/yellow"
-        app:fabCustomSize="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="40dp" />
+        android:src="@drawable/baseline_arrow_back_24"
+        android:id="@+id/back_edit"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:backgroundTint="@color/yellow"
+        app:fabCustomSize="55dp"
+        app:maxImageSize="40dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

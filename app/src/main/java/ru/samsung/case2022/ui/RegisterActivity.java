@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.ServerDB;
 
@@ -21,7 +23,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         
         Button loginBtn = findViewById(R.id.registerBtn);
-        TextView hasAccount = findViewById(R.id.hasAccountText);
+        TextView hasAccount = findViewById(R.id.hasAccount);
+        FloatingActionButton back = findViewById(R.id.back_register);
         loginBtn.setOnClickListener(v -> {
             String name = ((EditText)findViewById(R.id.nameInput)).getText().toString();
             String login = ((EditText)findViewById(R.id.loginInput)).getText().toString();
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
                     prefs.edit().putString("login", login).apply();
                     Intent intent = new Intent(this, RootActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(this, "Неправильные данные", Toast.LENGTH_LONG).show();
                 }
@@ -43,6 +47,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         hasAccount.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RootActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 }
