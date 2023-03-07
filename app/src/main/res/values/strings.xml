@@ -21,5 +21,6 @@
     <string name="already_have_an_account">Уже есть аккаунт?</string>
     <string name="item_title">Item Title</string>
     <string name="price">Price</string>
+    <string name="enter">Войти</string>
 
 </resources>
