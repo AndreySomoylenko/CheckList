@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="Имя пользователя"
+        android:text="@string/user_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/nameInput"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/nameInput"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Введите имя"
+        android:hint="@string/input_name"
         app:layout_constraintBottom_toTopOf="@+id/loginInputText"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
@@ -33,7 +33,7 @@
         android:id="@+id/loginInputText"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="Логин"
+        android:text="@string/login"
         app:layout_constraintBottom_toTopOf="@id/loginInput"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:id="@+id/loginInput"
         android:layout_height="50dp"
-        android:hint="Введите логин"
+        android:hint="@string/input_login"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
@@ -54,7 +54,7 @@
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@+id/loginInput"
         android:layout_marginTop="20dp"
-        android:text="Пароль"
+        android:text="@string/keyword"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"/>
@@ -62,7 +62,7 @@
         android:id="@+id/passInput"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Введите пароль"
+        android:hint="@string/input_keyword"
         app:layout_constraintTop_toBottomOf="@+id/passInputText"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passInput"
         android:layout_marginTop="20dp"
-        android:text="Зарегистрироваться"
+        android:text="@string/register"
         android:layout_marginEnd="20dp"/>
 
     <LinearLayout
@@ -88,7 +88,7 @@
             android:id="@+id/hasAccount_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Уже есть аккаунт?  "
+            android:text="@string/already_have_an_account"
             />
 
         <TextView

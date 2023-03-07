@@ -1,14 +1,25 @@
 <resources>
     <string name="app_name">Easy_shop</string>
-    <string name="input_string">Добавление нового элемента:</string>
-    <string name="add_button">Добавить</string>
-    <string name="text_input">Введите текст</string>
-    <string name="edit_button">Переименовать</string>
-    <string name="edit_string">Редактирование элемента:</string>
+    <string name="input_new_element">Добавление нового элемента:</string>
+    <string name="add">Добавить</string>
+    <string name="input_text">Введите текст</string>
+    <string name="rename">Переименовать</string>
+    <string name="edit_element">Редактирование элемента:</string>
     <string name="cancel">Отмена</string>
     <string name="recognize">Распознать</string>
     <string name="scan">Сканировать</string>
-    <string name="add">Добавить</string>
     <string name="delete">Удалить</string>
     <string name="log_in"><u>Войти</u></string>
+    <string name="total_0_rub_0_kop">ИТОГО: 0руб. 0к.</string>
+    <string name="input_login">Введите логин</string>
+    <string name="login">Логин</string>
+    <string name="keyword">Пароль</string>
+    <string name="input_keyword">Введите пароль</string>
+    <string name="user_name">Имя пользователя</string>
+    <string name="input_name">Введите имя</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="already_have_an_account">Уже есть аккаунт?</string>
+    <string name="item_title">Item Title</string>
+    <string name="price">Price</string>
+
 </resources>

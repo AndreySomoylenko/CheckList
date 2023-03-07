@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toTopOf="@+id/loginInputLog"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
-        android:text="Логин"
+        android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_height="50dp"
         app:layout_constraintBottom_toTopOf="@+id/passInputText"
         android:layout_marginBottom="20dp"
-        android:hint="Введите логин"
+        android:hint="@string/input_login"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
@@ -32,7 +32,7 @@
         android:layout_height="50dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Пароль"
+        android:text="@string/keyword"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passInputText"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="Введите пароль"/>
+        android:hint="@string/input_keyword"/>
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passInputLog"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="20dp"
-        android:text="Войти"
+        android:text="@string/log_in"
         android:layout_marginTop="20dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

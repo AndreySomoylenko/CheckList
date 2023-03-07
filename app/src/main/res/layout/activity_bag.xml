@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/back_bag"
             android:gravity="end"
-            android:text="ИТОГО: 0руб. 0к."
+            android:text="@string/total_0_rub_0_kop"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="30sp"

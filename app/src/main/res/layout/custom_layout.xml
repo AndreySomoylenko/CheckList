@@ -28,7 +28,7 @@
             android:layout_alignParentRight="true"
             android:textSize="18sp"
             android:textColor="@color/black"
-            android:text="Item Title"/>
+            android:text="@string/item_title"/>
 
         <TextView
             android:id="@+id/price"
@@ -38,7 +38,7 @@
             android:layout_alignParentRight="true"
             android:textSize="14sp"
             android:textColor="@color/black"
-            android:text="Price"/>
+            android:text="@string/price"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
