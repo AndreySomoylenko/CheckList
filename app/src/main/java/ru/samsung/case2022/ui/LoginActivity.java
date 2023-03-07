@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.ServerDB;
 
@@ -20,11 +22,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button loginBtn = findViewById(R.id.registerBtn);
-        TextView noAccount = findViewById(R.id.noAccountText);
+        Button loginBtn = findViewById(R.id.loginBtn);
+        FloatingActionButton back = findViewById(R.id.back_login);
         loginBtn.setOnClickListener(v -> {
-            String login = ((EditText)findViewById(R.id.loginInput)).getText().toString();
-            String pass = ((EditText)findViewById(R.id.passInput)).getText().toString();
+            String login = ((EditText)findViewById(R.id.loginInputLog)).getText().toString();
+            String pass = ((EditText)findViewById(R.id.passInputLog)).getText().toString();
             if (login.equals("") || pass.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {
@@ -39,10 +41,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-        noAccount.setOnClickListener(v -> {
-            startActivity(new Intent(this, RegisterActivity.class));
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RootActivity.class);
+            startActivity(intent);
         });
-
     }
 }

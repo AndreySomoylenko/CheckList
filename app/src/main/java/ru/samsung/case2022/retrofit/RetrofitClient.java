@@ -14,7 +14,7 @@ public class RetrofitClient {
     // Instance of class
     private static RetrofitClient instance = null;
     // Class that contains GET and POST request methods
-    private Api api;
+    private final Api api;
 
     /**
      * Constructor of class

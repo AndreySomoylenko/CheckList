@@ -41,8 +41,8 @@ public class DBJson {
             BuysManager.buys.remove(item);
             addToBag(item);
             BuysManager buy = new BuysManager();
-            if (buy.prices.get(item) != null) {
-                float price = buy.prices.get(item);
+            if (BuysManager.prices.get(item) != null) {
+                float price = BuysManager.prices.get(item);
                 BuysManager.sum += price + 0.001d;
             }
         }

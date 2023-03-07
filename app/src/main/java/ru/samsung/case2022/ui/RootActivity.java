@@ -211,7 +211,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         switch (item.getItemId()) {
 
             case R.id.log_in:
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
 
                 return true;

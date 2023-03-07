@@ -24,7 +24,7 @@ public class ServerDB {
     /**
      * Class to sync online and offline save
      */
-    private DBJson dbJson = new DBJson();
+    private final DBJson dbJson = new DBJson();
 
     /**
      * This class is used to get data from Shared Preferences
