@@ -47,8 +47,7 @@ public class MainActivity1 extends AppCompatActivity {
         appDao = new AppDao(this);
         Intent intent = new Intent(this, RootActivity.class);
 
-        Call<List<String>> call = RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
-        call.enqueue(new Callback<List<String>>() {
+        ServerDB.getList().enqueue(new Callback<List<String>>() {
 
             /**
              * This method is called when we connect to server successfully
@@ -57,7 +56,7 @@ public class MainActivity1 extends AppCompatActivity {
              */
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                BuysManager.buys =  response.body();
+                BuysManager.buys = response.body();
                 startActivity(intent);
             }
 

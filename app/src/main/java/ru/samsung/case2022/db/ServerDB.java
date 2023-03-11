@@ -1,6 +1,7 @@
 package ru.samsung.case2022.db;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ServerDB {
     /**
      * This class is used to get data from Shared Preferences
      */
-    private AppDao appDao;
+    private static AppDao appDao;
 
     /**
      * Application context
@@ -41,13 +42,8 @@ public class ServerDB {
      * This method is used to send request to register new account
      * @param user is the user data(login, name, password)
      */
-    public static void regUser(User user){
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().regUser(user);
-        try {
-            Response<ResponseBody> resp = call.execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Call<ResponseBody> regUser(User user){
+        return RetrofitClient.getInstance().getApi().regUser(user);
     }
 
     /**
@@ -55,14 +51,8 @@ public class ServerDB {
      * @return list of buys
      */
 
-    public List<String> getList() {
-        Call<List<String>> call = RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
-        try {
-            Response<List<String>> resp = call.execute();
-            return resp.body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Call<List<String>> getList() {
+        return RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
     }
 
     /**
@@ -70,13 +60,8 @@ public class ServerDB {
      * @param buys is the list of buys
      */
 
-    public void sync(List<String> buys) {
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
-        try {
-            Response<ResponseBody> resp = call.execute();
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Call<ResponseBody> sync(List<String> buys) {
+        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
     }
 
     /**
@@ -85,14 +70,8 @@ public class ServerDB {
      * @param password is the user password
      * @return true if account exists or false if doesn’t exist
      */
-    public static boolean checkLogin(String login, String password) {
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_login(login, password);
-        try {
-            Response<ResponseBody> resp = call.execute();
-            return resp.body().string().equals("1");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Call<ResponseBody> checkLogin(String login, String password) {
+        return RetrofitClient.getInstance().getApi().check_login(login, password);
     }
 
     /**
@@ -100,13 +79,19 @@ public class ServerDB {
      * @param login is the user login
      * @return true if login exists or false if doesn’t exist
      */
-    public static boolean checkRegister(String login) {
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().check_register(login);
-        try {
-            Response<ResponseBody> resp = call.execute();
-            return resp.body().string().equals("1");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+
+
+    public static Call<ResponseBody> checkRegister(String login) {
+        return RetrofitClient.getInstance().getApi().check_register(login);
+    }
+
+
+    public static void showConnectionError(Context context) {
+        Toast.makeText(context, "Ошибка запроса на сервер", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showConnectionError(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

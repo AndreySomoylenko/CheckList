@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.ServerDB;
 
@@ -32,16 +36,26 @@ public class RegisterActivity extends AppCompatActivity {
             if (login.equals("") || pass.equals("") || name.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {
-                boolean dataCorrect = !ServerDB.checkRegister(login);
-                if (dataCorrect) {
-                    SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
-                    prefs.edit().putString("login", login).apply();
-                    Intent intent = new Intent(this, RootActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Неправильные данные", Toast.LENGTH_LONG).show();
-                }
+                ServerDB.checkRegister(login).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        boolean dataCorrect = response.body().toString() == "1";
+                        if (dataCorrect) {
+                            SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
+                            prefs.edit().putString("login", login).apply();
+                            Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Неправильные данные", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        ServerDB.showConnectionError(RegisterActivity.this);
+                    }
+                });
             }
         });
 

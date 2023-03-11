@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,6 +35,7 @@ import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.ServerDB;
 
 /**
  * The RootActivity
@@ -176,6 +178,16 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         CustomAdapter adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
+
+        new Thread() {
+            public void run() {
+                try {
+                    ServerDB.sync(BuysManager.buys).execute();
+                } catch (IOException ignored) {
+
+                }
+            }
+        }.start();
     }
 
     /**

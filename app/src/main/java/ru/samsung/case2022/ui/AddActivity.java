@@ -66,7 +66,7 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-            //RootActivity.db.save();
+
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
