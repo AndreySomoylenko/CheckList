@@ -35,6 +35,7 @@ public class MainActivity1 extends AppCompatActivity {
      * This class is used to get data from GetSharedPreferences
      */
     private AppDao appDao;
+    private ServerDB serverDB;
 
     /**
      * Method to start this activity
@@ -45,9 +46,10 @@ public class MainActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
         appDao = new AppDao(this);
+        serverDB = new ServerDB(this);
         Intent intent = new Intent(this, RootActivity.class);
 
-        ServerDB.getList().enqueue(new Callback<List<String>>() {
+        serverDB.getList().enqueue(new Callback<List<String>>() {
 
             /**
              * This method is called when we connect to server successfully

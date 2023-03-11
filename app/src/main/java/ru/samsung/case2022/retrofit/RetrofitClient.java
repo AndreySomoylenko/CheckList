@@ -1,5 +1,8 @@
 package ru.samsung.case2022.retrofit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,8 +26,11 @@ public class RetrofitClient {
 
     private RetrofitClient() {
         // Create main request variable and setup base url and response conversion type
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         api = retrofit.create(Api.class);
     }

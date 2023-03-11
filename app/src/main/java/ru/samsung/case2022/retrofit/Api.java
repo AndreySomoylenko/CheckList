@@ -10,6 +10,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import ru.samsung.case2022.retrofit.models.Bool;
 import ru.samsung.case2022.retrofit.models.User;
 
 
@@ -21,14 +22,14 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://reqbin.com/";
+    String BASE_URL = "https://48c5-79-139-202-28.eu.ngrok.io/";
 
     /**
      * This POST-request method is used to register new account on server
      * @param user class(login, name, password)
      * @return simple retrofit response
      */
-    @FormUrlEncoded
+
     @POST("reg_user")
     Call<ResponseBody> regUser(@Body User user);
 
@@ -49,7 +50,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("sync")
-    Call<ResponseBody> sync(@Query("login") String login, @Query("buys") List<String> buys);
+    Call<ResponseBody> sync(@Field("login") String login, @Field("buys") List<String> buys);
 
     /**
      * This POST-request method is used to check if account on server exists
@@ -59,15 +60,17 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("check_login")
-    Call<ResponseBody> check_login(@Query("login") String login, @Query("password") String password);
+    Call<Bool> check_login(@Field("login") String login, @Field("password") String password);
 
     /**
      * This POST-request method is used to check if login on server exists
      * @param login is the user login
-     * @return simple retrofit response (“1” if exists, else “0”)
+     * @return simple retrofit response (“0” if exists, else “1”)
      */
+
+
     @FormUrlEncoded
     @POST("check_register")
-    Call<ResponseBody> check_register(@Query("login") String login);
+    Call<Bool> check_register(@Field("login") String login);
 
 }

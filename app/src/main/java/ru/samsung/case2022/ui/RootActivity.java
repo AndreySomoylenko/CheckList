@@ -77,6 +77,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      * Class which help us to manage list of products
      */
     public static DBJson db;
+    private ServerDB serverDB;
 
     /**
      * Method to start this activity
@@ -94,6 +95,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
         bag = findViewById(R.id.bag);
+        serverDB = new ServerDB(this);
         db = new DBJson();
         db.init(this);
         // Listener for scan button
@@ -182,7 +184,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         new Thread() {
             public void run() {
                 try {
-                    ServerDB.sync(BuysManager.buys).execute();
+                    serverDB.sync(BuysManager.buys).execute();
                 } catch (IOException ignored) {
 
                 }

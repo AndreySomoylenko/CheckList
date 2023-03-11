@@ -69,6 +69,7 @@ public class AppDao {
         Type listType = new TypeToken<List<String>>(){}.getType();
         return gson.fromJson(json, listType);
     }
+    
 
     public List<String> getBagList() {
         // Creates class to convert json format string to list of strings

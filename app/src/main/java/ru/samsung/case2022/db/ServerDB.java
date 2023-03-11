@@ -11,6 +11,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.samsung.case2022.retrofit.RetrofitClient;
+import ru.samsung.case2022.retrofit.models.Bool;
 import ru.samsung.case2022.retrofit.models.User;
 
 
@@ -38,11 +39,17 @@ public class ServerDB {
     Context context;
 
 
+
+    public ServerDB(Context context) {
+        appDao = new AppDao(context);
+    }
+
+
     /**
      * This method is used to send request to register new account
      * @param user is the user data(login, name, password)
      */
-    public static Call<ResponseBody> regUser(User user){
+    public Call<ResponseBody> regUser(User user){
         return RetrofitClient.getInstance().getApi().regUser(user);
     }
 
@@ -51,7 +58,7 @@ public class ServerDB {
      * @return list of buys
      */
 
-    public static Call<List<String>> getList() {
+    public Call<List<String>> getList() {
         return RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
     }
 
@@ -60,7 +67,7 @@ public class ServerDB {
      * @param buys is the list of buys
      */
 
-    public static Call<ResponseBody> sync(List<String> buys) {
+    public Call<ResponseBody> sync(List<String> buys) {
         return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
     }
 
@@ -70,7 +77,7 @@ public class ServerDB {
      * @param password is the user password
      * @return true if account exists or false if doesn’t exist
      */
-    public static Call<ResponseBody> checkLogin(String login, String password) {
+    public Call<Bool> checkLogin(String login, String password) {
         return RetrofitClient.getInstance().getApi().check_login(login, password);
     }
 
@@ -82,7 +89,7 @@ public class ServerDB {
 
 
 
-    public static Call<ResponseBody> checkRegister(String login) {
+    public Call<Bool> checkRegister(String login) {
         return RetrofitClient.getInstance().getApi().check_register(login);
     }
 
