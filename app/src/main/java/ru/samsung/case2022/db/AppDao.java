@@ -87,6 +87,9 @@ public class AppDao {
     public String getLogin() {
         return spref.getString("login", "");
     }
+    public void setLogin(String login) {
+        spref.edit().putString("login", login).apply();
+    }
 
     public void putSum(float sum) {
         spref

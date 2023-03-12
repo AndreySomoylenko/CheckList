@@ -1,6 +1,7 @@
 package ru.samsung.case2022.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -246,11 +247,32 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 return true;
 
             case R.id.download:
+                serverDB.getList().enqueue(new Callback<List<String>>() {
+                    @Override
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        BuysManager.buys = response.body();
+                        recycler.getAdapter().notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<String>> call, Throwable t) {
+                        ServerDB.showConnectionError(RootActivity.this);
+                    }
+                });
                 Toast.makeText(getApplicationContext(), "a", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.log_out:
-                Toast.makeText(getApplicationContext(), "b", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Выход");
+                alert.setMessage("Вы уверены что хотите выйти из аккаунта?");
+                alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                    (new AppDao(this)).setLogin("");
+                    Toast.makeText(this, "Вы вышли из аккаунта", Toast.LENGTH_SHORT).show();
+                });
+                alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                });
+                alert.show();
                 return true;
 
             default:
