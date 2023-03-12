@@ -34,12 +34,14 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
@@ -217,8 +219,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        AppDao appDao = new AppDao(getApplicationContext());
         MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.main_bar_menu, menu);
+        if (Objects.equals(appDao.getLogin(), "")) {
+            mi.inflate(R.menu.main_bar_menu, menu);
+        } else {
+            mi.inflate(R.menu.logged_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -229,12 +236,21 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
 
             case R.id.log_in:
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
 
+                return true;
+
+            case R.id.download:
+                Toast.makeText(getApplicationContext(), "a", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.log_out:
+                Toast.makeText(getApplicationContext(), "b", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

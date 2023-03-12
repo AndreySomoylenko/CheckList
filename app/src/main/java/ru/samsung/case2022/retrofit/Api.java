@@ -22,7 +22,7 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://192.168.1.76/";
+    String BASE_URL = "https://fe05-46-138-210-82.eu.ngrok.io/";
 
     /**
      * This POST-request method is used to register new account on server
