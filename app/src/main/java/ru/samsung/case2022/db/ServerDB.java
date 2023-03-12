@@ -49,9 +49,7 @@ public class ServerDB {
      * This method is used to send request to register new account
      * @param user is the user data(login, name, password)
      */
-    public Call<ResponseBody> regUser(User user){
-        return RetrofitClient.getInstance().getApi().regUser(user);
-    }
+
 
     /**
      * This method is used to send request to get list of buys from server by user login
@@ -67,7 +65,7 @@ public class ServerDB {
      * @param buys is the list of buys
      */
 
-    public Call<ResponseBody> sync(List<String> buys) {
+    public Call<ResponseBody> sync(String buys) {
         return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
     }
 
@@ -89,8 +87,8 @@ public class ServerDB {
 
 
 
-    public Call<Bool> checkRegister(String login) {
-        return RetrofitClient.getInstance().getApi().check_register(login);
+    public Call<Bool> checkRegister(String lg, String nm, String pass) {
+        return RetrofitClient.getInstance().getApi().check_register(lg, nm, pass);
     }
 
 

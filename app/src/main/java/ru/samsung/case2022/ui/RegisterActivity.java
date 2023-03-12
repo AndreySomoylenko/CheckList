@@ -22,6 +22,7 @@ import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.retrofit.models.Bool;
+import ru.samsung.case2022.retrofit.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -40,10 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
             if (login.equals("") || pass.equals("") || name.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {
-                (new ServerDB(RegisterActivity.this)).checkRegister(login).enqueue(new Callback<Bool>() {
+                (new ServerDB(RegisterActivity.this)).checkRegister(name, login, pass).enqueue(new Callback<Bool>() {
                     @Override
                     public void onResponse(Call<Bool> call, Response<Bool> response) {
-                        Log.d("onResponce", response.body().bool);
+                        Log.d("onResponse", response.body().bool);
                         boolean dataCorrect = Objects.equals(response.body().bool, "1");
                         if (dataCorrect) {
                             SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
@@ -58,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Bool> call, Throwable t) {
+
                         ServerDB.showConnectionError(RegisterActivity.this);
                         System.out.println(t.toString());
                     }

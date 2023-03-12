@@ -22,7 +22,7 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://48c5-79-139-202-28.eu.ngrok.io/";
+    String BASE_URL = "https://192.168.1.76/";
 
     /**
      * This POST-request method is used to register new account on server
@@ -30,15 +30,13 @@ public interface Api {
      * @return simple retrofit response
      */
 
-    @POST("reg_user")
-    Call<ResponseBody> regUser(@Body User user);
 
     /**
      * This GET-request method is used to get list of buys from server by user login
      * @param login is the user login
      * @return response with the list of buys
      */
-    @GET("get_list")
+    @GET("get_list.php")
     Call<List<String>> getList(@Query("login") String login);
 
 
@@ -49,8 +47,8 @@ public interface Api {
      * @return simple retrofit response
      */
     @FormUrlEncoded
-    @POST("sync")
-    Call<ResponseBody> sync(@Field("login") String login, @Field("buys") List<String> buys);
+    @POST("sync.php")
+    Call<ResponseBody> sync(@Field("login") String login, @Field("buys") String buys);
 
     /**
      * This POST-request method is used to check if account on server exists
@@ -59,7 +57,7 @@ public interface Api {
      * @return simple retrofit response (“1” if exists, else “0”)
      */
     @FormUrlEncoded
-    @POST("check_login")
+    @POST("check_login.php")
     Call<Bool> check_login(@Field("login") String login, @Field("password") String password);
 
     /**
@@ -70,7 +68,7 @@ public interface Api {
 
 
     @FormUrlEncoded
-    @POST("check_register")
-    Call<Bool> check_register(@Field("login") String login);
+    @POST("check_register.php")
+    Call<Bool> check_register(@Field("name") String name, @Field("login") String login, @Field("password") String pass);
 
 }

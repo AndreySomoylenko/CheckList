@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,8 +59,12 @@ public class MainActivity1 extends AppCompatActivity {
              */
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                BuysManager.buys = response.body();
-                startActivity(intent);
+                if (Objects.equals(appDao.getLogin(), "")) {
+                    getDataFromLocal(intent);
+                } else {
+                    BuysManager.buys = response.body();
+                    startActivity(intent);
+                }
             }
 
             /**
@@ -69,10 +74,14 @@ public class MainActivity1 extends AppCompatActivity {
              */
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
-                DBJson db = new DBJson();
-                db.init(getApplicationContext());
-                startActivity(intent);
+                getDataFromLocal(intent);
             }
         });
+    }
+
+    private void getDataFromLocal(Intent intent) {
+        DBJson db = new DBJson();
+        db.init(getApplicationContext());
+        startActivity(intent);
     }
 }

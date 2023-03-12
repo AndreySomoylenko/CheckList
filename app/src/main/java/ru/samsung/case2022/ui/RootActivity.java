@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,12 +26,18 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.BuysManager;
@@ -184,7 +191,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         new Thread() {
             public void run() {
                 try {
-                    serverDB.sync(BuysManager.buys).execute();
+                    serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
                 } catch (IOException ignored) {
 
                 }
