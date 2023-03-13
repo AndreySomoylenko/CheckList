@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import ru.samsung.case2022.retrofit.models.Bool;
+import ru.samsung.case2022.retrofit.models.BoolAndList;
 import ru.samsung.case2022.retrofit.models.User;
 
 
@@ -22,7 +23,7 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://fe05-46-138-210-82.eu.ngrok.io/";
+    String BASE_URL = "https://493a-79-139-207-142.eu.ngrok.io/";
 
     /**
      * This POST-request method is used to register new account on server

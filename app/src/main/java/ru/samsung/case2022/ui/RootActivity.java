@@ -190,7 +190,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         CustomAdapter adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
-
+        Log.d("ON RESUME LIST", BuysManager.buys.toString());
         new Thread() {
             public void run() {
                 try {
@@ -250,7 +250,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 serverDB.getList().enqueue(new Callback<List<String>>() {
                     @Override
                     public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        Log.d("get_list", response.body().toString());
                         BuysManager.buys = response.body();
+                        Log.d("get", "list");
                         recycler.getAdapter().notifyDataSetChanged();
                     }
 
@@ -259,7 +261,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         ServerDB.showConnectionError(RootActivity.this);
                     }
                 });
-                Toast.makeText(getApplicationContext(), "a", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.log_out:

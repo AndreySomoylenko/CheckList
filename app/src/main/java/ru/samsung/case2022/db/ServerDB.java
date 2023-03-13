@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.samsung.case2022.retrofit.RetrofitClient;
 import ru.samsung.case2022.retrofit.models.Bool;
+import ru.samsung.case2022.retrofit.models.BoolAndList;
 import ru.samsung.case2022.retrofit.models.User;
 
 
