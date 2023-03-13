@@ -45,6 +45,7 @@ import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.Money;
 import ru.samsung.case2022.db.ServerDB;
 
 /**
@@ -89,6 +90,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      * Class which help us to manage list of products
      */
     public static DBJson db;
+
+    public static AppDao appDao;
     private ServerDB serverDB;
 
     /**
@@ -108,6 +111,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         add = findViewById(R.id.add);
         bag = findViewById(R.id.bag);
         serverDB = new ServerDB(this);
+        appDao = new AppDao(this);
         db = new DBJson();
         db.init(this);
         // Listener for scan button
@@ -193,15 +197,52 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
         Log.d("ON RESUME LIST", BuysManager.buys.toString());
-        new Thread() {
-            public void run() {
-                try {
-                    serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
-                } catch (IOException ignored) {
+
+        String login = appDao.getLogin();
+        if (login != "") {
+
+            serverDB.getList().enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    Log.d("local list", BuysManager.buys.toString());
+                    Log.d("serv list", response.body().toString());
+                    if (!BuysManager.buys.equals(response.body())) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
+                        alert.setTitle("Обновить данные");
+                        alert.setMessage("Данные с сервера не совпадают с данными в приложении. Загрузить данные с сервера?");
+                        alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                            BuysManager.buys = response.body();
+                            db.save();
+                            recycler.getAdapter().notifyDataSetChanged();
+                            recycler.setAdapter(adapter);
+                        });
+                        alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                            new Thread() {
+                                public void run() {
+                                    try {
+                                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
+                                    } catch (IOException ignored) {}
+                                }
+                            }.start();
+                        });
+                        alert.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<String>> call, Throwable t) {
 
                 }
-            }
-        }.start();
+            });
+            new Thread() {
+                public void run() {
+                    try {
+                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
+                    } catch (IOException ignored) {}
+
+                }
+            }.start();
+        }
     }
 
     /**
