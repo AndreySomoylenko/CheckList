@@ -11,7 +11,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import ru.samsung.case2022.retrofit.models.Bool;
-import ru.samsung.case2022.retrofit.models.BoolAndList;
 import ru.samsung.case2022.retrofit.models.User;
 
 

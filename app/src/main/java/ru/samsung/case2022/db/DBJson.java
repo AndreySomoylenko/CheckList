@@ -42,8 +42,8 @@ public class DBJson {
             addToBag(item);
             BuysManager buy = new BuysManager();
             if (BuysManager.prices.get(item) != null) {
-                float price = BuysManager.prices.get(item);
-                BuysManager.sum += price + 0.001d;
+                Money price = BuysManager.prices.get(item);
+                BuysManager.sum = BuysManager.sum.plus(price);
             }
         }
         save();
@@ -95,6 +95,6 @@ public class DBJson {
     public void save() {
         appDao.putList(BuysManager.buys);
         appDao.putBagList(BuysManager.bag);
-        appDao.putSum(BuysManager.sum);
+        appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
     }
 }

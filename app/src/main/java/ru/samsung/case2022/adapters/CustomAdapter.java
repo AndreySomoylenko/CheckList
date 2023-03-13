@@ -14,6 +14,7 @@ import java.util.List;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.BuysManager;
+import ru.samsung.case2022.db.Money;
 
 /**
  * The CustomAdapter class
@@ -106,9 +107,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         String rubles;
         String cents;
         if (BuysManager.prices.get(localDataSet.get(position)) != null) {
-            double price = BuysManager.prices.get(localDataSet.get(position));
-            rubles = String.valueOf((int) price);
-            cents = String.valueOf((int)((price % 1) * 100));
+            Money price = BuysManager.prices.get(localDataSet.get(position));
+            rubles = String.valueOf(price.getRubles());
+            cents = String.valueOf(price.getCents());
         } else {
             rubles = "0";
             cents = "0";

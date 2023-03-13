@@ -19,18 +19,18 @@ public class BuysManager {
     public static List<String> buys = new ArrayList<>();
     public static List<String> bag = new ArrayList<>();
 
-    public static final Map<String, Float> prices = Map.of(
-        "biscuits", 29.901f,
-        "broccoli", 249.901f,
-        "cheese", 359.901f,
-        "coffee", 489.901f,
-        "curd", 144.491f,
-        "dough", 144.001f,
-        "milk", 61.991f,
-        "pancakes", 140.801f,
-        "sourcream", 74.901f,
-        "tea", 506.801f
+    public static final Map<String, Money> prices = Map.of(
+        "biscuits", new Money(29, 90),
+        "broccoli", new Money(249, 90),
+        "cheese", new Money(359, 90),
+        "coffee", new Money(489, 90),
+        "curd", new Money(144, 49),
+        "dough", new Money(144, 0),
+        "milk", new Money(61, 99),
+        "pancakes", new Money(140, 80),
+        "sourcream", new Money(74, 90),
+        "tea", new Money(506, 80)
         );
 
-    public static float sum;
+    public static Money sum;
 }

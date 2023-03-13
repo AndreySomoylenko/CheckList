@@ -91,14 +91,15 @@ public class AppDao {
         spref.edit().putString("login", login).apply();
     }
 
-    public void putSum(float sum) {
+    public void putSum(int rubles, int cents) {
         spref
                 .edit()
-                .putFloat("sum", sum)
+                .putInt("rubles", rubles)
+                .putInt("cents", cents)
                 .apply();
     }
 
-    public float getSum() {
-        return spref.getFloat("sum", 0.00f);
+    public Money getSum() {
+        return new Money(spref.getInt("rubles", 0), spref.getInt("cents", 0));
     }
 }

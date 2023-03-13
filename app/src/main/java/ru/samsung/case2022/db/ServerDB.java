@@ -12,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.samsung.case2022.retrofit.RetrofitClient;
 import ru.samsung.case2022.retrofit.models.Bool;
-import ru.samsung.case2022.retrofit.models.BoolAndList;
 import ru.samsung.case2022.retrofit.models.User;
 
 
@@ -82,7 +81,7 @@ public class ServerDB {
 
     /**
      * This method is used to send request to check if login in database exists
-     * @param login is the user login
+     * @param lg is the user login
      * @return true if login exists or false if doesn’t exist
      */
 

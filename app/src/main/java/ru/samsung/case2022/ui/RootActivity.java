@@ -71,6 +71,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     /**
      * Recyclerview which shows list of products
      */
+
+    CustomAdapter adapter;
     RecyclerView recycler;
 
     /**
@@ -188,7 +190,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     protected void onResume() {
         super.onResume();
-        CustomAdapter adapter = new CustomAdapter(BuysManager.buys, this, this);
+        adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
         Log.d("ON RESUME LIST", BuysManager.buys.toString());
         new Thread() {
@@ -254,6 +256,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         BuysManager.buys = response.body();
                         Log.d("get", "list");
                         recycler.getAdapter().notifyDataSetChanged();
+                        recycler.setAdapter(adapter);
                     }
 
                     @Override

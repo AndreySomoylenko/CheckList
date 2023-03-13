@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.BagAdapter;
 import ru.samsung.case2022.db.BuysManager;
+import ru.samsung.case2022.db.Money;
 
 public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteListener{
 
@@ -29,9 +30,9 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         recyclerView = findViewById(R.id.recycler_bag);
         recyclerView.setAdapter(new BagAdapter(BuysManager.bag, this, this));
         suma = findViewById(R.id.sum);
-        float sum = BuysManager.sum;
-        String rubles = String.valueOf((int) sum);
-        String cents = String.valueOf((int)((sum % 1) * 100));
+        Money sum = BuysManager.sum;
+        String rubles = String.valueOf(sum.getRubles());
+        String cents = String.valueOf(sum.getCents());
         suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
         back = findViewById(R.id.back_bag);
         back.setOnClickListener(v -> {
@@ -48,12 +49,12 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         alert.setMessage("Вы хотите удалить этот элемент из корзины?");
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             if (BuysManager.prices.get(BuysManager.bag.get(position)) != null) {
-                float price = BuysManager.prices.get(BuysManager.bag.get(position));
-                BuysManager.sum -= price - 0.001d;
+                Money price = BuysManager.prices.get(BuysManager.bag.get(position));
+                BuysManager.sum = BuysManager.sum.minus(price);
             }
-            float sum = BuysManager.sum;
-            String rubles = String.valueOf((int) sum);
-            String cents = String.valueOf((int)((sum % 1) * 100));
+            Money sum = BuysManager.sum;
+            String rubles = String.valueOf(sum.getRubles());
+            String cents = String.valueOf(sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
             RootActivity.db.removeByIndexBag(position);
             recyclerView.getAdapter().notifyDataSetChanged();
