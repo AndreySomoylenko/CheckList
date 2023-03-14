@@ -126,8 +126,10 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             Intent intent = new Intent(this, BagActivity.class);
             startActivity(intent);
         });
-
-        Start();
+        if (DBJson.start) {
+            Start();
+            DBJson.start = false;
+        }
     }
 
     /**
@@ -315,8 +317,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         alert.setPositiveButton("Да", (dialog, whichButton) -> {
                             BuysManager.buys = response.body();
                             db.save();
+                            adapter.refresh(BuysManager.buys);
                             recycler.setAdapter(adapter);
-                            recycler.getAdapter().notifyDataSetChanged();
                         });
                         alert.setNegativeButton("Нет", (dialog, whichButton) -> {
                             new Thread() {

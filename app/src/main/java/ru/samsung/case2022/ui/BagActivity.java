@@ -86,10 +86,18 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.removeAll:
-                (new DBJson(this)).clearBag();
-                BuysManager.sum.makeZero();
-                suma.setText("ИТОГО: " + "0" + "руб " + "0" + "коп");
-                recyclerView.getAdapter().notifyDataSetChanged();
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Удалить");
+                alert.setMessage("Вы хотите очистить корзину?");
+                alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                    (new DBJson(this)).clearBag();
+                    BuysManager.sum.makeZero();
+                    suma.setText("ИТОГО: " + "0" + "руб " + "0" + "коп");
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                });
+                alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                });
+                alert.show();
                 return true;
             default:
 

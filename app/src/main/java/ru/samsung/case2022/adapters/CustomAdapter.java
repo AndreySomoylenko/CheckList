@@ -26,7 +26,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
 
 
-    private final List<String> localDataSet;
+    private List<String> localDataSet;
     private final Context context;
 
     private final OnNoteListener mOnNoteListener;
@@ -42,6 +42,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.localDataSet = localDataSet;
         this.context = context;
         this.mOnNoteListener = onNoteListener;
+    }
+
+    public void refresh(List<String> localDataSet) {
+        this.localDataSet = localDataSet;
     }
 
     /**

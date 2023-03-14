@@ -11,11 +11,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.ServerDB;
 
 /**
  * The EditActivity
@@ -74,6 +78,13 @@ public class EditActivity extends AppCompatActivity {
         } else {
             BuysManager.buys.set(position, s);
             db.save();
+            new Thread() {
+                public void run() {
+                    try {
+                        (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).execute();
+                    } catch (IOException ignored) {}
+                }
+            }.start();
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
