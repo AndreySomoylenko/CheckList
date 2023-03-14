@@ -19,6 +19,8 @@ public class DBJson {
      */
     private static AppDao appDao;
 
+    public static boolean start = true;
+
     Context context;
 
     public DBJson(Context context) {

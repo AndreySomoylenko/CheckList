@@ -113,7 +113,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         serverDB = new ServerDB(this);
         appDao = new AppDao(this);
         db = new DBJson(this);
-        db.init();
         // Listener for scan button
         scan.setOnClickListener(v -> {
             takePicture();
@@ -127,6 +126,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             Intent intent = new Intent(this, BagActivity.class);
             startActivity(intent);
         });
+
+        Start();
     }
 
     /**
@@ -198,43 +199,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         recycler.setAdapter(adapter);
         Log.d("ON RESUME LIST", BuysManager.buys.toString());
 
-        String login = appDao.getLogin();
-        if (login != "") {
 
-            serverDB.getList().enqueue(new Callback<List<String>>() {
-                @Override
-                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                    Log.d("local list", BuysManager.buys.toString());
-                    Log.d("serv list", response.body().toString());
-                    if (!BuysManager.buys.equals(response.body())) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
-                        alert.setTitle("Обновить данные");
-                        alert.setMessage("Данные с сервера не совпадают с данными в приложении. Загрузить данные с сервера?");
-                        alert.setPositiveButton("Да", (dialog, whichButton) -> {
-                            BuysManager.buys = response.body();
-                            db.save();
-                            recycler.setAdapter(adapter);
-                            recycler.getAdapter().notifyDataSetChanged();
-                        });
-                        alert.setNegativeButton("Нет", (dialog, whichButton) -> {
-                            new Thread() {
-                                public void run() {
-                                    try {
-                                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
-                                    } catch (IOException ignored) {}
-                                }
-                            }.start();
-                        });
-                        alert.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<String>> call, Throwable t) {
-
-                }
-            });
-        }
     }
 
     /**
@@ -255,7 +220,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        AppDao appDao = new AppDao(getApplicationContext());
         MenuInflater mi = getMenuInflater();
         if (Objects.equals(appDao.getLogin(), "")) {
             mi.inflate(R.menu.main_bar_menu, menu);
@@ -304,7 +268,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 alert.setTitle("Выход");
                 alert.setMessage("Вы уверены что хотите выйти из аккаунта?");
                 alert.setPositiveButton("Да", (dialog, whichButton) -> {
-                    (new AppDao(this)).setLogin("");
+                    appDao.setLogin("");
                     Toast.makeText(this, "Вы вышли из аккаунта", Toast.LENGTH_SHORT).show();
                     Intent restart = getIntent();
                     finish();
@@ -330,5 +294,48 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     protected void onStop() {
         super.onStop();
         db.save();
+    }
+
+
+    private void Start() {
+        db.init();
+        String login = appDao.getLogin();
+        if (login != "") {
+
+            serverDB.getList().enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    ServerDB.hasConnection = true;
+                    Log.d("local list", BuysManager.buys.toString());
+                    Log.d("serv list", response.body().toString());
+                    if (!BuysManager.buys.equals(response.body())) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
+                        alert.setTitle("Обновить данные");
+                        alert.setMessage("Данные с сервера не совпадают с данными в приложении. Загрузить данные с сервера?");
+                        alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                            BuysManager.buys = response.body();
+                            db.save();
+                            recycler.setAdapter(adapter);
+                            recycler.getAdapter().notifyDataSetChanged();
+                        });
+                        alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                            new Thread() {
+                                public void run() {
+                                    try {
+                                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
+                                    } catch (IOException ignored) {}
+                                }
+                            }.start();
+                        });
+                        alert.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<String>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }
