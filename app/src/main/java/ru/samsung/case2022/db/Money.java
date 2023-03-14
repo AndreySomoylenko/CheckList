@@ -19,9 +19,12 @@ public class Money {
 
     public Money minus (Money money2) {
         int rubles = this.getRubles() - money2.getRubles();
-        int cents = Math.abs(this.getCents() - money2.getCents());
+        int cents;
         if (this.getCents() < money2.getCents()) {
             rubles--;
+            cents = 100 - (money2.getCents() - this.getCents());
+        } else {
+            cents = this.getCents() - money2.getCents();
         }
         return new Money(rubles, cents);
     }
@@ -32,5 +35,10 @@ public class Money {
 
     public int getCents() {
         return cents;
+    }
+
+    public void makeZero() {
+        rubles = 0;
+        cents = 0;
     }
 }

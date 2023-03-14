@@ -112,8 +112,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         bag = findViewById(R.id.bag);
         serverDB = new ServerDB(this);
         appDao = new AppDao(this);
-        db = new DBJson();
-        db.init(this);
+        db = new DBJson(this);
+        db.init();
         // Listener for scan button
         scan.setOnClickListener(v -> {
             takePicture();
@@ -213,8 +213,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         alert.setPositiveButton("Да", (dialog, whichButton) -> {
                             BuysManager.buys = response.body();
                             db.save();
-                            recycler.getAdapter().notifyDataSetChanged();
                             recycler.setAdapter(adapter);
+                            recycler.getAdapter().notifyDataSetChanged();
                         });
                         alert.setNegativeButton("Нет", (dialog, whichButton) -> {
                             new Thread() {
@@ -234,14 +234,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
                 }
             });
-            new Thread() {
-                public void run() {
-                    try {
-                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
-                    } catch (IOException ignored) {}
-
-                }
-            }.start();
         }
     }
 
@@ -314,6 +306,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 alert.setPositiveButton("Да", (dialog, whichButton) -> {
                     (new AppDao(this)).setLogin("");
                     Toast.makeText(this, "Вы вышли из аккаунта", Toast.LENGTH_SHORT).show();
+                    Intent restart = getIntent();
+                    finish();
+                    startActivity(restart);
                 });
                 alert.setNegativeButton("Нет", (dialog, whichButton) -> {
                 });

@@ -25,16 +25,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
+
+    aaptOptions {
+        noCompress "tflite"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
     buildFeatures {
         viewBinding true
         mlModelBinding true
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 }
 

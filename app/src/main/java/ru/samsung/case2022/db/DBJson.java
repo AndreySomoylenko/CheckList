@@ -2,6 +2,10 @@ package ru.samsung.case2022.db;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
 /**
  * The DBJson class
  * @author Philipp Schepnov
@@ -14,6 +18,12 @@ public class DBJson {
      * This class is used to get data from Shared Preferences
      */
     private static AppDao appDao;
+
+    Context context;
+
+    public DBJson(Context context) {
+        this.context = context;
+    }
 
     /**
      * This method is used to add item in list of buys
@@ -29,6 +39,11 @@ public class DBJson {
         save();
     }
 
+    public void clearBag() {
+        BuysManager.bag.clear();
+        save();
+    }
+
     /**
      * This method is used to remove item from list of buys by its name
      * @param item is the item to remove
@@ -40,13 +55,13 @@ public class DBJson {
         while (BuysManager.buys.contains(item)) {
             BuysManager.buys.remove(item);
             addToBag(item);
-            BuysManager buy = new BuysManager();
             if (BuysManager.prices.get(item) != null) {
                 Money price = BuysManager.prices.get(item);
                 BuysManager.sum = BuysManager.sum.plus(price);
             }
         }
         save();
+        sync();
         return true;
     }
 
@@ -61,6 +76,7 @@ public class DBJson {
         else {
             BuysManager.buys.remove(index);
             save();
+            sync();
             return true;
         }
     }
@@ -78,7 +94,7 @@ public class DBJson {
      * This method is used to initialise this class and put list from Shared Preferences in list of buys from BuysManager
      * @param context is the aplication context
      */
-    public void init(Context context) {
+    public void init() {
         appDao = new AppDao(context);
         if (appDao.getList() != null) {
             BuysManager.buys = appDao.getList();
@@ -96,5 +112,15 @@ public class DBJson {
         appDao.putList(BuysManager.buys);
         appDao.putBagList(BuysManager.bag);
         appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
+    }
+
+    private void sync() {
+        new Thread() {
+            public void run() {
+                try {
+                    (new ServerDB(context)).sync((new Gson()).toJson(BuysManager.buys)).execute();
+                } catch (IOException ignored) {}
+            }
+        }.start();
     }
 }

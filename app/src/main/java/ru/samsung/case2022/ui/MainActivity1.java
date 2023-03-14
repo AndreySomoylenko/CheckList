@@ -80,8 +80,8 @@ public class MainActivity1 extends AppCompatActivity {
     }
 
     private void getDataFromLocal(Intent intent) {
-        DBJson db = new DBJson();
-        db.init(getApplicationContext());
+        DBJson db = new DBJson(this);
+        db.init();
         startActivity(intent);
     }
 }

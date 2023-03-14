@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                                     Log.d("LOGIN LIST", response.body().toString());
                                     BuysManager.buys = response.body();
-                                    (new DBJson()).save();
+                                    (new DBJson(getApplicationContext())).save();
                                     Intent intent = new Intent(LoginActivity.this, RootActivity.class);
                                     startActivity(intent);
                                 }
