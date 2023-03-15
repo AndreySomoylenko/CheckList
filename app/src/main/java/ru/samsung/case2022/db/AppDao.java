@@ -87,8 +87,14 @@ public class AppDao {
     public String getLogin() {
         return spref.getString("login", "");
     }
+
+    public String getName() { return spref.getString("name", ""); }
     public void setLogin(String login) {
         spref.edit().putString("login", login).apply();
+    }
+
+    public void setName(String name) {
+        spref.edit().putString("name", name).apply();
     }
 
     public void putSum(int rubles, int cents) {
