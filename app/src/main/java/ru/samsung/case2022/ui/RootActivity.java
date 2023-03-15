@@ -200,6 +200,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
+        if (!ServerDB.hasConnection) bar.setSubtitle("Нет подключения к интернету");
     }
 
     /**
@@ -255,11 +256,15 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         Log.d("get", "list");
                         adapter.refresh(BuysManager.buys);
                         recycler.setAdapter(adapter);
+                        ServerDB.hasConnection = true;
+                        bar.setSubtitle("");
                     }
 
                     @Override
                     public void onFailure(Call<List<String>> call, Throwable t) {
                         ServerDB.showConnectionError(RootActivity.this);
+                        ServerDB.hasConnection = false;
+                        bar.setSubtitle("Нет подключения к интернету");
                     }
                 });
                 return true;
@@ -330,11 +335,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         });
                         alert.show();
                     }
+                    ServerDB.hasConnection = true;
                 }
 
                 @Override
                 public void onFailure(Call<List<String>> call, Throwable t) {
                     bar.setSubtitle("Нет подключения к интернету");
+                    ServerDB.hasConnection = false;
                 }
             });
         }

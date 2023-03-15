@@ -35,6 +35,8 @@ public class ServerDB {
      */
     Context context;
 
+    public static boolean hasConnection = true;
+
 
 
     /**

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -87,11 +88,13 @@ public class EditActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         RootActivity.bar.setSubtitle("");
+                        ServerDB.hasConnection = true;
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                        ServerDB.hasConnection = false;
                     }
                 });
             }
@@ -114,12 +117,16 @@ public class EditActivity extends AppCompatActivity {
             (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    ServerDB.hasConnection = true;
                     RootActivity.bar.setSubtitle("");
+                    //Log.d("suc", "hdsjsjhdshsd");
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                    Log.d("suc", "hdsjsjhdshsd");
+                    ServerDB.hasConnection = false;
                 }
             });
         }

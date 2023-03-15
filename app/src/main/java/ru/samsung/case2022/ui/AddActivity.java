@@ -81,11 +81,13 @@ public class AddActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         RootActivity.bar.setSubtitle("");
+                        ServerDB.hasConnection = true;
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                        ServerDB.hasConnection = false;
                     }
                 });
             }
