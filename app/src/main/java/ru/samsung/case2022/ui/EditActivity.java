@@ -125,7 +125,7 @@ public class EditActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, RootActivity.class);
         startActivity(intent);
-        (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).enqueue(new Callback<ResponseBody>() {
+        (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 RootActivity.bar.setSubtitle("");
