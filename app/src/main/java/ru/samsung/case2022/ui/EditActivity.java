@@ -16,6 +16,10 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Objects;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.DBJson;
@@ -77,13 +81,17 @@ public class EditActivity extends AppCompatActivity {
         } else {
             BuysManager.buys.set(position, s);
             db.save();
-            new Thread() {
-                public void run() {
-                    try {
-                        (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).execute();
-                    } catch (IOException ignored) {}
+            (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    RootActivity.bar.setSubtitle("");
                 }
-            }.start();
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                }
+            });
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

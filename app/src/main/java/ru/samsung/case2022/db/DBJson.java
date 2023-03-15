@@ -94,7 +94,6 @@ public class DBJson {
 
     /**
      * This method is used to initialise this class and put list from Shared Preferences in list of buys from BuysManager
-     * @param context is the aplication context
      */
     public void init() {
         appDao = new AppDao(context);

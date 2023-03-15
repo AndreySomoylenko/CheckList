@@ -14,13 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
@@ -32,7 +32,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +44,6 @@ import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
-import ru.samsung.case2022.db.Money;
 import ru.samsung.case2022.db.ServerDB;
 
 /**
@@ -61,6 +59,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      * Button which starts camera
      */
     FloatingActionButton scan;
+
+    public static ActionBar bar;
 
     /**
      * Button which open AddActivity to add element to list
@@ -130,6 +130,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             Start();
             DBJson.start = false;
         }
+        bar = getSupportActionBar();
     }
 
     /**
@@ -199,7 +200,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
-        Log.d("ON RESUME LIST", BuysManager.buys.toString());
     }
 
     /**
@@ -251,8 +251,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                         Log.d("get_list", response.body().toString());
                         BuysManager.buys = response.body();
+                        db.save();
                         Log.d("get", "list");
-                        recycler.getAdapter().notifyDataSetChanged();
+                        adapter.refresh(BuysManager.buys);
                         recycler.setAdapter(adapter);
                     }
 
@@ -297,11 +298,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     }
 
 
-    /**
-     * This method is called once, when user starting app
-     * In this method we compare local and server lists
-     */
-
     private void Start() {
         db.init();
         String login = appDao.getLogin();
@@ -310,7 +306,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             serverDB.getList().enqueue(new Callback<List<String>>() {
                 @Override
                 public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                    ServerDB.hasConnection = true;
                     Log.d("local list", BuysManager.buys.toString());
                     Log.d("serv list", response.body().toString());
                     if (!BuysManager.buys.equals(response.body())) {
@@ -328,7 +323,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                 public void run() {
                                     try {
                                         serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
-                                    } catch (IOException ignored) {}
+                                    } catch (IOException ignored) {
+                                    }
                                 }
                             }.start();
                         });
@@ -338,7 +334,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
                 @Override
                 public void onFailure(Call<List<String>> call, Throwable t) {
-
+                    bar.setSubtitle("Нет подключения к интернету");
                 }
             });
         }

@@ -31,7 +31,6 @@ public class ServerDB {
      * This class is used to get data from Shared Preferences
      */
     private static AppDao appDao;
-    public static boolean hasConnection = false;
 
     /**
      * Application context

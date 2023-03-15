@@ -74,13 +74,18 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-            new Thread() {
-                public void run() {
-                    try {
-                        (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).execute();
-                    } catch (IOException ignored) {}
+
+            (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    RootActivity.bar.setSubtitle("");
                 }
-            }.start();
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                }
+            });
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

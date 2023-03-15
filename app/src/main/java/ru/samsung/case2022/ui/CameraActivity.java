@@ -13,10 +13,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.adapters.BagAdapter;
+import ru.samsung.case2022.db.BuysManager;
+import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
 
 /**
@@ -73,6 +81,17 @@ public class CameraActivity extends AppCompatActivity {
         recognize.setOnClickListener(v -> {
             String s = recognize();
             db.removeByName(s);
+            (new ServerDB(this)).sync(new Gson().toJson(BuysManager.buys)).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    RootActivity.bar.setSubtitle("");
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                }
+            });
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
