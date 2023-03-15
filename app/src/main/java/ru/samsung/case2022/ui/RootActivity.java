@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -131,6 +132,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             DBJson.start = false;
         }
         bar = getSupportActionBar();
+        if (appDao.getLogin() != "") {
+            bar.setTitle(appDao.getName());
+        }
     }
 
     /**
