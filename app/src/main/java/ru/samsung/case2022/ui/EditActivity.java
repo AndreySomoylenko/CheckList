@@ -107,6 +107,17 @@ public class EditActivity extends AppCompatActivity {
         db.removeByIndex(position);
         Intent intent = new Intent(this, RootActivity.class);
         startActivity(intent);
+        (new ServerDB(getApplicationContext())).sync((new Gson()).toJson(BuysManager.buys)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                RootActivity.bar.setSubtitle("");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+            }
+        });
         finish();
     }
 }

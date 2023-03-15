@@ -63,7 +63,6 @@ public class DBJson {
             }
         }
         save();
-        sync();
         return true;
     }
 
@@ -78,7 +77,7 @@ public class DBJson {
         else {
             BuysManager.buys.remove(index);
             save();
-            sync();
+            //sync();
             return true;
         }
     }
@@ -113,15 +112,5 @@ public class DBJson {
         appDao.putList(BuysManager.buys);
         appDao.putBagList(BuysManager.bag);
         appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
-    }
-
-    private void sync() {
-        new Thread() {
-            public void run() {
-                try {
-                    (new ServerDB(context)).sync((new Gson()).toJson(BuysManager.buys)).execute();
-                } catch (IOException ignored) {}
-            }
-        }.start();
     }
 }
