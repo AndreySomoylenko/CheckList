@@ -40,20 +40,20 @@ public class ServerDB {
 
 
 
+    /**
+     * Constructor of class
+     * Is used to initialize AppDao
+     * @param context application context
+     */
     public ServerDB(Context context) {
         appDao = new AppDao(context);
     }
 
 
-    /**
-     * This method is used to send request to register new account
-     * @param user is the user data(login, name, password)
-     */
-
 
     /**
      * This method is used to send request to get list of buys from server by user login
-     * @return list of buys
+     * @return Call with list of buys
      */
 
     public Call<List<String>> getList() {
@@ -63,6 +63,7 @@ public class ServerDB {
     /**
      * This method is used to send request to update list of buys in server database
      * @param buys is the list of buys
+     * @return Call with simple retrofit response
      */
 
     public Call<ResponseBody> sync(String buys) {
@@ -73,7 +74,7 @@ public class ServerDB {
      * This method is used to send request to check if account in database exists
      * @param login is the user login
      * @param password is the user password
-     * @return true if account exists or false if doesn’t exist
+     * @return Call with Bool
      */
     public Call<Bool> checkLogin(String login, String password) {
         return RetrofitClient.getInstance().getApi().check_login(login, password);
@@ -82,20 +83,27 @@ public class ServerDB {
     /**
      * This method is used to send request to check if login in database exists
      * @param lg is the user login
-     * @return true if login exists or false if doesn’t exist
+     * @return Call with Bool
      */
-
-
-
     public Call<Bool> checkRegister(String lg, String nm, String pass) {
         return RetrofitClient.getInstance().getApi().check_register(lg, nm, pass);
     }
 
 
+    /**
+     * This method is used to show Toast with connection error
+     * @param context is co
+     */
     public static void showConnectionError(Context context) {
         Toast.makeText(context, "Ошибка запроса на сервер", Toast.LENGTH_SHORT).show();
     }
 
+
+    /**
+     * This method is used to show Toast with message from params
+     * @param context application context
+     * @param message message to show in Toast
+     */
     public static void showConnectionError(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }

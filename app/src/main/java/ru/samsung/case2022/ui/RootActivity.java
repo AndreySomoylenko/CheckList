@@ -200,8 +200,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
         Log.d("ON RESUME LIST", BuysManager.buys.toString());
-
-
     }
 
     /**
@@ -298,6 +296,11 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         db.save();
     }
 
+
+    /**
+     * This method is called once, when user starting app
+     * In this method we compare local and server lists
+     */
 
     private void Start() {
         db.init();

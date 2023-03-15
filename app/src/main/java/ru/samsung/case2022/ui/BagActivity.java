@@ -24,6 +24,8 @@ import ru.samsung.case2022.db.Money;
 
 public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteListener{
 
+
+
     RecyclerView recyclerView;
 
     TextView suma;
@@ -32,6 +34,11 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
 
     BagAdapter adapter;
 
+
+    /**
+     * This method calls on activity start
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,11 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         });
     }
 
+
+    /**
+     * This method calls when user click on element in bag
+     * @param position
+     */
     @Override
     public void OnNoteClick(int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -82,6 +94,12 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    /**
+     * This method called when user clicks on button in menu
+     * @param item clicked button
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -29,6 +29,10 @@ import ru.samsung.case2022.retrofit.models.Bool;
 
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * This method calls on activity start
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

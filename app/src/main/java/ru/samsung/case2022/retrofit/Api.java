@@ -22,14 +22,7 @@ import ru.samsung.case2022.retrofit.models.User;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://493a-79-139-207-142.eu.ngrok.io/";
-
-    /**
-     * This POST-request method is used to register new account on server
-     * @param user class(login, name, password)
-     * @return simple retrofit response
-     */
-
+    String BASE_URL = "https://3dd6-79-139-207-142.eu.ngrok.io";
 
     /**
      * This GET-request method is used to get list of buys from server by user login
@@ -43,7 +36,7 @@ public interface Api {
     /**
      * This POST-request method is used to update list of buys on server
      * @param login is the user login
-     * @param buys is the list of buys
+     * @param buys is the JSON-string (list of buys)
      * @return simple retrofit response
      */
     @FormUrlEncoded
@@ -54,7 +47,7 @@ public interface Api {
      * This POST-request method is used to check if account on server exists
      * @param login is the user login
      * @param password is the user password
-     * @return simple retrofit response (“1” if exists, else “0”)
+     * @return Bool (“1” if exists, else “0”)
      */
     @FormUrlEncoded
     @POST("check_login.php")
@@ -63,10 +56,8 @@ public interface Api {
     /**
      * This POST-request method is used to check if login on server exists
      * @param login is the user login
-     * @return simple retrofit response (“0” if exists, else “1”)
+     * @return Bool (“0” if exists, else “1”)
      */
-
-
     @FormUrlEncoded
     @POST("check_register.php")
     Call<Bool> check_register(@Field("name") String name, @Field("login") String login, @Field("password") String pass);

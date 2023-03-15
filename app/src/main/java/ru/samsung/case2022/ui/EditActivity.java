@@ -51,7 +51,6 @@ public class EditActivity extends AppCompatActivity {
      * Method to start this activity
      * @param savedInstanceState
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
