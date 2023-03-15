@@ -15,14 +15,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.ServerDB;
-import ru.samsung.case2022.retrofit.models.Bool;
-import ru.samsung.case2022.retrofit.models.User;
+import ru.samsung.case2022.retrofit.models.ServerString;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -46,14 +44,14 @@ public class RegisterActivity extends AppCompatActivity {
             if (login.equals("") || pass.equals("") || name.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {
-                (new ServerDB(RegisterActivity.this)).checkRegister(name, login, pass).enqueue(new Callback<Bool>() {
+                (new ServerDB(RegisterActivity.this)).checkRegister(name, login, pass).enqueue(new Callback<ServerString>() {
                     @Override
-                    public void onResponse(Call<Bool> call, Response<Bool> response) {
-                        Log.d("onResponse", response.body().bool);
-                        boolean dataCorrect = Objects.equals(response.body().bool, "1");
+                    public void onResponse(Call<ServerString> call, Response<ServerString> response) {
+                        Log.d("onResponse", response.body().str);
+                        boolean dataCorrect = Objects.equals(response.body().str, "1");
                         if (dataCorrect) {
                             SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
-                            prefs.edit().putString("login", login).apply();
+                            prefs.edit().putString("login", login).putString("name", name).apply();
                             Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
                             startActivity(intent);
                             finish();
@@ -63,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Bool> call, Throwable t) {
+                    public void onFailure(Call<ServerString> call, Throwable t) {
 
                         ServerDB.showConnectionError(RegisterActivity.this);
                         System.out.println(t.toString());

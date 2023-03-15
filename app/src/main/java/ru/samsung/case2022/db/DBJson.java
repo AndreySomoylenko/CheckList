@@ -63,7 +63,7 @@ public class DBJson {
             }
         }
         save();
-        sync();
+        //sync();
         return true;
     }
 
@@ -78,7 +78,7 @@ public class DBJson {
         else {
             BuysManager.buys.remove(index);
             save();
-            sync();
+            //sync();
             return true;
         }
     }
@@ -119,7 +119,7 @@ public class DBJson {
         new Thread() {
             public void run() {
                 try {
-                    (new ServerDB(context)).sync((new Gson()).toJson(BuysManager.buys)).execute();
+                    (new ServerDB(context)).sync(BuysManager.buys).execute();
                 } catch (IOException ignored) {}
             }
         }.start();

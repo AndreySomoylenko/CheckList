@@ -322,7 +322,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                             new Thread() {
                                 public void run() {
                                     try {
-                                        serverDB.sync((new Gson()).toJson(BuysManager.buys)).execute();
+                                        serverDB.sync(BuysManager.buys).execute();
                                     } catch (IOException ignored) {
                                     }
                                 }

@@ -4,14 +4,12 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import ru.samsung.case2022.retrofit.models.Bool;
-import ru.samsung.case2022.retrofit.models.User;
+import ru.samsung.case2022.retrofit.models.ServerString;
 
 
 /**
@@ -51,7 +49,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("check_login.php")
-    Call<Bool> check_login(@Field("login") String login, @Field("password") String password);
+    Call<ServerString> check_login(@Field("login") String login, @Field("password") String password);
 
     /**
      * This POST-request method is used to check if login on server exists
@@ -60,6 +58,9 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("check_register.php")
-    Call<Bool> check_register(@Field("name") String name, @Field("login") String login, @Field("password") String pass);
+    Call<ServerString> check_register(@Field("name") String name, @Field("login") String login, @Field("password") String pass);
+
+    @GET("get_name.php")
+    Call<ServerString> get_name(@Query("login") String login);
 
 }

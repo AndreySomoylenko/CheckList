@@ -3,16 +3,14 @@ package ru.samsung.case2022.db;
 import android.content.Context;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import ru.samsung.case2022.retrofit.RetrofitClient;
-import ru.samsung.case2022.retrofit.models.Bool;
-import ru.samsung.case2022.retrofit.models.User;
+import ru.samsung.case2022.retrofit.models.ServerString;
 
 
 /**
@@ -65,8 +63,8 @@ public class ServerDB {
      * @return Call with simple retrofit response
      */
 
-    public Call<ResponseBody> sync(String buys) {
-        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys);
+    public Call<ResponseBody> sync(List<String> buys) {
+        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), new Gson().toJson(buys));
     }
 
     /**
@@ -75,7 +73,7 @@ public class ServerDB {
      * @param password is the user password
      * @return Call with Bool
      */
-    public Call<Bool> checkLogin(String login, String password) {
+    public Call<ServerString> checkLogin(String login, String password) {
         return RetrofitClient.getInstance().getApi().check_login(login, password);
     }
 
@@ -84,8 +82,12 @@ public class ServerDB {
      * @param lg is the user login
      * @return Call with Bool
      */
-    public Call<Bool> checkRegister(String lg, String nm, String pass) {
+    public Call<ServerString> checkRegister(String lg, String nm, String pass) {
         return RetrofitClient.getInstance().getApi().check_register(lg, nm, pass);
+    }
+
+    public Call<ServerString> getName(String lg) {
+        return RetrofitClient.getInstance().getApi().get_name(lg);
     }
 
 

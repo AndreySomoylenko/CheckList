@@ -2,8 +2,8 @@ package ru.samsung.case2022.retrofit.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Bool {
+public class ServerString {
 
-    @SerializedName("bool")
-    public String bool;
+    @SerializedName("str")
+    public String str;
 }
