@@ -26,7 +26,7 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="you_logged_out">Вы вышли из аккаунта</string>
-    <string name="no_connection">Нет подключения к интернету</string>
+    <string name="no_connection">Нет подключения к серверу</string>
     <string name="camera_not_recog">Камера не обнаружена</string>
     <string name="enter_data">Введите данные</string>
     <string name="name_len_limit">Длина имени от 4 до 16 символов</string>

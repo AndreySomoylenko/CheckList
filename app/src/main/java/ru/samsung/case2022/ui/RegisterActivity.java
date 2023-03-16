@@ -56,13 +56,13 @@ public class RegisterActivity extends AppCompatActivity {
             if (login.equals("") || pass.equals("") || name.equals("")) {
                 Toast.makeText(this, getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
             }
-            else if (name.length() >= 4 && name.length() < 16) {
+            else if (!(name.length() >= 4 && name.length() < 16)) {
                 Toast.makeText(this, getString(R.string.name_len_limit), Toast.LENGTH_SHORT).show();
             }
-            else if (login.length() >= 4 && login.length() < 25) {
+            else if (!(login.length() >= 4 && login.length() < 25)) {
                 Toast.makeText(this, getString(R.string.login_len_limit), Toast.LENGTH_SHORT).show();
             }
-            else if (pass.length() >= 5 && pass.length() < 30) {
+            else if (!(pass.length() >= 5 && pass.length() < 30)) {
                 Toast.makeText(this, getString(R.string.pass_len_limit), Toast.LENGTH_SHORT).show();
             }
             else {

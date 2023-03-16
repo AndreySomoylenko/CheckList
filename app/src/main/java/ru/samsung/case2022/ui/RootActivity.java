@@ -66,7 +66,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     public static ActionBar bar;
 
 
-    static ScheduledExecutorService executorService;
 
     /**
      * Button which open AddActivity to add element to list
@@ -265,14 +264,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     appDao.setLogin("");
                     Toast.makeText(this, getString(R.string.you_logged_out), Toast.LENGTH_SHORT).show();
-                    executorService.shutdown();
-                    try {
-                        if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-                            executorService.shutdownNow();
-                        }
-                    } catch (InterruptedException e) {
-                        executorService.shutdownNow();
-                    }
                     Intent restart = getIntent();
                     finish();
                     startActivity(restart);
@@ -304,44 +295,50 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         db.init();
         String login = appDao.getLogin();
         if (login != "") {
-            RootActivity.executorService
+            ScheduledExecutorService executorService
                     = Executors.newSingleThreadScheduledExecutor();
-            RootActivity.executorService.scheduleWithFixedDelay(() -> {
+            executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
-                serverDB.getList().enqueue(new Callback<List<String>>() {
-                    @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                        Log.d("TICK LIST", response.body().toString());
-                        BuysManager.buys = response.body();
-                        RootActivity.adapter.refresh(BuysManager.buys);
-                        RootActivity.recycler.setAdapter(adapter);
-                        ServerDB.hasConnection = true;
-                        try {
-                            RootActivity.bar.setSubtitle("");
-                            AddActivity.bar.setSubtitle("");
-                            BagActivity.bar.setSubtitle("");
-                            CameraActivity.bar.setSubtitle("");
-                            EditActivity.bar.setSubtitle("");
-                            LoginActivity.bar.setSubtitle("");
-                            RegisterActivity.bar.setSubtitle("");
-                        } catch (Exception ignored) {}
-                    }
+                if (!appDao.getLogin().equals("")) {
+                    serverDB.getList().enqueue(new Callback<List<String>>() {
+                        @Override
+                        public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                            Log.d("TICK LIST", response.body().toString());
+                            BuysManager.buys = response.body();
+                            RootActivity.adapter.refresh(BuysManager.buys);
+                            RootActivity.recycler.setAdapter(adapter);
+                            ServerDB.hasConnection = true;
+                            try {
+                                RootActivity.bar.setSubtitle("");
+                                AddActivity.bar.setSubtitle("");
+                                BagActivity.bar.setSubtitle("");
+                                CameraActivity.bar.setSubtitle("");
+                                EditActivity.bar.setSubtitle("");
+                                LoginActivity.bar.setSubtitle("");
+                                RegisterActivity.bar.setSubtitle("");
+                            } catch (Exception ignored) {
+                            }
+                        }
 
-                    @Override
-                    public void onFailure(Call<List<String>> call, Throwable t) {
-                        ServerDB.hasConnection = false;
-                        try {
-                            String s = getString(R.string.no_connection);
-                            RootActivity.bar.setSubtitle(s);
-                            AddActivity.bar.setSubtitle(s);
-                            BagActivity.bar.setSubtitle(s);
-                            CameraActivity.bar.setSubtitle(s);
-                            EditActivity.bar.setSubtitle(s);
-                            LoginActivity.bar.setSubtitle(s);
-                            RegisterActivity.bar.setSubtitle(s);
-                        } catch (Exception ignored) {}
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<List<String>> call, Throwable t) {
+                            ServerDB.hasConnection = false;
+                            try {
+                                String s = getString(R.string.no_connection);
+                                RootActivity.bar.setSubtitle(s);
+                                AddActivity.bar.setSubtitle(s);
+                                BagActivity.bar.setSubtitle(s);
+                                CameraActivity.bar.setSubtitle(s);
+                                EditActivity.bar.setSubtitle(s);
+                                LoginActivity.bar.setSubtitle(s);
+                                RegisterActivity.bar.setSubtitle(s);
+                            } catch (Exception ignored) {
+                            }
+                        }
+                    });
+                } else {
+                    executorService.shutdown();
+                }
 
             }, 0, 3, TimeUnit.SECONDS);
         }
