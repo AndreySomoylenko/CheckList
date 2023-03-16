@@ -77,7 +77,7 @@ public class EditActivity extends AppCompatActivity {
         }
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 
@@ -89,7 +89,7 @@ public class EditActivity extends AppCompatActivity {
     public void updateText(View view) {
         s = String.valueOf(editText.getText()).strip();
         if (Objects.equals(s, "")) {
-            Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             BuysManager.buys.set(position, s);
             db.save();

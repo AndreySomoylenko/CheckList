@@ -105,7 +105,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 

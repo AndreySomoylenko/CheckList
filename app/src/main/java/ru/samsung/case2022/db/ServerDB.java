@@ -9,6 +9,7 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import ru.samsung.case2022.R;
 import ru.samsung.case2022.retrofit.RetrofitClient;
 import ru.samsung.case2022.retrofit.models.ServerString;
 
@@ -98,7 +99,7 @@ public class ServerDB {
      * @param context is co
      */
     public static void showConnectionError(Context context) {
-        Toast.makeText(context, "Ошибка запроса на сервер", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.error_serv_req, Toast.LENGTH_SHORT).show();
     }
 
 

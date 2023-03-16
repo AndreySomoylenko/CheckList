@@ -138,7 +138,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             bar.setTitle(appDao.getName());
         }
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 
@@ -163,7 +163,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 someActivityResultLauncher.launch(cameraIntent);
             }
         }catch (ActivityNotFoundException e){
-            Toast.makeText(this, "Камера не обнаружена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.camera_not_recog), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -275,16 +275,16 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
             case R.id.log_out:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("Выход");
-                alert.setMessage("Вы уверены что хотите выйти из аккаунта?");
-                alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                alert.setTitle(getString(R.string.exit));
+                alert.setMessage(getString(R.string.exit_sure));
+                alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     appDao.setLogin("");
-                    Toast.makeText(this, "Вы вышли из аккаунта", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.you_logged_out), Toast.LENGTH_SHORT).show();
                     Intent restart = getIntent();
                     finish();
                     startActivity(restart);
                 });
-                alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                alert.setNegativeButton(getString(R.string.no), (dialog, whichButton) -> {
                 });
                 alert.show();
                 return true;
@@ -338,13 +338,14 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     public void onFailure(Call<List<String>> call, Throwable t) {
                         ServerDB.hasConnection = false;
                         try {
-                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
-                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            String s = getString(R.string.no_connection);
+                            RootActivity.bar.setSubtitle(s);
+                            AddActivity.bar.setSubtitle(s);
+                            BagActivity.bar.setSubtitle(s);
+                            CameraActivity.bar.setSubtitle(s);
+                            EditActivity.bar.setSubtitle(s);
+                            LoginActivity.bar.setSubtitle(s);
+                            RegisterActivity.bar.setSubtitle(s);
                         } catch (Exception ignored) {}
                     }
                 });

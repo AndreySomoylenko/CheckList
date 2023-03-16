@@ -67,7 +67,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         Money sum = BuysManager.sum;
         String rubles = String.valueOf(sum.getRubles());
         String cents = String.valueOf(sum.getCents());
-        suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
+        suma.setText(getString(R.string.total) + rubles + getString(R.string.rub) + " " + getString(R.string.kop) + "коп");
         back = findViewById(R.id.back_bag);
         back.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
@@ -79,7 +79,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         }
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 
@@ -91,8 +91,8 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
     @Override
     public void OnNoteClick(int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Удалить");
-        alert.setMessage("Вы хотите удалить этот элемент из корзины?");
+        alert.setTitle(getString(R.string.delete));
+        alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             if (BuysManager.prices.get(BuysManager.bag.get(position)) != null) {
                 Money price = BuysManager.prices.get(BuysManager.bag.get(position));
@@ -135,15 +135,15 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         switch (item.getItemId()) {
             case R.id.removeAll:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("Удалить");
-                alert.setMessage("Вы хотите очистить корзину?");
-                alert.setPositiveButton("Да", (dialog, whichButton) -> {
+                alert.setTitle(getString(R.string.delete));
+                alert.setMessage(getString(R.string.clear_bag_sure));
+                alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     (new DBJson(this)).clearBag();
                     BuysManager.sum.makeZero();
-                    suma.setText("ИТОГО: " + "0" + "руб " + "0" + "коп");
+                    suma.setText(getString(R.string.total_0_rub_0_kop));
                     recyclerView.getAdapter().notifyDataSetChanged();
                 });
-                alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+                alert.setNegativeButton(getString(R.string.no), (dialog, whichButton) -> {
                 });
                 alert.show();
                 return true;

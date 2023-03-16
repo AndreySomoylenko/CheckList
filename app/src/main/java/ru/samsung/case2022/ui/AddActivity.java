@@ -64,7 +64,7 @@ public class AddActivity extends AppCompatActivity {
         });
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 
@@ -76,7 +76,7 @@ public class AddActivity extends AppCompatActivity {
     public void updateText(View view) {
         s = String.valueOf(editText.getText()).strip();
         if (Objects.equals(s, "")) {
-            Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Easy_shop</string>
+    <string name="app_name">Easy shop</string>
     <string name="input_new_element">Добавление нового элемента:</string>
     <string name="add">Добавить</string>
     <string name="input_text">Введите текст</string>
@@ -21,7 +21,25 @@
     <string name="already_have_an_account">Уже есть аккаунт?</string>
     <string name="item_title">Item Title</string>
     <string name="price">Price</string>
-    <string name="enter">Войти</string>
-
-
+    <string name="exit">Выход</string>
+    <string name="exit_sure">Вы уверены что хотите выйти из аккаунта?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="you_logged_out">Вы вышли из аккаунта</string>
+    <string name="no_connection">Нет подключения к интернету</string>
+    <string name="camera_not_recog">Камера не обнаружена</string>
+    <string name="enter_data">Введите данные</string>
+    <string name="name_len_limit">Длина имени от 4 до 16 символов</string>
+    <string name="login_len_limit">Длина логина от 4 до 25 символов</string>
+    <string name="pass_len_limit">Длина пароля от 5 до 30 символов</string>
+    <string name="account_exists">Аккаунт существует</string>
+    <string name="wrong_data">Неправильные данные</string>
+    <string name="error_get_list">Ошибка получения списка покупок</string>
+    <string name="empty_input">Пустой ввод</string>
+    <string name="delete_sure">Вы хотите удалить этот элемент из корзины?</string>
+    <string name="clear_bag_sure">Вы хотите очистить корзину?</string>
+    <string name="total">Итого</string>
+    <string name="rub">руб</string>
+    <string name="kop">коп</string>
+    <string name="error_serv_req">Ошибка запроса на сервер</string>
 </resources>

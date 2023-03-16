@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             String login = ((EditText)findViewById(R.id.loginInputLog)).getText().toString().strip();
             String pass = ((EditText)findViewById(R.id.passInputLog)).getText().toString().strip();
             if (login.equals("") || pass.equals("")) {
-                Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
             } else {
                 ServerDB serverDB = new ServerDB(LoginActivity.this);
                 serverDB.checkLogin(login, pass).enqueue(new Callback<ServerString>() {
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onFailure(Call<List<String>> call, Throwable t) {
-                                            ServerDB.showConnectionError(LoginActivity.this, "Ошибка получения списка покупок");
+                                            ServerDB.showConnectionError(LoginActivity.this, getString(R.string.error_get_list));
                                         }
                                     });
                                 }
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(LoginActivity.this, "Неправильные данные", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.wrong_data), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 }

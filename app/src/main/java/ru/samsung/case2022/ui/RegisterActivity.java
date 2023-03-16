@@ -54,16 +54,16 @@ public class RegisterActivity extends AppCompatActivity {
             String login = ((EditText)findViewById(R.id.loginInput)).getText().toString().strip();
             String pass = ((EditText)findViewById(R.id.passInput)).getText().toString().strip();
             if (login.equals("") || pass.equals("") || name.equals("")) {
-                Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
             }
             else if (name.length() >= 4 && name.length() < 16) {
-                Toast.makeText(this, "Длина имени от 4 до 16 символов", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.name_len_limit), Toast.LENGTH_SHORT).show();
             }
             else if (login.length() >= 4 && login.length() < 25) {
-                Toast.makeText(this, "Длина логина от 4 до 25 символов", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.login_len_limit), Toast.LENGTH_SHORT).show();
             }
             else if (pass.length() >= 5 && pass.length() < 30) {
-                Toast.makeText(this, "Длина пароля от 5 до 30 символов", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.pass_len_limit), Toast.LENGTH_SHORT).show();
             }
             else {
                 (new ServerDB(RegisterActivity.this)).checkRegister(name, login, pass).enqueue(new Callback<ServerString>() {
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Аккаунт существует", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, getString(R.string.account_exists), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(appDao.getName());
         }
         if (!ServerDB.hasConnection) {
-            bar.setSubtitle("Нет подключения к интернету");
+            bar.setSubtitle(getString(R.string.no_connection));
         }
     }
 }
