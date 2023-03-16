@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.loginBtn);
         FloatingActionButton back = findViewById(R.id.back_login);
         loginBtn.setOnClickListener(v -> {
-            String login = ((EditText)findViewById(R.id.loginInputLog)).getText().toString();
-            String pass = ((EditText)findViewById(R.id.passInputLog)).getText().toString();
+            String login = ((EditText)findViewById(R.id.loginInputLog)).getText().toString().strip();
+            String pass = ((EditText)findViewById(R.id.passInputLog)).getText().toString().strip();
             if (login.equals("") || pass.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {

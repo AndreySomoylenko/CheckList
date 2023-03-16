@@ -70,7 +70,7 @@ public class AddActivity extends AppCompatActivity {
      */
 
     public void updateText(View view) {
-        s = String.valueOf(editText.getText());
+        s = String.valueOf(editText.getText()).strip();
         if (Objects.equals(s, "")) {
             Toast.makeText(this, "Пустой ввод!", Toast.LENGTH_SHORT).show();
         } else {
