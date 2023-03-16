@@ -304,10 +304,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         @Override
                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                             Log.d("TICK LIST", response.body().toString());
-                            BuysManager.buys = response.body();
-                            RootActivity.adapter.refresh(BuysManager.buys);
-                            RootActivity.recycler.setAdapter(adapter);
-                            ServerDB.hasConnection = true;
                             try {
                                 RootActivity.bar.setSubtitle("");
                                 AddActivity.bar.setSubtitle("");
@@ -316,7 +312,24 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                 EditActivity.bar.setSubtitle("");
                                 LoginActivity.bar.setSubtitle("");
                                 RegisterActivity.bar.setSubtitle("");
-                            } catch (Exception ignored) {
+                            } catch (Exception ignored) {}
+                            if (!ServerDB.hasConnection) {
+                                serverDB.sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        ServerDB.hasConnection = true;
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        ServerDB.hasConnection = true;
+                                    }
+                                });
+                            } else {
+                                BuysManager.buys = response.body();
+                                db.save();
+                                RootActivity.adapter.refresh(BuysManager.buys);
+                                RootActivity.recycler.setAdapter(adapter);
                             }
                         }
 
