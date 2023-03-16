@@ -84,9 +84,15 @@ public class AppDao {
      * This method is used to get user login from Shared Preferences
      * @return login if exists else empty string
      */
+
+    /**
+     * This method is used to get login from SharedPreferences
+     * @return String (user login)
+     */
     public String getLogin() {
         return spref.getString("login", "");
     }
+
 
     public String getName() { return spref.getString("name", ""); }
     public void setLogin(String login) {
