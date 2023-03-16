@@ -70,34 +70,34 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
 
         viewHolder.getTextView().setText(localDataSet.get(position));
         switch (localDataSet.get(position)) {
-            case "biscuits":
+            case "Печенье сладкое с маком":
                 viewHolder.getPhoto().setImageResource(R.drawable.biscuits);
                 break;
-            case "broccoli":
+            case "Капуста брокколи":
                 viewHolder.getPhoto().setImageResource(R.drawable.broccoli);
                 break;
-            case "cheese":
+            case "Сыр полутвёрдый":
                 viewHolder.getPhoto().setImageResource(R.drawable.cheese);
                 break;
-            case "coffee":
+            case "Кофе растворимый с добавлением молотого":
                 viewHolder.getPhoto().setImageResource(R.drawable.coffee);
                 break;
-            case "curd":
+            case "Творог мягкий 2%":
                 viewHolder.getPhoto().setImageResource(R.drawable.curd);
                 break;
-            case "dough":
+            case "Тесто замороженное дрожжевое":
                 viewHolder.getPhoto().setImageResource(R.drawable.dough);
                 break;
-            case "milk":
+            case "Молоко 3,2% пастеризованное":
                 viewHolder.getPhoto().setImageResource(R.drawable.milk);
                 break;
-            case "pancakes":
+            case "Блинчики с мясом":
                 viewHolder.getPhoto().setImageResource(R.drawable.pancakes);
                 break;
-            case "sourcream":
+            case "Сметана из топлёных сливок 15%":
                 viewHolder.getPhoto().setImageResource(R.drawable.sourcream);
                 break;
-            case "tea":
+            case "Чай чёрный листовой":
                 viewHolder.getPhoto().setImageResource(R.drawable.tea);
                 break;
             default:
