@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.ServerDB;
 
 /**
@@ -78,6 +80,16 @@ public class AddActivity extends AppCompatActivity {
         } else {
             db.add(s);
 
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            new ServerDB(AddActivity.this).sync(BuysManager.buys).execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

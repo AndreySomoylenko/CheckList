@@ -311,177 +311,45 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         db.init();
         String login = appDao.getLogin();
         if (login != "") {
-
-            serverDB.getList().enqueue(new Callback<List<String>>() {
-                @Override
-                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                    Log.d("local list", BuysManager.buys.toString());
-                    Log.d("serv list", response.body().toString());
-                    if (!BuysManager.buys.equals(response.body())) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
-                        alert.setTitle("Обновить данные");
-                        alert.setMessage("Данные с сервера не совпадают с данными в приложении. Загрузить данные с сервера?");
-                        alert.setPositiveButton("Да", (dialog, whichButton) -> {
-                            BuysManager.buys = response.body();
-                            db.save();
-                            adapter.refresh(BuysManager.buys);
-                            recycler.setAdapter(adapter);
-                            ScheduledExecutorService executorService
-                                    = Executors.newSingleThreadScheduledExecutor();
-                            executorService.scheduleWithFixedDelay(() -> {
-                                Log.d("Philipp", "Ismail");
-                                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        ServerDB.hasConnection = true;
-                                        try {
-                                            RootActivity.bar.setSubtitle("");
-                                            AddActivity.bar.setSubtitle("");
-                                            BagActivity.bar.setSubtitle("");
-                                            CameraActivity.bar.setSubtitle("");
-                                            EditActivity.bar.setSubtitle("");
-                                            LoginActivity.bar.setSubtitle("");
-                                            RegisterActivity.bar.setSubtitle("");
-                                        } catch (Exception ignored) {}
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        ServerDB.hasConnection = false;
-                                        try {
-                                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        } catch (Exception ignored) {}
-                                    }
-                                });
-
-                            }, 0, 3, TimeUnit.SECONDS);
-                        });
-                        alert.setNegativeButton("Нет", (dialog, whichButton) -> {
-                            ScheduledExecutorService executorService
-                                    = Executors.newSingleThreadScheduledExecutor();
-                            executorService.scheduleWithFixedDelay(() -> {
-                                Log.d("Philipp", "Ismail");
-                                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        ServerDB.hasConnection = true;
-                                        try {
-                                            RootActivity.bar.setSubtitle("");
-                                            AddActivity.bar.setSubtitle("");
-                                            BagActivity.bar.setSubtitle("");
-                                            CameraActivity.bar.setSubtitle("");
-                                            EditActivity.bar.setSubtitle("");
-                                            LoginActivity.bar.setSubtitle("");
-                                            RegisterActivity.bar.setSubtitle("");
-                                        } catch (Exception ignored) {}
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        ServerDB.hasConnection = false;
-                                        try {
-                                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        } catch (Exception ignored) {}
-                                    }
-                                });
-
-                            }, 0, 3, TimeUnit.SECONDS);
-
-                        });
-                        alert.show();
-                    } else {
-                        ScheduledExecutorService executorService
-                                = Executors.newSingleThreadScheduledExecutor();
-                        executorService.scheduleWithFixedDelay(() -> {
-                            Log.d("Philipp", "Ismail");
-                            (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    ServerDB.hasConnection = true;
-                                    try {
-                                        RootActivity.bar.setSubtitle("");
-                                        AddActivity.bar.setSubtitle("");
-                                        BagActivity.bar.setSubtitle("");
-                                        CameraActivity.bar.setSubtitle("");
-                                        EditActivity.bar.setSubtitle("");
-                                        LoginActivity.bar.setSubtitle("");
-                                        RegisterActivity.bar.setSubtitle("");
-                                    } catch (Exception ignored) {}
-                                }
-
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    ServerDB.hasConnection = false;
-                                    try {
-                                        RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        AddActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        BagActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        EditActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                        RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    } catch (Exception ignored) {}
-                                }
-                            });
-
-                        }, 0, 3, TimeUnit.SECONDS);
+            ScheduledExecutorService executorService
+                    = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleWithFixedDelay(() -> {
+                Log.d("Philipp", "Ismail");
+                serverDB.getList().enqueue(new Callback<List<String>>() {
+                    @Override
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        Log.d("TICK LIST", response.body().toString());
+                        BuysManager.buys = response.body();
+                        adapter.refresh(BuysManager.buys);
+                        recycler.setAdapter(adapter);
+                        ServerDB.hasConnection = true;
+                        try {
+                            RootActivity.bar.setSubtitle("");
+                            AddActivity.bar.setSubtitle("");
+                            BagActivity.bar.setSubtitle("");
+                            CameraActivity.bar.setSubtitle("");
+                            EditActivity.bar.setSubtitle("");
+                            LoginActivity.bar.setSubtitle("");
+                            RegisterActivity.bar.setSubtitle("");
+                        } catch (Exception ignored) {}
                     }
-                    ServerDB.hasConnection = true;
-                }
 
-                @Override
-                public void onFailure(Call<List<String>> call, Throwable t) {
-                    bar.setSubtitle("Нет подключения к интернету");
-                    ServerDB.hasConnection = false;
-                    ScheduledExecutorService executorService
-                            = Executors.newSingleThreadScheduledExecutor();
-                    executorService.scheduleWithFixedDelay(() -> {
-                        Log.d("Philipp", "Ismail");
-                        (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                ServerDB.hasConnection = true;
-                                try {
-                                    RootActivity.bar.setSubtitle("");
-                                    AddActivity.bar.setSubtitle("");
-                                    BagActivity.bar.setSubtitle("");
-                                    CameraActivity.bar.setSubtitle("");
-                                    EditActivity.bar.setSubtitle("");
-                                    LoginActivity.bar.setSubtitle("");
-                                    RegisterActivity.bar.setSubtitle("");
-                                } catch (Exception ignored) {}
-                            }
+                    @Override
+                    public void onFailure(Call<List<String>> call, Throwable t) {
+                        ServerDB.hasConnection = false;
+                        try {
+                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
+                        } catch (Exception ignored) {}
+                    }
+                });
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                ServerDB.hasConnection = false;
-                                try {
-                                    RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    AddActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    BagActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    EditActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                    RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
-                                } catch (Exception ignored) {}
-                            }
-                        });
-
-                    }, 0, 3, TimeUnit.SECONDS);
-                }
-            });
+            }, 0, 3, TimeUnit.SECONDS);
         }
     }
 

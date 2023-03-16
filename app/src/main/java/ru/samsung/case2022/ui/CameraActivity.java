@@ -86,6 +86,16 @@ public class CameraActivity extends AppCompatActivity {
             String s = recognize();
             db.removeByName(s);
 
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            new ServerDB(CameraActivity.this).sync(BuysManager.buys).execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
