@@ -65,6 +65,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     public static ActionBar bar;
 
+
+    ScheduledExecutorService executorService;
+
     /**
      * Button which open AddActivity to add element to list
      */
@@ -254,25 +257,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
                 return true;
 
-            case R.id.download:
-                serverDB.getList().enqueue(new Callback<List<String>>() {
-                    @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                        Log.d("get_list", response.body().toString());
-                        BuysManager.buys = response.body();
-                        db.save();
-                        Log.d("get", "list");
-                        adapter.refresh(BuysManager.buys);
-                        recycler.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<String>> call, Throwable t) {
-
-                    }
-                });
-                return true;
-
             case R.id.log_out:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle(getString(R.string.exit));
@@ -280,6 +264,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     appDao.setLogin("");
                     Toast.makeText(this, getString(R.string.you_logged_out), Toast.LENGTH_SHORT).show();
+                    executorService.shutdown();
                     Intent restart = getIntent();
                     finish();
                     startActivity(restart);
@@ -311,7 +296,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         db.init();
         String login = appDao.getLogin();
         if (login != "") {
-            ScheduledExecutorService executorService
+            executorService
                     = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
