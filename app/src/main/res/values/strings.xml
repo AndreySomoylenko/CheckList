@@ -10,6 +10,7 @@
     <string name="scan">Сканировать</string>
     <string name="delete">Удалить</string>
     <string name="log_in"><u>Войти</u></string>
+    <string name="log_in1">Войти</string>
     <string name="total_0_rub_0_kop">Итого: 0руб. 0коп.</string>
     <string name="input_login">Введите логин</string>
     <string name="login">Логин</string>

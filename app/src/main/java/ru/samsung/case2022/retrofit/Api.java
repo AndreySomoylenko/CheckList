@@ -20,7 +20,7 @@ import ru.samsung.case2022.retrofit.models.ServerString;
 
 public interface Api {
     // Variable that contains server base url
-    String BASE_URL = "https://3dd6-79-139-207-142.eu.ngrok.io";
+    String BASE_URL = "https://easyshop.pihta24.ru";
 
     /**
      * This GET-request method is used to get list of buys from server by user login
