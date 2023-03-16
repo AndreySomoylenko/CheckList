@@ -26,6 +26,7 @@ import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.retrofit.models.ServerString;
+import ru.samsung.case2022.services.SyncService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,12 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                             serverDB.getName(login).enqueue(new Callback<ServerString>() {
                                 @Override
                                 public void onResponse(Call<ServerString> call, Response<ServerString> response) {
-                                    prefs.edit().putString("login", login).putString("name", response.body().str).apply();
+                                    appDao.setLogin(login);
+                                    appDao.setName(response.body().str);
                                     serverDB.getList().enqueue(new Callback<List<String>>() {
                                         @Override
                                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                                             Log.d("LOGIN LIST", response.body().toString());
                                             BuysManager.buys = response.body();
+                                            startService(new Intent(LoginActivity.this, SyncService.class));
                                             (new DBJson(getApplicationContext())).save();
                                             Intent intent = new Intent(LoginActivity.this, RootActivity.class);
                                             startActivity(intent);
