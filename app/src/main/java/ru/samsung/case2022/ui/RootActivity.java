@@ -66,7 +66,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     public static ActionBar bar;
 
 
-    ScheduledExecutorService executorService;
+    static ScheduledExecutorService executorService;
 
     /**
      * Button which open AddActivity to add element to list
@@ -79,8 +79,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
      * Recyclerview which shows list of products
      */
 
-    CustomAdapter adapter;
-    RecyclerView recycler;
+    static CustomAdapter adapter;
+    static RecyclerView recycler;
 
     /**
      * Path for imageFile
@@ -212,6 +212,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
+        Start();
     }
 
     /**
@@ -265,6 +266,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     appDao.setLogin("");
                     Toast.makeText(this, getString(R.string.you_logged_out), Toast.LENGTH_SHORT).show();
                     executorService.shutdown();
+                    try {
+                        if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                            executorService.shutdownNow();
+                        }
+                    } catch (InterruptedException e) {
+                        executorService.shutdownNow();
+                    }
                     Intent restart = getIntent();
                     finish();
                     startActivity(restart);
@@ -296,17 +304,17 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         db.init();
         String login = appDao.getLogin();
         if (login != "") {
-            executorService
+            RootActivity.executorService
                     = Executors.newSingleThreadScheduledExecutor();
-            executorService.scheduleWithFixedDelay(() -> {
+            RootActivity.executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
                 serverDB.getList().enqueue(new Callback<List<String>>() {
                     @Override
                     public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                         Log.d("TICK LIST", response.body().toString());
                         BuysManager.buys = response.body();
-                        adapter.refresh(BuysManager.buys);
-                        recycler.setAdapter(adapter);
+                        RootActivity.adapter.refresh(BuysManager.buys);
+                        RootActivity.recycler.setAdapter(adapter);
                         ServerDB.hasConnection = true;
                         try {
                             RootActivity.bar.setSubtitle("");
