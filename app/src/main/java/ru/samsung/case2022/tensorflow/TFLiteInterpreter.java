@@ -28,7 +28,7 @@ public class TFLiteInterpreter {
     /**
      * List of products for model
      */
-    String[] products = {"biscuits", "broccoli", "cheese", "coffee", "curd", "dough", "milk", "pancakes", "sourcream", "tea"};
+    String[] products = {"Печенье сладкое с маком", "Капуста брокколи", "Сыр полутвёрдый", "Кофе растворимый с добавлением молотого", "Творог мягкий 2%", "Тесто замороженное дрожжевое", "Молоко 3,2% пастеризованное", "Блинчики с мясом", "Сметана из топлёных сливок 15%", "Чай чёрный листовой"};
 
     /**
      * Constructor of class
