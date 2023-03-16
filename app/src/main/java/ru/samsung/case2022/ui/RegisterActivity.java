@@ -17,14 +17,18 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.retrofit.models.ServerString;
-import ru.samsung.case2022.services.SyncService;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -69,7 +73,41 @@ public class RegisterActivity extends AppCompatActivity {
                             SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
                             appDao.setLogin(login);
                             appDao.setName(name);
-                            startService(new Intent(RegisterActivity.this, SyncService.class));
+                            ScheduledExecutorService executorService
+                                    = Executors.newSingleThreadScheduledExecutor();
+                            executorService.scheduleWithFixedDelay(() -> {
+                                Log.d("Philipp", "Ismail");
+                                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        ServerDB.hasConnection = true;
+                                        try {
+                                            RootActivity.bar.setSubtitle("");
+                                            AddActivity.bar.setSubtitle("");
+                                            BagActivity.bar.setSubtitle("");
+                                            CameraActivity.bar.setSubtitle("");
+                                            EditActivity.bar.setSubtitle("");
+                                            LoginActivity.bar.setSubtitle("");
+                                            RegisterActivity.bar.setSubtitle("");
+                                        } catch (Exception ignored) {}
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        ServerDB.hasConnection = false;
+                                        try {
+                                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                        } catch (Exception ignored) {}
+                                    }
+                                });
+
+                            }, 0, 1, TimeUnit.SECONDS);
                             Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
                             startActivity(intent);
                             finish();

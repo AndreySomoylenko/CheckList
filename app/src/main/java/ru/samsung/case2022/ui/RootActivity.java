@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -28,7 +27,6 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +34,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +48,6 @@ import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
-import ru.samsung.case2022.services.SyncService;
 
 /**
  * The RootActivity
@@ -347,13 +348,46 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     ServerDB.hasConnection = false;
                 }
             });
-            startService(new Intent(this, SyncService.class));
+            ScheduledExecutorService executorService
+                    = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleWithFixedDelay(() -> {
+                Log.d("Philipp", "Ismail");
+                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        ServerDB.hasConnection = true;
+                        try {
+                            RootActivity.bar.setSubtitle("");
+                            AddActivity.bar.setSubtitle("");
+                            BagActivity.bar.setSubtitle("");
+                            CameraActivity.bar.setSubtitle("");
+                            EditActivity.bar.setSubtitle("");
+                            LoginActivity.bar.setSubtitle("");
+                            RegisterActivity.bar.setSubtitle("");
+                        } catch (Exception ignored) {}
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        ServerDB.hasConnection = false;
+                        try {
+                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
+                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
+                        } catch (Exception ignored) {}
+                    }
+                });
+
+            }, 0, 1, TimeUnit.SECONDS);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, SyncService.class));
     }
 }

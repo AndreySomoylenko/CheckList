@@ -17,7 +17,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +30,6 @@ import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.retrofit.models.ServerString;
-import ru.samsung.case2022.services.SyncService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,7 +69,41 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                                             Log.d("LOGIN LIST", response.body().toString());
                                             BuysManager.buys = response.body();
-                                            startService(new Intent(LoginActivity.this, SyncService.class));
+                                            ScheduledExecutorService executorService
+                                                    = Executors.newSingleThreadScheduledExecutor();
+                                            executorService.scheduleWithFixedDelay(() -> {
+                                                Log.d("Philipp", "Ismail");
+                                                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                        ServerDB.hasConnection = true;
+                                                        try {
+                                                            RootActivity.bar.setSubtitle("");
+                                                            AddActivity.bar.setSubtitle("");
+                                                            BagActivity.bar.setSubtitle("");
+                                                            CameraActivity.bar.setSubtitle("");
+                                                            EditActivity.bar.setSubtitle("");
+                                                            LoginActivity.bar.setSubtitle("");
+                                                            RegisterActivity.bar.setSubtitle("");
+                                                        } catch (Exception ignored) {}
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                        ServerDB.hasConnection = false;
+                                                        try {
+                                                            RootActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            AddActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            BagActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            CameraActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            EditActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            LoginActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                            RegisterActivity.bar.setSubtitle("Нeт подключения к интернету");
+                                                        } catch (Exception ignored) {}
+                                                    }
+                                                });
+
+                                            }, 0, 1, TimeUnit.SECONDS);
                                             (new DBJson(getApplicationContext())).save();
                                             Intent intent = new Intent(LoginActivity.this, RootActivity.class);
                                             startActivity(intent);
