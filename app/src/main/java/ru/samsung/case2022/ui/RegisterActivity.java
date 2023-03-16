@@ -43,9 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         TextView hasAccount = findViewById(R.id.hasAccount);
         FloatingActionButton back = findViewById(R.id.back_register);
         loginBtn.setOnClickListener(v -> {
-            String name = ((EditText)findViewById(R.id.nameInput)).getText().toString();
-            String login = ((EditText)findViewById(R.id.loginInput)).getText().toString();
-            String pass = ((EditText)findViewById(R.id.passInput)).getText().toString();
+            String name = ((EditText)findViewById(R.id.nameInput)).getText().toString().strip();
+            String login = ((EditText)findViewById(R.id.loginInput)).getText().toString().strip();
+            String pass = ((EditText)findViewById(R.id.passInput)).getText().toString().strip();
             if (login.equals("") || pass.equals("") || name.equals("")) {
                 Toast.makeText(this,"Введите данные", Toast.LENGTH_SHORT).show();
             } else {
