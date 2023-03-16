@@ -3,6 +3,7 @@ package ru.samsung.case2022.ui;
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -45,6 +46,8 @@ public class EditActivity extends AppCompatActivity {
      */
     String s;
 
+    public static ActionBar bar;
+
 
     /**
      * Position of element, which we clicked on
@@ -69,6 +72,13 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
         });
+        if (appDao.getLogin() != "") {
+            getSupportActionBar().setTitle(appDao.getName());
+        }
+        bar = getSupportActionBar();
+        if (!ServerDB.hasConnection) {
+            bar.setSubtitle("Нет подключения к интернету");
+        }
     }
 
     /**
@@ -83,21 +93,7 @@ public class EditActivity extends AppCompatActivity {
         } else {
             BuysManager.buys.set(position, s);
             db.save();
-            if (appDao.getLogin() != "") {
-                (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        RootActivity.bar.setSubtitle("");
-                        ServerDB.hasConnection = true;
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                        ServerDB.hasConnection = false;
-                    }
-                });
-            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
@@ -113,36 +109,9 @@ public class EditActivity extends AppCompatActivity {
     public void deleteItem(View view) {
         db.removeByIndex(position);
 
-        if (appDao.getLogin() != "") {
-            (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    ServerDB.hasConnection = true;
-                    RootActivity.bar.setSubtitle("");
-                    //Log.d("suc", "hdsjsjhdshsd");
-                }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                    Log.d("suc", "hdsjsjhdshsd");
-                    ServerDB.hasConnection = false;
-                }
-            });
-        }
         Intent intent = new Intent(this, RootActivity.class);
         startActivity(intent);
-        (new ServerDB(getApplicationContext())).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                RootActivity.bar.setSubtitle("");
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-            }
-        });
         finish();
     }
 }

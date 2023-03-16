@@ -46,6 +46,7 @@ import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
+import ru.samsung.case2022.services.SyncService;
 
 /**
  * The RootActivity
@@ -135,6 +136,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         if (appDao.getLogin() != "") {
             bar.setTitle(appDao.getName());
         }
+        if (!ServerDB.hasConnection) {
+            bar.setSubtitle("Нет подключения к интернету");
+        }
     }
 
     /**
@@ -204,7 +208,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         super.onResume();
         adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
-        if (!ServerDB.hasConnection) bar.setSubtitle("Нет подключения к интернету");
     }
 
     /**
@@ -260,15 +263,11 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         Log.d("get", "list");
                         adapter.refresh(BuysManager.buys);
                         recycler.setAdapter(adapter);
-                        ServerDB.hasConnection = true;
-                        bar.setSubtitle("");
                     }
 
                     @Override
                     public void onFailure(Call<List<String>> call, Throwable t) {
-                        ServerDB.showConnectionError(RootActivity.this);
-                        ServerDB.hasConnection = false;
-                        bar.setSubtitle("Нет подключения к интернету");
+
                     }
                 });
                 return true;
@@ -348,6 +347,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     ServerDB.hasConnection = false;
                 }
             });
+            startService(new Intent(this, SyncService.class));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, SyncService.class));
     }
 }

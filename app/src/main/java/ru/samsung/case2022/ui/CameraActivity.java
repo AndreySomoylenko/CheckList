@@ -3,6 +3,7 @@ package ru.samsung.case2022.ui;
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -54,6 +55,8 @@ public class CameraActivity extends AppCompatActivity {
      */
     Bitmap bitmap;
 
+    public static ActionBar bar;
+
     /**
      * Start this activity
      * @param savedInstanceState
@@ -82,25 +85,18 @@ public class CameraActivity extends AppCompatActivity {
         recognize.setOnClickListener(v -> {
             String s = recognize();
             db.removeByName(s);
-            if (appDao.getLogin() != "") {
-                (new ServerDB(this)).sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        RootActivity.bar.setSubtitle("");
-                        ServerDB.hasConnection = true;
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        RootActivity.bar.setSubtitle("Нeт подключения к интернету");
-                        ServerDB.hasConnection = false;
-                    }
-                });
-            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
         });
+        if (appDao.getLogin() != "") {
+            getSupportActionBar().setTitle(appDao.getName());
+        }
+        bar = getSupportActionBar();
+        if (!ServerDB.hasConnection) {
+            bar.setSubtitle("Нет подключения к интернету");
+        }
     }
 
     /**

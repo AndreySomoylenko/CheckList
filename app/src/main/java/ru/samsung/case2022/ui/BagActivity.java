@@ -1,5 +1,7 @@
 package ru.samsung.case2022.ui;
 
+import static ru.samsung.case2022.ui.RootActivity.appDao;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +24,32 @@ import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.Money;
+import ru.samsung.case2022.db.ServerDB;
 
 public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteListener{
 
 
-
+    /**
+     * This is the recycler view which is used to show priducts in bag
+     */
     RecyclerView recyclerView;
 
+    /**
+     * This is the TextView to show sum of user's buys
+     */
     TextView suma;
 
+    /**
+     * This is button to return to home
+     */
     FloatingActionButton back;
 
+    /**
+     * This is adapter to manage recycler
+     */
     BagAdapter adapter;
+
+    public static ActionBar bar;
 
 
     /**
@@ -57,6 +74,13 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
             startActivity(intent);
             finish();
         });
+        if (appDao.getLogin() != "") {
+            getSupportActionBar().setTitle(appDao.getName());
+        }
+        bar = getSupportActionBar();
+        if (!ServerDB.hasConnection) {
+            bar.setSubtitle("Нет подключения к интернету");
+        }
     }
 
 
@@ -86,6 +110,12 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         });
         alert.show();
     }
+
+    /**
+     * This is function to create menu on AppBar
+     * @param menu
+     * @return
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

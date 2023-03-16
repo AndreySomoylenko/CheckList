@@ -1,5 +1,8 @@
 package ru.samsung.case2022.ui;
 
+import static ru.samsung.case2022.ui.RootActivity.appDao;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,6 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
      * This method calls on activity start
      * @param savedInstanceState
      */
+
+    public static ActionBar bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
             }
+            bar = getSupportActionBar();
         });
 
         hasAccount.setOnClickListener(v -> {
@@ -80,5 +86,11 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+        if (appDao.getLogin() != "") {
+            getSupportActionBar().setTitle(appDao.getName());
+        }
+        if (!ServerDB.hasConnection) {
+            bar.setSubtitle("Нет подключения к интернету");
+        }
     }
 }
