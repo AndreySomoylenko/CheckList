@@ -10,7 +10,7 @@
     <string name="scan">Сканировать</string>
     <string name="delete">Удалить</string>
     <string name="log_in"><u>Войти</u></string>
-    <string name="total_0_rub_0_kop">ИТОГО: 0руб. 0к.</string>
+    <string name="total_0_rub_0_kop">Итого: 0руб. 0коп.</string>
     <string name="input_login">Введите логин</string>
     <string name="login">Логин</string>
     <string name="keyword">Пароль</string>
@@ -38,8 +38,8 @@
     <string name="empty_input">Пустой ввод</string>
     <string name="delete_sure">Вы хотите удалить этот элемент из корзины?</string>
     <string name="clear_bag_sure">Вы хотите очистить корзину?</string>
-    <string name="total">Итого</string>
-    <string name="rub">руб</string>
-    <string name="kop">коп</string>
+    <string name="total">Итого:</string>
+    <string name="rub">руб.</string>
+    <string name="kop">коп.</string>
     <string name="error_serv_req">Ошибка запроса на сервер</string>
 </resources>

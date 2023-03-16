@@ -79,7 +79,6 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-
             if (appDao.getLogin() != "") {
                 new Thread() {
                     @Override

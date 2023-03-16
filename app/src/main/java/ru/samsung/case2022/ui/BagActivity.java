@@ -67,7 +67,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         Money sum = BuysManager.sum;
         String rubles = String.valueOf(sum.getRubles());
         String cents = String.valueOf(sum.getCents());
-        suma.setText(getString(R.string.total) + rubles + getString(R.string.rub) + " " + getString(R.string.kop) + "коп");
+        suma.setText(getString(R.string.total) + " " + rubles +  getString(R.string.rub) + " " + cents + getString(R.string.kop));
         back = findViewById(R.id.back_bag);
         back.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
