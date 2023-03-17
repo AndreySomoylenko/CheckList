@@ -83,8 +83,9 @@ public class CameraActivity extends AppCompatActivity {
         });
         //Set Listener for the recognize button
         recognize.setOnClickListener(v -> {
-            String s = recognize();
-            db.removeByName(s);
+            String[] s = recognize();
+            db.removeByName(s[0]);
+            db.removeByName(s[1]);
 
             if (appDao.getLogin() != "") {
                 new Thread() {
@@ -113,13 +114,17 @@ public class CameraActivity extends AppCompatActivity {
      * We use this method to recognize product from image
      * @return name of the product
      */
-    private String recognize() {
+    private String[] recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
-            bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+            bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
             bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
             float[] output = tf.runInference(bitmap);
-            return tf.getResult(output);
+            String[] a = new String[2];
+            a[0] = tf.getResult(output);
+            a[1] = tf.getResult2(output);
+            return a;
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

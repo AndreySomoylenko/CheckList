@@ -29,7 +29,7 @@ public class TFLiteInterpreter {
      * List of products for model
      */
 
-    String[] products = {"Печенье сладкое с маком", "Капуста брокколи", "Сыр полутвёрдый", "Кофе растворимый с добавлением молотого", "Творог мягкий 2%", "Тесто замороженное дрожжевое", "Молоко 3,2% пастеризованное", "Блинчики с мясом", "Сметана из топлёных сливок 15%", "Чай чёрный листовой"};
+    String[] products = {"Печенье сладкое с маком", "Капуста брокколи", "Сыр полутвердый", "Кофе растворимый с добавлением молотого", "Творог мягкий 2%", "Тесто замороженное дрожжевое", "Молоко 3,2% пастеризованное", "Блинчики с мясом", "Сметана из топленых сливок 15%", "Чай черный листовой", "biscuits", "broccoli", "cheese", "coffee", "curd", "dough", "milk", "pancakes", "sourcream", "tea"};
 
     /**
      * Constructor of class
@@ -93,5 +93,16 @@ public class TFLiteInterpreter {
             }
         }
         return products[index];
+    }
+    public String getResult2(float[] outputs) {
+        int index = -1;
+        float max = -1;
+        for (int i = 0; i < outputs.length; i++) {
+            if (outputs[i] > max) {
+                max = outputs[i];
+                index = i;
+            }
+        }
+        return products[index + 10];
     }
 }

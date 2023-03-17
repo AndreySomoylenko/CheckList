@@ -100,6 +100,35 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
             case "Чай чёрный листовой":
                 viewHolder.getPhoto().setImageResource(R.drawable.tea);
                 break;
+            case "biscuits":
+                viewHolder.getPhoto().setImageResource(R.drawable.biscuits);
+                break;
+            case "broccoli":
+                viewHolder.getPhoto().setImageResource(R.drawable.broccoli);
+                break;
+            case "cheese":
+                viewHolder.getPhoto().setImageResource(R.drawable.cheese);
+                break;
+            case "coffee":
+                viewHolder.getPhoto().setImageResource(R.drawable.coffee);
+                break;
+            case "curd":
+                viewHolder.getPhoto().setImageResource(R.drawable.curd);
+                break;
+            case "dough":
+                viewHolder.getPhoto().setImageResource(R.drawable.dough);
+                break;
+            case "milk":
+                viewHolder.getPhoto().setImageResource(R.drawable.milk);
+                break;
+            case "pancakes":
+                viewHolder.getPhoto().setImageResource(R.drawable.pancakes);
+                break;
+            case "sourcream":
+                viewHolder.getPhoto().setImageResource(R.drawable.sourcream);
+                break;
+            case "tea":
+                viewHolder.getPhoto().setImageResource(R.drawable.tea);
             default:
                 viewHolder.getPhoto().setImageResource(R.drawable.unknown_product);
                 break;
@@ -108,6 +137,10 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
         String cents;
         if (BuysManager.prices.get(localDataSet.get(position)) != null) {
             Money price = BuysManager.prices.get(localDataSet.get(position));
+            rubles = String.valueOf(price.getRubles());
+            cents = String.valueOf(price.getCents());
+        } else if (BuysManager.prices1.get(localDataSet.get(position)) != null) {
+            Money price = BuysManager.prices1.get(localDataSet.get(position));
             rubles = String.valueOf(price.getRubles());
             cents = String.valueOf(price.getCents());
         } else {

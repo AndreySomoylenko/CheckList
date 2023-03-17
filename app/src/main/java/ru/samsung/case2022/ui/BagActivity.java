@@ -97,6 +97,9 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
             if (BuysManager.prices.get(BuysManager.bag.get(position)) != null) {
                 Money price = BuysManager.prices.get(BuysManager.bag.get(position));
                 BuysManager.sum = BuysManager.sum.minus(price);
+            } else if (BuysManager.prices1.get(BuysManager.bag.get(position)) != null) {
+                Money price = BuysManager.prices1.get(BuysManager.bag.get(position));
+                BuysManager.sum = BuysManager.sum.minus(price);
             }
             Money sum = BuysManager.sum;
             String rubles = String.valueOf(sum.getRubles());

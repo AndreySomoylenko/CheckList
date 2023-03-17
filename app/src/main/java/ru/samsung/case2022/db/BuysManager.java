@@ -19,7 +19,7 @@ public class BuysManager {
     public static List<String> buys = new ArrayList<>();
     public static List<String> bag = new ArrayList<>();
 
-    public static final Map<String, Money> prices = Map.of(
+    public static final  Map<String, Money> prices = Map.of(
             "Печенье сладкое с маком", new Money(29, 90),
             "Капуста брокколи", new Money(249, 90),
             "Сыр полутвёрдый", new Money(359, 90),
@@ -31,6 +31,18 @@ public class BuysManager {
             "Сметана из топлёных сливок 15%", new Money(74, 90),
             "Чай чёрный листовой", new Money(506, 80)
         );
+    public static final  Map<String, Money> prices1 = Map.of(
+            "biscuits", new Money(29, 90),
+            "broccoli", new Money(249, 90),
+            "cheese", new Money(359, 90),
+            "coffee", new Money(489, 90),
+            "curd", new Money(144, 49),
+            "dough", new Money(144, 0),
+            "milk", new Money(61, 99),
+            "pancakes", new Money(140, 80),
+            "sourcream", new Money(74, 90),
+            "tea", new Money(506, 80)
+    );
 
     public static Money sum;
 }
