@@ -60,6 +60,9 @@ public class DBJson {
             if (BuysManager.prices.get(item) != null) {
                 Money price = BuysManager.prices.get(item);
                 BuysManager.sum = BuysManager.sum.plus(price);
+            } else if (BuysManager.prices1.get(item) != null) {
+                Money price = BuysManager.prices1.get(item);
+                BuysManager.sum = BuysManager.sum.plus(price);
             }
         }
         save();
