@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -86,6 +87,7 @@ public class CameraActivity extends AppCompatActivity {
             String[] s = recognize();
             db.removeByName(s[0]);
             db.removeByName(s[1]);
+            Toast.makeText(this, s[0], Toast.LENGTH_SHORT).show();
 
             if (appDao.getLogin() != "") {
                 new Thread() {

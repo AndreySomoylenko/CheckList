@@ -22,14 +22,14 @@ public class BuysManager {
     public static final  Map<String, Money> prices = Map.of(
             "Печенье сладкое с маком", new Money(29, 90),
             "Капуста брокколи", new Money(249, 90),
-            "Сыр полутвёрдый", new Money(359, 90),
+            "Сыр полутвердый", new Money(359, 90),
             "Кофе растворимый с добавлением молотого", new Money(489, 90),
             "Творог мягкий 2%", new Money(144, 49),
             "Тесто замороженное дрожжевое", new Money(144, 0),
             "Молоко 3,2% пастеризованное", new Money(61, 99),
             "Блинчики с мясом", new Money(140, 80),
-            "Сметана из топлёных сливок 15%", new Money(74, 90),
-            "Чай чёрный листовой", new Money(506, 80)
+            "Сметана из топленых сливок 15%", new Money(74, 90),
+            "Чай черный листовой", new Money(506, 80)
         );
     public static final  Map<String, Money> prices1 = Map.of(
             "biscuits", new Money(29, 90),

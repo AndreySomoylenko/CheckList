@@ -80,7 +80,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             case "Капуста брокколи":
                 viewHolder.getPhoto().setImageResource(R.drawable.broccoli);
                 break;
-            case "Сыр полутвёрдый":
+            case "Сыр полутвердый":
                 viewHolder.getPhoto().setImageResource(R.drawable.cheese);
                 break;
             case "Кофе растворимый с добавлением молотого":
@@ -98,10 +98,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             case "Блинчики с мясом":
                 viewHolder.getPhoto().setImageResource(R.drawable.pancakes);
                 break;
-            case "Сметана из топлёных сливок 15%":
+            case "Сметана из топленых сливок 15%":
                 viewHolder.getPhoto().setImageResource(R.drawable.sourcream);
                 break;
-            case "Чай чёрный листовой":
+            case "Чай черный листовой":
                 viewHolder.getPhoto().setImageResource(R.drawable.tea);
                 break;
             case "biscuits":
