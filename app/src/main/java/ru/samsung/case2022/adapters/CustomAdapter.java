@@ -133,6 +133,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 break;
             case "tea":
                 viewHolder.getPhoto().setImageResource(R.drawable.tea);
+                break;
             default:
                 viewHolder.getPhoto().setImageResource(R.drawable.unknown_product);
                 break;

@@ -129,6 +129,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 break;
             case "tea":
                 viewHolder.getPhoto().setImageResource(R.drawable.tea);
+                break;
             default:
                 viewHolder.getPhoto().setImageResource(R.drawable.unknown_product);
                 break;
