@@ -6,4 +6,8 @@
         android:icon="@drawable/baseline_logout_24"
         android:title="log_out"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/settings"
+        android:title="settings"/>
+
 </menu>

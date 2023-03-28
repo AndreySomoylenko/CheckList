@@ -75,14 +75,14 @@ public class RegisterActivity extends AppCompatActivity {
                             SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
                             appDao.setLogin(login);
                             appDao.setName(name);
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        new ServerDB(RegisterActivity.this).sync(BuysManager.buys).execute();
-                                    } catch (IOException ignored) {}
-                                }
-                            }.start();
+//                            new Thread() {
+//                                @Override
+//                                public void run() {
+//                                    try {
+//                                        new ServerDB(RegisterActivity.this).sync(BuysManager.buys).execute();
+//                                    } catch (IOException ignored) {}
+//                                }
+//                            }.start();
                             DBJson.start = true;
                             Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
                             startActivity(intent);

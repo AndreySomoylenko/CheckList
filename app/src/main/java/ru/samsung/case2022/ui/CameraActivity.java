@@ -89,18 +89,19 @@ public class CameraActivity extends AppCompatActivity {
             db.removeByName(s[1]);
             Toast.makeText(this, s[0], Toast.LENGTH_SHORT).show();
 
-            if (appDao.getLogin() != "") {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            new ServerDB(CameraActivity.this).sync(BuysManager.buys).execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
+//            if (appDao.getLogin() != "") {
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            new ServerDB(CameraActivity.this).sync(BuysManager.buys).execute();
+//                        } catch (IOException ignored) {}
+//                    }
+//                }.start();
+//            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
+            db.save();
             finish();
         });
         if (appDao.getLogin() != "") {

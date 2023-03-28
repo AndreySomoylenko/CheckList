@@ -118,13 +118,13 @@ public class DBJson {
         appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
     }
 
-    private void sync() {
-        new Thread() {
-            public void run() {
-                try {
-                    (new ServerDB(context)).sync(BuysManager.buys).execute();
-                } catch (IOException ignored) {}
-            }
-        }.start();
-    }
+//    private void sync() {
+//        new Thread() {
+//            public void run() {
+//                try {
+//                    (new ServerDB(context)).sync(BuysManager.buys).execute();
+//                } catch (IOException ignored) {}
+//            }
+//        }.start();
+//    }
 }

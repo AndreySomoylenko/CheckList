@@ -54,6 +54,7 @@ dependencies {
     //Room DAO
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
+    implementation 'androidx.preference:preference:1.2.0'
     kapt "androidx.room:room-compiler:2.4.3"
 
 

@@ -93,16 +93,16 @@ public class EditActivity extends AppCompatActivity {
         } else {
             BuysManager.buys.set(position, s);
             db.save();
-            if (appDao.getLogin() != "") {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
+//            if (appDao.getLogin() != "") {
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
+//                        } catch (IOException ignored) {}
+//                    }
+//                }.start();
+//            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
@@ -117,16 +117,16 @@ public class EditActivity extends AppCompatActivity {
 
     public void deleteItem(View view) {
         db.removeByIndex(position);
-        if (appDao.getLogin() != "") {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
-                    } catch (IOException ignored) {}
-                }
-            }.start();
-        }
+//        if (appDao.getLogin() != "") {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
+//                    } catch (IOException ignored) {}
+//                }
+//            }.start();
+//        }
         Intent intent = new Intent(this, RootActivity.class);
         startActivity(intent);
         finish();

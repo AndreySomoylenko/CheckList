@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,9 +47,13 @@ import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.AppDao;
+import ru.samsung.case2022.db.BagSync;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
+import ru.samsung.case2022.db.FullSync;
+import ru.samsung.case2022.db.ListSync;
 import ru.samsung.case2022.db.ServerDB;
+import ru.samsung.case2022.db.SyncApi;
 
 /**
  * The RootActivity
@@ -64,6 +70,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     FloatingActionButton scan;
 
     public static ActionBar bar;
+
+    public static SyncApi syncApi;
+
 
 
 
@@ -127,6 +136,38 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             Intent add_intent = new Intent(this, AddActivity.class);
             startActivity(add_intent);
         });
+        SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isSync = spref.getBoolean("sync", false);
+        if (isSync) {
+            String choice = spref.getString("reply", null);
+            switch (choice) {
+                case "full":
+                    syncApi = new FullSync(this);
+                    break;
+                case "only_bag":
+                    syncApi = new BagSync(this);
+                    break;
+                case "only_list":
+                    syncApi = new ListSync(this);
+                    break;
+                default:
+                    syncApi = null;
+            }
+        } else {
+            syncApi = null;
+        }
+        if (!DBJson.start) {
+            if (appDao.getLogin() != "" && syncApi != null) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
+        }
         bag.setOnClickListener(v -> {
             Intent intent = new Intent(this, BagActivity.class);
             startActivity(intent);
@@ -273,6 +314,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 alert.show();
                 return true;
 
+            case R.id.settings:
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+
             default:
 
                 return super.onOptionsItemSelected(item);
@@ -314,7 +358,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                 RegisterActivity.bar.setSubtitle("");
                             } catch (Exception ignored) {}
                             if (!ServerDB.hasConnection) {
-                                serverDB.sync(BuysManager.buys).enqueue(new Callback<ResponseBody>() {
+                                syncApi.sync().enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         ServerDB.hasConnection = true;

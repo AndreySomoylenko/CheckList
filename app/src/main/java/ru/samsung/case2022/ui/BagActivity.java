@@ -1,6 +1,7 @@
 package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.appDao;
+import static ru.samsung.case2022.ui.RootActivity.db;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -106,6 +107,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
             String cents = String.valueOf(sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
             RootActivity.db.removeByIndexBag(position);
+            db.save();
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
         });
@@ -145,6 +147,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
                     BuysManager.sum.makeZero();
                     suma.setText(getString(R.string.total_0_rub_0_kop));
                     recyclerView.getAdapter().notifyDataSetChanged();
+                    db.save();
                 });
                 alert.setNegativeButton(getString(R.string.no), (dialog, whichButton) -> {
                 });

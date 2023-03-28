@@ -67,7 +67,12 @@ public class ServerDB {
      */
 
     public Call<ResponseBody> sync(List<String> buys, List<String> bag) {
-        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), new Gson().toJson(buys), new Gson().toJson(bag));
+        String buys1, bag1;
+        if (buys == null) buys1 = "null";
+        else buys1 = new Gson().toJson(buys);
+        if (bag == null) bag1 = "null";
+        else bag1 = new Gson().toJson(bag);
+        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), buys1, bag1);
     }
 
     /**

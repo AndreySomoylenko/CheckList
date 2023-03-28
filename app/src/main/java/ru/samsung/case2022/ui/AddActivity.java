@@ -1,7 +1,9 @@
 package ru.samsung.case2022.ui;
 
+import static ru.samsung.case2022.ui.RootActivity.syncApi;
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -79,16 +81,16 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-            if (appDao.getLogin() != "") {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            new ServerDB(AddActivity.this).sync(BuysManager.buys).execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
+//            if (appDao.getLogin() != "" && syncApi != null) {
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            syncApi.sync().execute();
+//                        } catch (IOException ignored) {}
+//                    }
+//                }.start();
+//            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
