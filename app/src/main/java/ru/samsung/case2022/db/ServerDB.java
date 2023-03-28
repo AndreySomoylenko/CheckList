@@ -66,8 +66,8 @@ public class ServerDB {
      * @return Call with simple retrofit response
      */
 
-    public Call<ResponseBody> sync(List<String> buys) {
-        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), new Gson().toJson(buys));
+    public Call<ResponseBody> sync(List<String> buys, List<String> bag) {
+        return RetrofitClient.getInstance().getApi().sync(appDao.getLogin(), new Gson().toJson(buys), new Gson().toJson(bag));
     }
 
     /**
