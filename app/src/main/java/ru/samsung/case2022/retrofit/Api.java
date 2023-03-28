@@ -39,7 +39,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST("sync.php")
-    Call<ResponseBody> sync(@Field("login") String login, @Field("buys") String buys);
+    Call<ResponseBody> sync(@Field("login") String login, @Field("buys") String buys, @Field("bag") String bag);
 
     /**
      * This POST-request method is used to check if account on server exists
