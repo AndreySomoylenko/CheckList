@@ -16,4 +16,9 @@ public class BagSync implements SyncApi{
     public Call<ResponseBody> sync() {
         return db.sync(null, BuysManager.bag);
     }
+
+    @Override
+    public Call<String> getList() {
+        return null;
+    }
 }

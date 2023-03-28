@@ -14,4 +14,9 @@ public class ListSync implements SyncApi{
     public Call<ResponseBody> sync() {
         return db.sync(BuysManager.buys, null);
     }
+
+    @Override
+    public Call<String> getList() {
+        return null;
+    }
 }

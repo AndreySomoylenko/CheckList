@@ -5,4 +5,6 @@ import retrofit2.Call;
 
 public interface SyncApi {
     Call<ResponseBody> sync();
+
+    Call<String> getList();
 }

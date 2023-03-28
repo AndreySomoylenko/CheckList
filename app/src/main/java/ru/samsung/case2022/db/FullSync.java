@@ -16,4 +16,9 @@ public class FullSync implements SyncApi{
     public Call<ResponseBody> sync() {
         return db.sync(BuysManager.buys, BuysManager.bag);
     }
+
+    @Override
+    public Call<String> getList() {
+        return null;
+    }
 }
