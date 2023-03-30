@@ -5,7 +5,7 @@
 
         <ListPreference
             app:key="lang"
-            app:title="Выбор языка"
+            app:title="@string/language_choose"
             app:useSimpleSummaryProvider="true"
             app:entries="@array/language_entires"
             app:entryValues="@array/languege_values"
