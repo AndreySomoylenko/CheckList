@@ -2,6 +2,8 @@ package ru.samsung.case2022.db;
 
 import android.content.Context;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -16,7 +18,7 @@ public class ListSync implements SyncApi{
     }
 
     @Override
-    public Call<String> getList() {
-        return null;
+    public Call<List<String>> getList() {
+        return db.getList();
     }
 }

@@ -99,9 +99,9 @@ public class CameraActivity extends AppCompatActivity {
 //                    }
 //                }.start();
 //            }
+            //db.save();
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
-            db.save();
             finish();
         });
         if (appDao.getLogin() != "") {

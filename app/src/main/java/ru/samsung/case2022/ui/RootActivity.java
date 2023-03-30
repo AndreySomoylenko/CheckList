@@ -349,6 +349,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                             Log.d("TICK LIST", response.body().toString());
                             try {
+                                SettingsActivity.bar.setSubtitle("");
                                 RootActivity.bar.setSubtitle("");
                                 AddActivity.bar.setSubtitle("");
                                 BagActivity.bar.setSubtitle("");
@@ -382,6 +383,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                             ServerDB.hasConnection = false;
                             try {
                                 String s = getString(R.string.no_connection);
+                                SettingsActivity.bar.setSubtitle(s);
                                 RootActivity.bar.setSubtitle(s);
                                 AddActivity.bar.setSubtitle(s);
                                 BagActivity.bar.setSubtitle(s);
@@ -397,7 +399,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     executorService.shutdown();
                 }
 
-            }, 0, 4, TimeUnit.SECONDS);
+            }, 2, 4, TimeUnit.SECONDS);
         }
     }
 
