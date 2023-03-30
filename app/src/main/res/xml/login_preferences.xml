@@ -1,5 +1,17 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory app:title="Настройки языка">
+
+        <ListPreference
+            app:key="lang"
+            app:title="Выбор языка"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/language_entires"
+            app:entryValues="@array/languege_values"
+            />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="Настройки аккаунта">
 
         <EditTextPreference

@@ -11,4 +11,14 @@
         <item>only_list</item>
         <item>only_bag</item>
     </string-array>
+
+    <string-array name="language_entires">
+        <item>Русский</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="languege_values">
+        <item>rus</item>
+        <item>eng</item>
+    </string-array>
 </resources>
