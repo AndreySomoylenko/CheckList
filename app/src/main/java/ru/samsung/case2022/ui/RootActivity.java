@@ -365,9 +365,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
                 if (!appDao.getLogin().equals("")) {
-                    serverDB.getList().enqueue(new Callback<List<String>>() {
+                    syncApi.getList().enqueue( new Callback<List<String>[]>() {
                         @Override
-                        public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
                             Log.d("TICK LIST", response.body().toString());
                             try {
                                 SettingsActivity.bar.setSubtitle("");
@@ -392,15 +392,21 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                     }
                                 });
                             } else {
-                                BuysManager.buys = response.body();
-                                db.save();
-                                RootActivity.adapter.refresh(BuysManager.buys);
-                                RootActivity.recycler.setAdapter(adapter);
+                                if (response.body()[0] != null) {
+                                    BuysManager.buys = response.body()[0];
+                                    RootActivity.adapter.refresh(BuysManager.buys);
+                                    RootActivity.recycler.setAdapter(adapter);
+                                    db.save();
+                                }
+                                if (response.body()[1] != null) {
+                                    BuysManager.bag = response.body()[0];
+                                    db.save();
+                                }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<List<String>> call, Throwable t) {
+                        public void onFailure(Call<List<String>[]> call, Throwable t) {
                             ServerDB.hasConnection = false;
                             try {
                                 String s = getString(R.string.no_connection);
