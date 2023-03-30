@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Настройки языка">
+    <PreferenceCategory app:title="@string/language_settings">
 
         <ListPreference
             app:key="lang"
@@ -12,7 +12,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Настройки аккаунта">
+    <PreferenceCategory app:title="@string/account_settings">
 
         <EditTextPreference
             app:key="name"
@@ -21,11 +21,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Синхронизация">
+    <PreferenceCategory app:title="@string/sync">
 
         <SwitchPreferenceCompat
             app:key="sync"
-            app:title="Синхронизация данных" />
+            app:title="@string/data_sync" />
 
         <ListPreference
             app:dependency="sync"
@@ -33,7 +33,7 @@
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
             app:key="reply"
-            app:title="Режим синхронизации"
+            app:title="@string/sync_mode"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

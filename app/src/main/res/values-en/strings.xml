@@ -53,4 +53,10 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">"Automatically download attachments for incoming emails     "</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="sync_mode">Sync mode</string>
+    <string name="data_sync">Data sync</string>
+    <string name="sync">Sync</string>
+    <string name="account_settings">Account settings</string>
+    <string name="language_settings">Language settings</string>
+    <string name="language_choose">Language</string>
 </resources>
