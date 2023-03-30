@@ -399,7 +399,11 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                     db.save();
                                 }
                                 if (response.body()[1] != null) {
-                                    BuysManager.bag = response.body()[0];
+                                    BuysManager.bag = response.body()[1];
+                                    try {
+                                        BagActivity.adapter.refresh(BuysManager.bag);
+                                        BagActivity.recyclerView.setAdapter(BagActivity.adapter);
+                                    } catch (Exception ignored) {}
                                     db.save();
                                 }
                             }

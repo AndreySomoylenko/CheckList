@@ -2,6 +2,7 @@ package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
@@ -33,7 +35,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
     /**
      * This is the recycler view which is used to show priducts in bag
      */
-    RecyclerView recyclerView;
+    static RecyclerView recyclerView;
 
     /**
      * This is the TextView to show sum of user's buys
@@ -48,7 +50,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
     /**
      * This is adapter to manage recycler
      */
-    BagAdapter adapter;
+    static BagAdapter adapter;
 
     public static ActionBar bar;
 
@@ -110,6 +112,16 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
             db.save();
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        syncApi.sync().execute();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }.start();
         });
         alert.setNegativeButton("Нет", (dialog, whichButton) -> {
         });
@@ -144,6 +156,17 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
                 alert.setMessage(getString(R.string.clear_bag_sure));
                 alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     (new DBJson(this)).clearBag();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                syncApi.sync().execute();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }.start();
+
                     BuysManager.sum.makeZero();
                     suma.setText(getString(R.string.total_0_rub_0_kop));
                     recyclerView.getAdapter().notifyDataSetChanged();

@@ -26,7 +26,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
 
 
 
-    private final List<String> localDataSet;
+    private List<String> localDataSet;
     private final Context context;
 
     private final OnNoteListener mOnNoteListener;
@@ -57,6 +57,10 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 .inflate(R.layout.custom_layout, viewGroup, false);
 
         return new ViewHolder(view, mOnNoteListener );
+    }
+
+    public void refresh(List<String> localDataSet) {
+        this.localDataSet = localDataSet;
     }
 
 
