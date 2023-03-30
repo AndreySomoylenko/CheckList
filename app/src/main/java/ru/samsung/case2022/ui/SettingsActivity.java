@@ -30,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (!ServerDB.hasConnection) {
             bar.setSubtitle(getString(R.string.no_connection));
         }
+
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

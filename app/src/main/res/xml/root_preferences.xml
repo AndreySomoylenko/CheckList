@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="Настройки аккаунта">
 
         <EditTextPreference
-            app:key="signature"
+            app:key="name"
             app:title="Ваше имя"
             app:useSimpleSummaryProvider="true" />
 

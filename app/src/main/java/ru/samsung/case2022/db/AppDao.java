@@ -2,6 +2,7 @@ package ru.samsung.case2022.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +29,7 @@ public class AppDao {
      * @param context is the application context
      */
     public AppDao(Context context) {
-        spref = context.getSharedPreferences("app_pref", Context.MODE_PRIVATE);
+        spref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
