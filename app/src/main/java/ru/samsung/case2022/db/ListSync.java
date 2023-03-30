@@ -18,7 +18,7 @@ public class ListSync implements SyncApi{
     }
 
     @Override
-    public Call<List<String>> getList() {
-        return db.getList();
+    public Call<List<String> []> getList() {
+        return db.getList(ServerDB.ListType.BUYS);
     }
 }

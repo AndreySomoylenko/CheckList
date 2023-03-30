@@ -9,6 +9,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.retrofit.models.ServerString;
 
 
@@ -28,7 +29,7 @@ public interface Api {
      * @return response with the list of buys
      */
     @GET("get_list.php")
-    Call<List<String>> getList(@Query("login") String login);
+    Call<List<String>[]> getList(@Query("login") String login, @Query("list_type") ServerDB.ListType type);
 
 
     /**

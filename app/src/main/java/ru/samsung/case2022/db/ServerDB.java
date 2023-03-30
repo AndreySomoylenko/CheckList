@@ -39,6 +39,11 @@ public class ServerDB {
     public static boolean hasConnection = true;
 
 
+    public enum ListType {
+        ALL, BUYS, BAG
+    }
+
+
 
     /**
      * Constructor of class
@@ -56,8 +61,8 @@ public class ServerDB {
      * @return Call with list of buys
      */
 
-    public Call<List<String>> getList() {
-        return RetrofitClient.getInstance().getApi().getList(appDao.getLogin());
+    public Call<List<String>[]> getList(ListType type) {
+        return RetrofitClient.getInstance().getApi().getList(appDao.getLogin(), type);
     }
 
     /**

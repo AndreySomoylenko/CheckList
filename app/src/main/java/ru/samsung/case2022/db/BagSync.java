@@ -20,7 +20,7 @@ public class BagSync implements SyncApi{
     }
 
     @Override
-    public Call<List<String>> getList() {
-        return null;
+    public Call<List<String> []> getList() {
+        return db.getList(ServerDB.ListType.BAG);
     }
 }
