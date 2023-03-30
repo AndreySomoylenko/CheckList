@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<ServerString> call, Response<ServerString> response) {
                         boolean dataCorrect = Objects.equals(response.body().str, "1");
                         if (dataCorrect) {
-                            SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
                             serverDB.getName(login).enqueue(new Callback<ServerString>() {
                                 @Override
                                 public void onResponse(Call<ServerString> call, Response<ServerString> response) {

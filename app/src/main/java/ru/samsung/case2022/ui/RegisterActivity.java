@@ -72,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d("onResponse", response.body().str);
                         boolean dataCorrect = Objects.equals(response.body().str, "1");
                         if (dataCorrect) {
-                            SharedPreferences prefs = getSharedPreferences("app_pref", MODE_PRIVATE);
                             appDao.setLogin(login);
                             appDao.setName(name);
 //                            new Thread() {
