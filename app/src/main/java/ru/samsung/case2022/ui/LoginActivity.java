@@ -58,10 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<ServerString> call, Response<ServerString> response) {
                         boolean dataCorrect = Objects.equals(response.body().str, "1");
                         if (dataCorrect) {
-                            serverDB.getName(login).enqueue(new Callback<ServerString>() {
+                            appDao.setLogin(login);
+                            serverDB.getName().enqueue(new Callback<ServerString>() {
                                 @Override
                                 public void onResponse(Call<ServerString> call, Response<ServerString> response) {
-                                    appDao.setLogin(login);
                                     appDao.setName(response.body().str);
                                     serverDB.getList().enqueue(new Callback<List<String>>() {
                                         @Override

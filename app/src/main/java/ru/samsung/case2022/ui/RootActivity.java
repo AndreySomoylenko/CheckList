@@ -54,6 +54,7 @@ import ru.samsung.case2022.db.FullSync;
 import ru.samsung.case2022.db.ListSync;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.db.SyncApi;
+import ru.samsung.case2022.retrofit.models.ServerString;
 
 /**
  * The RootActivity
@@ -177,11 +178,23 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             DBJson.start = false;
         }
         bar = getSupportActionBar();
-        if (appDao.getLogin() != "") {
-            bar.setTitle(appDao.getName());
-        }
         if (!ServerDB.hasConnection) {
             bar.setSubtitle(getString(R.string.no_connection));
+        }
+        if (appDao.getLogin() != "") {
+            bar.setTitle(appDao.getName());
+            serverDB.getName().enqueue(new Callback<ServerString>() {
+                @Override
+                public void onResponse(Call<ServerString> call, Response<ServerString> response) {
+                    appDao.setName(response.body().str);
+                    bar.setTitle(response.body().str);
+                }
+
+                @Override
+                public void onFailure(Call<ServerString> call, Throwable t) {
+
+                }
+            });
         }
     }
 

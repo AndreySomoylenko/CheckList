@@ -94,8 +94,8 @@ public class ServerDB {
         return RetrofitClient.getInstance().getApi().check_register(lg, nm, pass);
     }
 
-    public Call<ServerString> getName(String lg) {
-        return RetrofitClient.getInstance().getApi().get_name(lg);
+    public Call<ServerString> getName() {
+        return RetrofitClient.getInstance().getApi().get_name(appDao.getLogin());
     }
 
     public Call<ResponseBody> setName(String new_name) {
