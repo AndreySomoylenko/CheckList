@@ -63,11 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<ServerString> call, Response<ServerString> response) {
                                     appDao.setName(response.body().str);
-                                    serverDB.getList().enqueue(new Callback<List<String>>() {
+                                    serverDB.getList(ServerDB.ListType.BUYS).enqueue(new Callback<List<String>[]>() {
                                         @Override
-                                        public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                                        public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
                                             Log.d("LOGIN LIST", response.body().toString());
-                                            BuysManager.buys = response.body();
+                                            BuysManager.buys = response.body()[0];
                                             (new DBJson(getApplicationContext())).save();
                                             DBJson.start = true;
                                             Intent intent = new Intent(LoginActivity.this, RootActivity.class);
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
 
                                         @Override
-                                        public void onFailure(Call<List<String>> call, Throwable t) {
+                                        public void onFailure(Call<List<String>[]> call, Throwable t) {
                                             ServerDB.showConnectionError(LoginActivity.this, getString(R.string.error_get_list));
                                         }
                                     });
