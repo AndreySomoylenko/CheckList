@@ -59,4 +59,10 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="sync_mode">Режим синхронизации</string>
+    <string name="data_sync">Синхронизация данных</string>
+    <string name="sync">Синхронизация</string>
+    <string name="account_settings">Настройки аккаунта</string>
+    <string name="language_settings">Настройки языка</string>
+    <string name="language_choose">Выбор языка</string>
 </resources>
