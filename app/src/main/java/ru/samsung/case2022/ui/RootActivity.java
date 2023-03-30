@@ -187,7 +187,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 @Override
                 public void onResponse(Call<ServerString> call, Response<ServerString> response) {
                     appDao.setName(response.body().str);
-                    bar.setTitle(response.body().str);
+                    bar.setTitle(appDao.getName());
                 }
 
                 @Override

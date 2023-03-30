@@ -2,6 +2,7 @@ package ru.samsung.case2022.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -9,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The AppDao class
@@ -22,6 +24,7 @@ public class AppDao {
      * This class is used to manage Shared Preferences
      */
     SharedPreferences spref;
+    Context context;
 
     /**
      * Constructor of class
@@ -30,6 +33,7 @@ public class AppDao {
      */
     public AppDao(Context context) {
         spref = PreferenceManager.getDefaultSharedPreferences(context);
+        this.context = context;
     }
 
     /**
@@ -114,5 +118,24 @@ public class AppDao {
 
     public Money getSum() {
         return new Money(spref.getInt("rubles", 0), spref.getInt("cents", 0));
+    }
+
+    public String getLang() {
+        return spref.getString("lang", "ru");
+    }
+
+    public void setLang(String lang) {
+        spref.edit().putString("lang", lang).apply();
+    }
+
+
+
+    public void setLocale(String lang){
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+
     }
 }
