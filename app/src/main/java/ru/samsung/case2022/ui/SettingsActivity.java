@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
             if (appDao.getLogin() != "")  getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.syncSettings, new SettingsFragment())
+                    .replace(R.id.settings, new SettingsFragment())
                     .commit();
             else getSupportFragmentManager()
                     .beginTransaction()
@@ -41,6 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
         bar = getSupportActionBar();
         if (appDao.getLogin() != "") {
             bar.setTitle(appDao.getName());
+        } else {
+            bar.setTitle(R.string.app_name);
         }
         if (!ServerDB.hasConnection) {
             bar.setSubtitle(getString(R.string.no_connection));
@@ -95,6 +97,4 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.not_login_preferences, rootKey);
         }
     }
-
-
 }
