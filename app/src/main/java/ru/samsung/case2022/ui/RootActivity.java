@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -181,6 +182,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         if (!ServerDB.hasConnection) {
             bar.setSubtitle(getString(R.string.no_connection));
         }
+        String lang = appDao.getLang();
+        if (lang == "default") {
+            appDao.setLocale(Locale.getDefault().getLanguage() == "ru" ? "ru" : "en");
+        } else {
+            appDao.setLocale();
+        }
+
         if (appDao.getLogin() != "") {
             bar.setTitle(appDao.getName());
             serverDB.getName().enqueue(new Callback<ServerString>() {

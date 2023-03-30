@@ -15,10 +15,12 @@
     <string-array name="language_entires">
         <item>Русский</item>
         <item>English</item>
+        <item>Default</item>
     </string-array>
 
     <string-array name="languege_values">
-        <item>rus</item>
-        <item>eng</item>
+        <item>ru</item>
+        <item>en</item>
+        <item>default</item>
     </string-array>
 </resources>

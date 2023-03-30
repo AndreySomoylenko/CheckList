@@ -121,11 +121,7 @@ public class AppDao {
     }
 
     public String getLang() {
-        return spref.getString("lang", "ru");
-    }
-
-    public void setLang(String lang) {
-        spref.edit().putString("lang", lang).apply();
+        return spref.getString("lang", "default");
     }
 
 
@@ -136,6 +132,13 @@ public class AppDao {
         Configuration config = new Configuration();
         config.setLocale(locale);
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    }
 
+    public void setLocale(){
+        Locale locale = new Locale(getLang());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 }

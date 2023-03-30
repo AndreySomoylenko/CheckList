@@ -15,6 +15,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
@@ -55,17 +56,26 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
                 Log.v("KEY", s);
-                if (Objects.equals(s, "name")) {
-                    bar.setTitle(appDao.getName());
-                    Log.v("NAME", appDao.getName());
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            try {
-                                new ServerDB(getApplicationContext()).setName(appDao.getName()).execute();
-                            } catch (IOException ignored){}
+                switch (s) {
+                    case "name":
+                        bar.setTitle(appDao.getName());
+                        Log.v("NAME", appDao.getName());
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    new ServerDB(getApplicationContext()).setName(appDao.getName()).execute();
+                                } catch (IOException ignored){}
+                            }
+                        }.start();
+                        break;
+                    case "lang":
+                        String lang = appDao.getLang();
+                        if (lang == "default") {
+                            appDao.setLocale(Locale.getDefault().getLanguage() == "ru" ? "ru" : "en");
+                        } else {
+                            appDao.setLocale();
                         }
-                    }.start();
                 }
             }
         });
