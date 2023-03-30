@@ -63,4 +63,8 @@ public interface Api {
     @GET("get_name.php")
     Call<ServerString> get_name(@Query("login") String login);
 
+    @FormUrlEncoded
+    @POST("set_name.php")
+    Call<ResponseBody> set_name(@Field("login") String login, @Field("new_name") String new_name);
+
 }

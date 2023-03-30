@@ -98,6 +98,10 @@ public class ServerDB {
         return RetrofitClient.getInstance().getApi().get_name(lg);
     }
 
+    public Call<ResponseBody> setName(String new_name) {
+        return RetrofitClient.getInstance().getApi().set_name(appDao.getLogin(), new_name);
+    }
+
 
     /**
      * This method is used to show Toast with connection error
