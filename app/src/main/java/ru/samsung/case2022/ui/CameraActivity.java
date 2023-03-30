@@ -104,7 +104,7 @@ public class CameraActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         bar = getSupportActionBar();

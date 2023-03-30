@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         back.setOnClickListener(v -> {

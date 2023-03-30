@@ -55,7 +55,7 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         editText = findViewById(R.id.editProductName);

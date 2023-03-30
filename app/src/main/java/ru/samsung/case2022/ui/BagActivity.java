@@ -75,7 +75,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
             startActivity(intent);
             finish();
         });
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         bar = getSupportActionBar();

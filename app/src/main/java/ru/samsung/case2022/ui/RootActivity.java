@@ -183,13 +183,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             bar.setSubtitle(getString(R.string.no_connection));
         }
         String lang = appDao.getLang();
-        if (lang == "default") {
-            appDao.setLocale(Locale.getDefault().getLanguage() == "ru" ? "ru" : "en");
+        if (lang.equals("default")) {
+            appDao.setLocale(Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en");
         } else {
             appDao.setLocale();
         }
 
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             bar.setTitle(appDao.getName());
             serverDB.getName().enqueue(new Callback<ServerString>() {
                 @Override
@@ -359,7 +359,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     private void Start() {
         db.init();
         String login = appDao.getLogin();
-        if (login != "") {
+        if (!login.equals("")) {
             ScheduledExecutorService executorService
                     = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleWithFixedDelay(() -> {

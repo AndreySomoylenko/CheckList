@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         if (!ServerDB.hasConnection) {

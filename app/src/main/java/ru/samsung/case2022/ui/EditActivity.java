@@ -72,7 +72,7 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
         });
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
         bar = getSupportActionBar();

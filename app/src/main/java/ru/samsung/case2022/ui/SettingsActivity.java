@@ -30,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-            if (appDao.getLogin() != "")  getSupportFragmentManager()
+            if (!appDao.getLogin().equals(""))  getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment2())
                     .commit();
         bar = getSupportActionBar();
-        if (appDao.getLogin() != "") {
+        if (!appDao.getLogin().equals("")) {
             bar.setTitle(appDao.getName());
         } else {
             bar.setTitle(R.string.app_name);
@@ -73,8 +73,10 @@ public class SettingsActivity extends AppCompatActivity {
                         break;
                     case "lang":
                         String lang = appDao.getLang();
-                        if (lang == "default") {
-                            appDao.setLocale(Locale.getDefault().getLanguage() == "ru" ? "ru" : "en");
+                        Log.v("a", lang);
+                        if (lang.equals("default")) {
+                            appDao.setLocale(Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en");
+                            Log.d("b", Locale.getDefault().getLanguage());
                         } else {
                             appDao.setLocale();
                         }
