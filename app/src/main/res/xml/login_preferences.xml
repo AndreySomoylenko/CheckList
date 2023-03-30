@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/language_settings">
 
@@ -8,6 +9,7 @@
             app:useSimpleSummaryProvider="true"
             app:entries="@array/language_entires"
             app:entryValues="@array/languege_values"
+            app:defaultValue="default"
             />
 
     </PreferenceCategory>
@@ -17,6 +19,7 @@
         <EditTextPreference
             app:key="name"
             app:title="Ваше имя"
+            app:defaultValue="User"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -25,11 +28,12 @@
 
         <SwitchPreferenceCompat
             app:key="sync"
-            app:title="@string/data_sync" />
+            app:title="@string/data_sync"
+            />
 
         <ListPreference
             app:dependency="sync"
-            app:defaultValue="reply"
+            app:defaultValue="only_list"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
             app:key="reply"

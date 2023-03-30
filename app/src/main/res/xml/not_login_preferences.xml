@@ -8,6 +8,7 @@
             app:useSimpleSummaryProvider="true"
             app:entries="@array/language_entires"
             app:entryValues="@array/languege_values"
+            app:defaultValue="default"
             />
 
     </PreferenceCategory>
