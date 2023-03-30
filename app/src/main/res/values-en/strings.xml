@@ -17,7 +17,7 @@
     <string name="login">Login</string>
     <string name="keyword">Password</string>
     <string name="input_keyword">Enter password</string>
-    <string name="user_name">User name</string>
+    <string name="user_name">Username</string>
     <string name="input_name">Enter name</string>
     <string name="register">Sign up</string>
     <string name="already_have_an_account">Have an account?</string>
