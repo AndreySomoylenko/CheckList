@@ -2,6 +2,7 @@ package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -19,17 +22,21 @@ import ru.samsung.case2022.db.ServerDB;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    FloatingActionButton back;
+
     public static ActionBar bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
+            if (appDao.getLogin() != "")  getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
+                    .replace(R.id.syncSettings, new SettingsFragment())
                     .commit();
-        }
+            else getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.settings, new SettingsFragment2())
+                    .commit();
         bar = getSupportActionBar();
         if (appDao.getLogin() != "") {
             bar.setTitle(appDao.getName());
@@ -37,6 +44,13 @@ public class SettingsActivity extends AppCompatActivity {
         if (!ServerDB.hasConnection) {
             bar.setSubtitle(getString(R.string.no_connection));
         }
+
+        back = findViewById(R.id.back_settings);
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RootActivity.class);
+            startActivity(intent);
+        });
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
@@ -61,7 +75,14 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.login_preferences, rootKey);
+        }
+    }
+
+    public static class SettingsFragment2 extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.not_login_preferences, rootKey);
         }
     }
 
