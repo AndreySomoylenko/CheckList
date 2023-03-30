@@ -430,7 +430,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     executorService.shutdown();
                 }
 
-            }, 2, 4, TimeUnit.SECONDS);
+            }, 4, 4, TimeUnit.SECONDS);
         }
     }
 
