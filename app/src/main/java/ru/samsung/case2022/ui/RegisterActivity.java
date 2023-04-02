@@ -66,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.pass_len_limit), Toast.LENGTH_SHORT).show();
             }
             else {
+                loginBtn.setClickable(false);
                 (new ServerDB(RegisterActivity.this)).checkRegister(name, login, pass).enqueue(new Callback<ServerString>() {
                     @Override
                     public void onResponse(Call<ServerString> call, Response<ServerString> response) {
@@ -87,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
+                            loginBtn.setClickable(true);
                             Toast.makeText(RegisterActivity.this, getString(R.string.account_exists), Toast.LENGTH_LONG).show();
                         }
                     }

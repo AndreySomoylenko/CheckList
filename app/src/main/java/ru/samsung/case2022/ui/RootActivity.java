@@ -158,18 +158,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         } else {
             syncApi = null;
         }
-        if (!DBJson.start) {
-            if (appDao.getLogin() != "" && syncApi != null) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            syncApi.sync().execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
-        }
+
         bag.setOnClickListener(v -> {
             Intent intent = new Intent(this, BagActivity.class);
             startActivity(intent);
@@ -368,7 +357,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     syncApi.getList().enqueue( new Callback<List<String>[]>() {
                         @Override
                         public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
-                            Log.d("TICK LIST", response.body().toString());
                             try {
                                 SettingsActivity.bar.setSubtitle("");
                                 RootActivity.bar.setSubtitle("");

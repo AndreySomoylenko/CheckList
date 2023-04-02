@@ -81,16 +81,16 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             db.add(s);
-//            if (appDao.getLogin() != "" && syncApi != null) {
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            syncApi.sync().execute();
-//                        } catch (IOException ignored) {}
-//                    }
-//                }.start();
-//            }
+            if (appDao.getLogin() != "" && syncApi != null) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

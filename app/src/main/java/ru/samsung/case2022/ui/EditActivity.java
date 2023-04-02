@@ -2,6 +2,7 @@ package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,16 +94,16 @@ public class EditActivity extends AppCompatActivity {
         } else {
             BuysManager.buys.set(position, s);
             db.save();
-//            if (appDao.getLogin() != "") {
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
-//                        } catch (IOException ignored) {}
-//                    }
-//                }.start();
-//            }
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();
@@ -117,16 +118,16 @@ public class EditActivity extends AppCompatActivity {
 
     public void deleteItem(View view) {
         db.removeByIndex(position);
-//        if (appDao.getLogin() != "") {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        new ServerDB(EditActivity.this).sync(BuysManager.buys).execute();
-//                    } catch (IOException ignored) {}
-//                }
-//            }.start();
-//        }
+        if (appDao.getLogin() != "") {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        syncApi.sync().execute();
+                    } catch (IOException ignored) {}
+                }
+            }.start();
+        }
         Intent intent = new Intent(this, RootActivity.class);
         startActivity(intent);
         finish();

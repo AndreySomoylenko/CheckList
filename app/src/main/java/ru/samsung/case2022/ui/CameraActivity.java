@@ -2,6 +2,7 @@ package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.appDao;
 import static ru.samsung.case2022.ui.RootActivity.db;
+import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,17 +90,17 @@ public class CameraActivity extends AppCompatActivity {
             db.removeByName(s[1]);
             Toast.makeText(this, s[0], Toast.LENGTH_SHORT).show();
 
-//            if (appDao.getLogin() != "") {
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            new ServerDB(CameraActivity.this).sync(BuysManager.buys).execute();
-//                        } catch (IOException ignored) {}
-//                    }
-//                }.start();
-//            }
-            //db.save();
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
+            db.save();
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
             finish();

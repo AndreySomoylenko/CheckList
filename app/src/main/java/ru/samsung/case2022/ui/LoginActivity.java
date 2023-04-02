@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
             } else {
                 ServerDB serverDB = new ServerDB(LoginActivity.this);
+                loginBtn.setClickable(false);
                 serverDB.checkLogin(login, pass).enqueue(new Callback<ServerString>() {
                     @Override
                     public void onResponse(Call<ServerString> call, Response<ServerString> response) {
@@ -87,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            loginBtn.setClickable(true);
                             Toast.makeText(LoginActivity.this, getString(R.string.wrong_data), Toast.LENGTH_LONG).show();
                         }
                     }
