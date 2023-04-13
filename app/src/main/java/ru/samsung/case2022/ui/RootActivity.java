@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -92,6 +93,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     static CustomAdapter adapter;
     static RecyclerView recycler;
 
+    static SwipeRefreshLayout swipeRefreshLayout;
+
     /**
      * Path for imageFile
      */
@@ -122,6 +125,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
          No night mode
          */
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        swipeRefreshLayout= findViewById(R.id.swipeRefreshLayout);
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
@@ -193,6 +197,17 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 }
             });
         }
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("REFRESH", "ON REFRESH");
+                updateList(true);
+
+            }
+        });
+
+
     }
 
     /**
@@ -354,72 +369,87 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
                 if (!appDao.getLogin().equals("")) {
-                    syncApi.getList().enqueue( new Callback<List<String>[]>() {
-                        @Override
-                        public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
-                            try {
-                                SettingsActivity.bar.setSubtitle("");
-                                RootActivity.bar.setSubtitle("");
-                                AddActivity.bar.setSubtitle("");
-                                BagActivity.bar.setSubtitle("");
-                                CameraActivity.bar.setSubtitle("");
-                                EditActivity.bar.setSubtitle("");
-                                LoginActivity.bar.setSubtitle("");
-                                RegisterActivity.bar.setSubtitle("");
-                            } catch (Exception ignored) {}
-                            if (!ServerDB.hasConnection) {
-                                syncApi.sync().enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        ServerDB.hasConnection = true;
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        ServerDB.hasConnection = true;
-                                    }
-                                });
-                            } else {
-                                if (response.body()[0] != null) {
-                                    BuysManager.buys = response.body()[0];
-                                    RootActivity.adapter.refresh(BuysManager.buys);
-                                    RootActivity.recycler.setAdapter(adapter);
-                                    db.save();
-                                }
-                                if (response.body()[1] != null) {
-                                    BuysManager.bag = response.body()[1];
-                                    try {
-                                        BagActivity.adapter.refresh(BuysManager.bag);
-                                        BagActivity.recyclerView.setAdapter(BagActivity.adapter);
-                                    } catch (Exception ignored) {}
-                                    db.save();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<String>[]> call, Throwable t) {
-                            ServerDB.hasConnection = false;
-                            try {
-                                String s = getString(R.string.no_connection);
-                                SettingsActivity.bar.setSubtitle(s);
-                                RootActivity.bar.setSubtitle(s);
-                                AddActivity.bar.setSubtitle(s);
-                                BagActivity.bar.setSubtitle(s);
-                                CameraActivity.bar.setSubtitle(s);
-                                EditActivity.bar.setSubtitle(s);
-                                LoginActivity.bar.setSubtitle(s);
-                                RegisterActivity.bar.setSubtitle(s);
-                            } catch (Exception ignored) {
-                            }
-                        }
-                    });
+                    updateList(false);
                 } else {
+                    swipeRefreshLayout.setEnabled(false);
                     executorService.shutdown();
                 }
 
             }, 4, 4, TimeUnit.SECONDS);
+        } else {
+            swipeRefreshLayout.setEnabled(false);
         }
+    }
+
+    public void updateList(boolean forRefresh) {
+        syncApi.getList().enqueue( new Callback<List<String>[]>() {
+            @Override
+            public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
+                try {
+                    RootActivity.bar.setSubtitle("");
+                    SettingsActivity.bar.setSubtitle("");
+                    AddActivity.bar.setSubtitle("");
+                    BagActivity.bar.setSubtitle("");
+                    CameraActivity.bar.setSubtitle("");
+                    EditActivity.bar.setSubtitle("");
+                    LoginActivity.bar.setSubtitle("");
+                    RegisterActivity.bar.setSubtitle("");
+                } catch (Exception ignored) {}
+                if (!ServerDB.hasConnection) {
+                    syncApi.sync().enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            ServerDB.hasConnection = true;
+                            swipeRefreshLayout.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            ServerDB.hasConnection = true;
+                            swipeRefreshLayout.setEnabled(true);
+
+                        }
+                    });
+                } else {
+                    if (response.body()[0] != null) {
+                        BuysManager.buys = response.body()[0];
+                        RootActivity.adapter.refresh(BuysManager.buys);
+                        RootActivity.recycler.setAdapter(adapter);
+                        db.save();
+                    }
+                    if (response.body()[1] != null) {
+                        BuysManager.bag = response.body()[1];
+                        try {
+                            BagActivity.adapter.refresh(BuysManager.bag);
+                            BagActivity.recyclerView.setAdapter(BagActivity.adapter);
+                        } catch (Exception ignored) {}
+                        db.save();
+                    }
+                    if (forRefresh) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.d("REFRESH", "STOPPED");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>[]> call, Throwable t) {
+                ServerDB.hasConnection = false;
+                swipeRefreshLayout.setEnabled(false);
+                try {
+                    String s = getString(R.string.no_connection);
+                    RootActivity.bar.setSubtitle(s);
+                    SettingsActivity.bar.setSubtitle(s);
+                    AddActivity.bar.setSubtitle(s);
+                    BagActivity.bar.setSubtitle(s);
+                    CameraActivity.bar.setSubtitle(s);
+                    EditActivity.bar.setSubtitle(s);
+                    LoginActivity.bar.setSubtitle(s);
+                    RegisterActivity.bar.setSubtitle(s);
+                } catch (Exception ignored) {
+                }
+            }
+        });
     }
 
     @Override
