@@ -362,6 +362,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     private void Start() {
         db.init();
+        BuysManager.getMapFromJSON(getApplicationContext());
         String login = appDao.getLogin();
         if (!login.equals("")) {
             ScheduledExecutorService executorService

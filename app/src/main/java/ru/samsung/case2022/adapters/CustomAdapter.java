@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import ru.samsung.case2022.R;
@@ -30,6 +31,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final Context context;
 
     private final OnNoteListener mOnNoteListener;
+
+    private int[] itemIds = {
+            R.drawable.biscuits,
+            R.drawable.broccoli,
+            R.drawable.cheese,
+            R.drawable.coffee,
+            R.drawable.curd,
+            R.drawable.dough,
+            R.drawable.milk,
+            R.drawable.pancakes,
+            R.drawable.sourcream,
+            R.drawable.tea
+    };
 
 
     /**
@@ -73,6 +87,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         viewHolder.getTextView().setText(localDataSet.get(position));
+
+
+
+        viewHolder.getPhoto().setImageResource();
+
         switch (localDataSet.get(position)) {
             case "Печенье сладкое с маком":
                 viewHolder.getPhoto().setImageResource(R.drawable.biscuits);
@@ -138,6 +157,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 viewHolder.getPhoto().setImageResource(R.drawable.unknown_product);
                 break;
         }
+
         String rubles;
         String cents;
         if (BuysManager.prices.get(localDataSet.get(position)) != null) {
@@ -155,6 +175,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         viewHolder.getPrice().setText(rubles + "руб " + cents + "коп");
     }
 
+
+    private int getImageId(String name) {
+
+    }
 
     /**
      * @return size of our list

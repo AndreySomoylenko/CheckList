@@ -71,7 +71,9 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        int[] arr = {R.drawable.biscuits, R.drawable.curd};
 
+        arr[
         viewHolder.getTextView().setText(localDataSet.get(position));
         switch (localDataSet.get(position)) {
             case "Печенье сладкое с маком":
