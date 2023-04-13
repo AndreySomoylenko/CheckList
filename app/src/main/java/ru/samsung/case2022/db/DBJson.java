@@ -5,6 +5,9 @@ import android.content.Context;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The DBJson class
@@ -31,13 +34,13 @@ public class DBJson {
      * This method is used to add item in list of buys
      * @param item is the item to add
      */
-    public void add(String item) {
-        BuysManager.buys.add(item);
+    public void add(String name) {
+        BuysManager.buys.add(name);
         save();
     }
 
-    public void addToBag(String item) {
-        BuysManager.bag.add(item);
+    public void addToBag(String name) {
+        BuysManager.bag.add(name);
         save();
     }
 
@@ -117,6 +120,8 @@ public class DBJson {
         appDao.putBagList(BuysManager.bag);
         appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
     }
+
+
 
 //    private void sync() {
 //        new Thread() {

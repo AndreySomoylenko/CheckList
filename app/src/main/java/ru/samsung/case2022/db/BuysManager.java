@@ -19,6 +19,9 @@ public class BuysManager {
     public static List<String> buys = new ArrayList<>();
     public static List<String> bag = new ArrayList<>();
 
+
+
+
     public static final  Map<String, Money> prices = Map.of(
             "Печенье сладкое с маком", new Money(29, 90),
             "Капуста брокколи", new Money(249, 90),

@@ -202,7 +202,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             @Override
             public void onRefresh() {
                 Log.d("REFRESH", "ON REFRESH");
-                updateList(true);
+                updateList(true, new ListSync(getApplicationContext()));
 
             }
         });
@@ -369,7 +369,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
                 if (!appDao.getLogin().equals("")) {
-                    updateList(false);
+                    updateList(false, syncApi);
                 } else {
                     swipeRefreshLayout.setEnabled(false);
                     executorService.shutdown();
@@ -381,8 +381,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         }
     }
 
-    public void updateList(boolean forRefresh) {
-        syncApi.getList().enqueue( new Callback<List<String>[]>() {
+    public void updateList(boolean forRefresh, SyncApi localSyncApi) {
+        localSyncApi.getList().enqueue( new Callback<List<String>[]>() {
             @Override
             public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
                 try {
@@ -396,7 +396,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     RegisterActivity.bar.setSubtitle("");
                 } catch (Exception ignored) {}
                 if (!ServerDB.hasConnection) {
-                    syncApi.sync().enqueue(new Callback<ResponseBody>() {
+                    localSyncApi.sync().enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             ServerDB.hasConnection = true;
