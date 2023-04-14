@@ -78,8 +78,8 @@ public class CameraActivity extends AppCompatActivity {
         //Set Listener for the recognize button
         recognize.setOnClickListener(v -> {
             String[] s = recognize();
-            db.removeByName(s[0]);
-            db.removeByName(s[1]);
+            db.removeByName(s[0].toLowerCase());
+            db.removeByName(s[1].toLowerCase());
             Toast.makeText(this, s[0], Toast.LENGTH_SHORT).show();
 
             if (appDao.getLogin() != "") {
