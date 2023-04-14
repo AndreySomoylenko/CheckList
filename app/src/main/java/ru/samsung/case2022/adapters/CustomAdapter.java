@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.BuysManager;
@@ -90,95 +91,37 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
 
 
-        viewHolder.getPhoto().setImageResource();
+        viewHolder.getPhoto().setImageResource(getIdByName(localDataSet.get(position)));
 
-        switch (localDataSet.get(position)) {
-            case "Печенье сладкое с маком":
-                viewHolder.getPhoto().setImageResource(R.drawable.biscuits);
-                break;
-            case "Капуста брокколи":
-                viewHolder.getPhoto().setImageResource(R.drawable.broccoli);
-                break;
-            case "Сыр полутвердый":
-                viewHolder.getPhoto().setImageResource(R.drawable.cheese);
-                break;
-            case "Кофе растворимый с добавлением молотого":
-                viewHolder.getPhoto().setImageResource(R.drawable.coffee);
-                break;
-            case "Творог мягкий 2%":
-                viewHolder.getPhoto().setImageResource(R.drawable.curd);
-                break;
-            case "Тесто замороженное дрожжевое":
-                viewHolder.getPhoto().setImageResource(R.drawable.dough);
-                break;
-            case "Молоко 3,2% пастеризованное":
-                viewHolder.getPhoto().setImageResource(R.drawable.milk);
-                break;
-            case "Блинчики с мясом":
-                viewHolder.getPhoto().setImageResource(R.drawable.pancakes);
-                break;
-            case "Сметана из топленых сливок 15%":
-                viewHolder.getPhoto().setImageResource(R.drawable.sourcream);
-                break;
-            case "Чай черный листовой":
-                viewHolder.getPhoto().setImageResource(R.drawable.tea);
-                break;
-            case "Печенье":
-                viewHolder.getPhoto().setImageResource(R.drawable.biscuits);
-                break;
-            case "Брокколи":
-                viewHolder.getPhoto().setImageResource(R.drawable.broccoli);
-                break;
-            case "Сыр":
-                viewHolder.getPhoto().setImageResource(R.drawable.cheese);
-                break;
-            case "Кофе":
-                viewHolder.getPhoto().setImageResource(R.drawable.coffee);
-                break;
-            case "Творог":
-                viewHolder.getPhoto().setImageResource(R.drawable.curd);
-                break;
-            case "Тесто":
-                viewHolder.getPhoto().setImageResource(R.drawable.dough);
-                break;
-            case "Молоко":
-                viewHolder.getPhoto().setImageResource(R.drawable.milk);
-                break;
-            case "Блинчики":
-                viewHolder.getPhoto().setImageResource(R.drawable.pancakes);
-                break;
-            case "Сметана":
-                viewHolder.getPhoto().setImageResource(R.drawable.sourcream);
-                break;
-            case "Чай":
-                viewHolder.getPhoto().setImageResource(R.drawable.tea);
-                break;
-            default:
-                viewHolder.getPhoto().setImageResource(R.drawable.unknown_product);
-                break;
-        }
 
         String rubles;
         String cents;
-        if (BuysManager.prices.get(localDataSet.get(position)) != null) {
-            Money price = BuysManager.prices.get(localDataSet.get(position));
-            rubles = String.valueOf(price.getRubles());
-            cents = String.valueOf(price.getCents());
-        } else if (BuysManager.prices1.get(localDataSet.get(position)) != null) {
-            Money price = BuysManager.prices1.get(localDataSet.get(position));
-            rubles = String.valueOf(price.getRubles());
-            cents = String.valueOf(price.getCents());
-        } else {
-            rubles = "0";
-            cents = "0";
-        }
+        Money price = getMoneyByName(localDataSet.get(position));
+        rubles = String.valueOf(price.getRubles());
+        cents = String.valueOf(price.getCents());
+
         viewHolder.getPrice().setText(rubles + "руб " + cents + "коп");
     }
 
 
-    private int getImageId(String name) {
-
+    private int getIdByName(String name) {
+        for (int i = 0; i < BuysManager.possibleItems.size(); i++) {
+            if (Objects.equals(name, BuysManager.possibleItems.get(i)) || Objects.equals(name, BuysManager.possibleItems.get(i).split(" ")[0])) {
+                return itemIds[i];
+            }
+        }
+        return R.drawable.unknown_product;
     }
+
+    private Money getMoneyByName(String name) {
+        for (String key: BuysManager.prices.keySet()) {
+            if (Objects.equals(name, key) || Objects.equals(name, key.split(" ")[0])) {
+                return BuysManager.prices.get(key);
+            }
+        }
+        return new Money(0, 0);
+    }
+
 
     /**
      * @return size of our list

@@ -34,6 +34,7 @@ public class BuysManager {
 
 
 
+    public static List<String> possibleItems;
     public static Map<String, Money> prices;
     public static Map<String, Money> prices1 = Map.of(
             "Печенье", new Money(29, 90),
@@ -76,7 +77,7 @@ public class BuysManager {
                 int rub = Integer.parseInt(arr.getString(1));
                 int kop = Integer.parseInt(arr.getString(2));
                 prices.put(name, new Money(rub, kop));
-
+                possibleItems.add(name);
             }
         } catch (JSONException e) {
             e.printStackTrace();
