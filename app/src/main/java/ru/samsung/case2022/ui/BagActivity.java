@@ -19,17 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import ru.samsung.case2022.R;
-import ru.samsung.case2022.adapters.BagAdapter;
-import ru.samsung.case2022.db.AppDao;
+import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.Money;
 import ru.samsung.case2022.db.ServerDB;
 
-public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteListener{
+public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNoteListener{
 
 
     /**
@@ -50,7 +48,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
     /**
      * This is adapter to manage recycler
      */
-    static BagAdapter adapter;
+    static CustomAdapter adapter;
 
     public static ActionBar bar;
 
@@ -64,7 +62,7 @@ public class BagActivity extends AppCompatActivity implements BagAdapter.OnNoteL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bag);
         recyclerView = findViewById(R.id.recycler_bag);
-        adapter = new BagAdapter(BuysManager.bag, this, this);
+        adapter = new CustomAdapter(BuysManager.bag, this, this);
         recyclerView.setAdapter(adapter);
         suma = findViewById(R.id.sum);
         Money sum = BuysManager.sum;

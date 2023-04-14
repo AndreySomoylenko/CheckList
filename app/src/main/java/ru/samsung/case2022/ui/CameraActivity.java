@@ -12,22 +12,14 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.samsung.case2022.R;
-import ru.samsung.case2022.adapters.BagAdapter;
-import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
 
