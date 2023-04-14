@@ -106,7 +106,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private int getIdByName(String name) {
         for (int i = 0; i < BuysManager.possibleItems.size(); i++) {
-            if (Objects.equals(name, BuysManager.possibleItems.get(i)) || Objects.equals(name, BuysManager.possibleItems.get(i).split(" ")[0])) {
+            if (Objects.equals(name.toLowerCase(), BuysManager.possibleItems.get(i).toLowerCase()) || Objects.equals(name.toLowerCase(), BuysManager.possibleItems.get(i).split(" ")[0].toLowerCase())) {
                 return itemIds[i];
             }
         }
@@ -115,7 +115,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private Money getMoneyByName(String name) {
         for (String key: BuysManager.prices.keySet()) {
-            if (Objects.equals(name, key) || Objects.equals(name, key.split(" ")[0])) {
+            if (Objects.equals(name.toLowerCase(), key.toLowerCase()) || Objects.equals(name.toLowerCase(), key.split(" ")[0].toLowerCase())) {
                 return BuysManager.prices.get(key);
             }
         }

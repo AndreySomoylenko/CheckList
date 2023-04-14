@@ -34,20 +34,8 @@ public class BuysManager {
 
 
 
-    public static List<String> possibleItems;
-    public static Map<String, Money> prices;
-    public static Map<String, Money> prices1 = Map.of(
-            "Печенье", new Money(29, 90),
-            "Брокколи", new Money(249, 90),
-            "Сыр", new Money(359, 90),
-            "Кофе", new Money(489, 90),
-            "Творог", new Money(144, 49),
-            "Тесто", new Money(144, 0),
-            "Молоко", new Money(61, 99),
-            "Блинчики", new Money(140, 80),
-            "Сметана", new Money(74, 90),
-            "Чай", new Money(506, 80)
-    );
+    public static List<String> possibleItems = new ArrayList<>();
+    public static Map<String, Money> prices = new HashMap<>();
 
     public static Money sum;
 
