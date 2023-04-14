@@ -95,13 +95,9 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.setTitle(getString(R.string.delete));
         alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
-            if (BuysManager.prices.get(BuysManager.bag.get(position)) != null) {
-                Money price = BuysManager.prices.get(BuysManager.bag.get(position));
-                BuysManager.sum = BuysManager.sum.minus(price);
-            } else if (BuysManager.prices1.get(BuysManager.bag.get(position)) != null) {
-                Money price = BuysManager.prices1.get(BuysManager.bag.get(position));
-                BuysManager.sum = BuysManager.sum.minus(price);
-            }
+            Money price = CustomAdapter.getMoneyByName(BuysManager.bag.get(position));
+            BuysManager.sum = BuysManager.sum.minus(price);
+
             Money sum = BuysManager.sum;
             String rubles = String.valueOf(sum.getRubles());
             String cents = String.valueOf(sum.getCents());

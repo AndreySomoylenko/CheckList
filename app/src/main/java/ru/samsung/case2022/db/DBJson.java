@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ru.samsung.case2022.adapters.CustomAdapter;
+
 /**
  * The DBJson class
  * @author Philipp Schepnov
@@ -60,13 +62,8 @@ public class DBJson {
         while (BuysManager.buys.contains(item)) {
             BuysManager.buys.remove(item);
             addToBag(item);
-            if (BuysManager.prices.get(item) != null) {
-                Money price = BuysManager.prices.get(item);
-                BuysManager.sum = BuysManager.sum.plus(price);
-            } else if (BuysManager.prices1.get(item) != null) {
-                Money price = BuysManager.prices1.get(item);
-                BuysManager.sum = BuysManager.sum.plus(price);
-            }
+            Money price = CustomAdapter.getMoneyByName(item);
+            BuysManager.sum = BuysManager.sum.plus(price);
         }
         save();
         //sync();

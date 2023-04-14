@@ -113,7 +113,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return R.drawable.unknown_product;
     }
 
-    private Money getMoneyByName(String name) {
+    public static Money getMoneyByName(String name) {
         for (String key: BuysManager.prices.keySet()) {
             if (Objects.equals(name.toLowerCase(), key.toLowerCase()) || Objects.equals(name.toLowerCase(), key.split(" ")[0].toLowerCase())) {
                 return BuysManager.prices.get(key);
