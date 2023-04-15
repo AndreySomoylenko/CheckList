@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
@@ -96,7 +97,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             Money price = CustomAdapter.getMoneyByName(BuysManager.bag.get(position));
-            BuysManager.sum = BuysManager.sum.minus(price);
+            BuysManager.sum = BuysManager.sum.minus(price.multiply(Collections.frequency(BuysManager.bag, BuysManager.bag.get(position))));
 
             Money sum = BuysManager.sum;
             String rubles = String.valueOf(sum.getRubles());
@@ -121,6 +122,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         });
         alert.show();
     }
+
 
     /**
      * This is function to create menu on AppBar
