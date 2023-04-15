@@ -1,6 +1,7 @@
 package ru.samsung.case2022.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,8 +101,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Money price = getMoneyByName(localDataSet.get(position));
         rubles = String.valueOf(price.getRubles());
         cents = String.valueOf(price.getCents());
+        Log.d("FREQ", String.valueOf(Collections.frequency(BuysManager.buys, localDataSet.get(position))));
+        Log.d("LOCAL DATASET", localDataSet.toString());
+        Log.d("BUYSMANAG BUYS", BuysManager.buys.toString());
 
-        viewHolder.getPrice().setText(rubles + "руб " + cents + "коп");
+        viewHolder.getPrice().setText(rubles + "руб " + cents + "коп " + "(" + String.valueOf(Collections.frequency(BuysManager.buys, localDataSet.get(position))) + " шт)");
     }
 
 

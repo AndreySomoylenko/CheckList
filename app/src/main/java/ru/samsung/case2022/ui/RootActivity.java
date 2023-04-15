@@ -34,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -275,7 +276,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     protected void onResume() {
         super.onResume();
-        adapter = new CustomAdapter(BuysManager.buys, this, this);
+
+        adapter = new CustomAdapter(processBuys(BuysManager.buys), this, this);
         recycler.setAdapter(adapter);
         Start();
     }
@@ -414,7 +416,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 } else {
                     if (response.body()[0] != null) {
                         BuysManager.buys = response.body()[0];
-                        RootActivity.adapter.refresh(BuysManager.buys);
+                        RootActivity.adapter.refresh(processBuys(BuysManager.buys));
                         RootActivity.recycler.setAdapter(adapter);
                         db.save();
                     }
@@ -452,6 +454,18 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             }
         });
     }
+
+    private List<String> processBuys(List<String> buys) {
+        List<String> res = buys;
+        for (int i = 0; i < res.size(); i++) {
+            if (Collections.frequency(res, res.get(i)) > 1) {
+                res.remove(i);
+            }
+        }
+        Log.d("PROCESSED BUYS", String.valueOf(res.size()));
+        return res;
+    }
+
 
     @Override
     protected void onDestroy() {
