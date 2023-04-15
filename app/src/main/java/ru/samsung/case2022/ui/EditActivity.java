@@ -55,7 +55,7 @@ public class EditActivity extends AppCompatActivity {
     /**
      * Position of element, which we clicked on
      */
-    int position;
+    String name;
 
     int count;
 
@@ -74,13 +74,13 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        position = (int) getIntent().getSerializableExtra("position");
+        name = getIntent().getSerializableExtra("name").toString();
         editText = findViewById(R.id.editProductName);
         plusBtn = findViewById(R.id.plusBtn);
         minusBtn = findViewById(R.id.minusBtn);
         counterView = findViewById(R.id.counter);
-        counterView.setText(String.valueOf(Collections.frequency(BuysManager.buys, BuysManager.buys.get(position))));
-        editText.setText(BuysManager.buys.get(position));
+        counterView.setText(String.valueOf(Collections.frequency(BuysManager.buys, name)));
+        editText.setText(name);
         back = findViewById(R.id.back_edit);
         count = Integer.parseInt(counterView.getText().toString());
         if (count == 1) {
@@ -109,7 +109,7 @@ public class EditActivity extends AppCompatActivity {
             }
             if (!minusBtn.isEnabled()) minusBtn.setEnabled(true);
             counterView.setText(String.valueOf(count));
-            BuysManager.buys.add(BuysManager.buys.get(position));
+            BuysManager.buys.add(name);
             db.save();
             if (appDao.getLogin() != "") {
                 new Thread() {
@@ -131,7 +131,7 @@ public class EditActivity extends AppCompatActivity {
             }
             if (!plusBtn.isEnabled()) plusBtn.setEnabled(true);
             counterView.setText(String.valueOf(count));
-            BuysManager.buys.remove(position);
+            BuysManager.buys.remove(name);
             db.save();
             if (appDao.getLogin() != "") {
                 new Thread() {
@@ -163,9 +163,8 @@ public class EditActivity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
-            String item = BuysManager.buys.get(position);
             for (int i = 0; i < BuysManager.buys.size(); i++) {
-                if (Objects.equals(item, BuysManager.buys.get(i))) BuysManager.buys.set(i, s);
+                if (Objects.equals(name, BuysManager.buys.get(i))) BuysManager.buys.set(i, s);
             }
             db.save();
             if (appDao.getLogin() != "") {
@@ -191,7 +190,7 @@ public class EditActivity extends AppCompatActivity {
      */
 
     public void deleteItem(View view) {
-        db.removeByIndex(position);
+        db.removeByNameBag(name);
         if (appDao.getLogin() != "") {
             new Thread() {
                 @Override

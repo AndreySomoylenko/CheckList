@@ -291,7 +291,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     public void OnNoteClick(int position) {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("position", position);
+        intent.putExtra("name", processBuys(BuysManager.buys).get(position).name);
         startActivity(intent);
     }
 
@@ -485,6 +485,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         }
         return -1;
     }
+
 
 
 

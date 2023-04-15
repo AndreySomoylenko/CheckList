@@ -102,7 +102,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
             String rubles = String.valueOf(sum.getRubles());
             String cents = String.valueOf(sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
-            RootActivity.db.removeByIndexBag(position);
+            RootActivity.db.removeByNameBag(RootActivity.processBuys(BuysManager.bag).get(position).name);
             db.save();
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.setAdapter(adapter);

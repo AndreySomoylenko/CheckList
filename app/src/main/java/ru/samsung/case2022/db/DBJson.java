@@ -76,25 +76,12 @@ public class DBJson {
      * @param index is the index of item to remove
      * @return true if item deleted or false if index >= length of list
      */
-    public boolean removeByIndex(int index) {
-        if (index == -1) return false;
-        else {
-            String name = BuysManager.buys.get(index);
-            while (BuysManager.buys.remove(name)) {}
-            save();
-            //sync();
-            return true;
-        }
+    public void removeByNameBag(String name) {
+        while (BuysManager.buys.remove(name)) {}
+        save();
+        //sync();
     }
 
-    public boolean removeByIndexBag(int index) {
-        if (index == -1) return false;
-        else {
-            BuysManager.bag.remove(index);
-            save();
-            return true;
-        }
-    }
 
     /**
      * This method is used to initialise this class and put list from Shared Preferences in list of buys from BuysManager
