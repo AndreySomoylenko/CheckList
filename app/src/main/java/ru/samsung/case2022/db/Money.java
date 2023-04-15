@@ -29,6 +29,14 @@ public class Money {
         return new Money(rubles, cents);
     }
 
+    public Money multiply(int times) {
+        Money res = new Money(0, 0);
+        for (int i = 0; i < times; i++) {
+           res = res.plus(this);
+        }
+        return res;
+    }
+
     public int getRubles() {
         return rubles;
     }

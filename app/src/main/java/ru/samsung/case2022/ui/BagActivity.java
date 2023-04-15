@@ -62,7 +62,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bag);
         recyclerView = findViewById(R.id.recycler_bag);
-        adapter = new CustomAdapter(BuysManager.bag, this, this);
+        adapter = new CustomAdapter(RootActivity.processBuys(BuysManager.bag), this, this);
         recyclerView.setAdapter(adapter);
         suma = findViewById(R.id.sum);
         Money sum = BuysManager.sum;

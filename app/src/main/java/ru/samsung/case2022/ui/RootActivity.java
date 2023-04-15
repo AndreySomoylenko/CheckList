@@ -34,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.adapters.Item;
 import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BagSync;
 import ru.samsung.case2022.db.BuysManager;
@@ -423,7 +425,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     if (response.body()[1] != null) {
                         BuysManager.bag = response.body()[1];
                         try {
-                            BagActivity.adapter.refresh(BuysManager.bag);
+                            BagActivity.adapter.refresh(processBuys(BuysManager.bag));
                             BagActivity.recyclerView.setAdapter(BagActivity.adapter);
                         } catch (Exception ignored) {}
                         db.save();
@@ -455,16 +457,36 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         });
     }
 
-    private List<String> processBuys(List<String> buys) {
-        List<String> res = buys;
-        for (int i = 0; i < res.size(); i++) {
-            if (Collections.frequency(res, res.get(i)) > 1) {
-                res.remove(i);
+    public static List<Item> processBuys(List<String> buys) {
+        List<Item> res = new ArrayList<>();
+        for (int i = 0; i < buys.size(); i++) {
+            if (!containsName(res, buys.get(i))) {
+                res.add(new Item(buys.get(i), 1));
+            } else {
+                res.get(getPosByName(res, buys.get(i))).count++;
             }
         }
         Log.d("PROCESSED BUYS", String.valueOf(res.size()));
         return res;
     }
+
+    private static boolean containsName(List<Item> list, String name) {
+        for (int i = 0; i < list.size(); i++) {
+            if (Objects.equals(list.get(i).name, name)) return true;
+        }
+        return false;
+    }
+
+    private static int getPosByName(List<Item> list, String name) {
+        for (int i = 0; i < list.size(); i++) {
+            if (Objects.equals(list.get(i).name, name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 
 
     @Override

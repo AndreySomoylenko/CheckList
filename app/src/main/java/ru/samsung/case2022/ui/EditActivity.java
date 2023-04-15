@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -55,7 +57,14 @@ public class EditActivity extends AppCompatActivity {
      */
     int position;
 
+    int count;
+
     FloatingActionButton back;
+
+    FloatingActionButton plusBtn, minusBtn;
+    TextView counterView;
+
+    public static final int MAX_COUNTER_ELEMENTS = 20;
 
     /**
      * Method to start this activity
@@ -67,11 +76,73 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         position = (int) getIntent().getSerializableExtra("position");
         editText = findViewById(R.id.editProductName);
+        plusBtn = findViewById(R.id.plusBtn);
+        minusBtn = findViewById(R.id.minusBtn);
+        counterView = findViewById(R.id.counter);
+        counterView.setText(String.valueOf(Collections.frequency(BuysManager.buys, BuysManager.buys.get(position))));
         editText.setText(BuysManager.buys.get(position));
         back = findViewById(R.id.back_edit);
+        count = Integer.parseInt(counterView.getText().toString());
+        if (count == 1) {
+            minusBtn.setEnabled(false);
+        }
+        if (count == MAX_COUNTER_ELEMENTS) {
+            plusBtn.setEnabled(false);
+        }
         back.setOnClickListener(v -> {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        syncApi.sync().execute();
+                    } catch (IOException ignored) {}
+                }
+            }.start();
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
+        });
+
+        plusBtn.setOnClickListener(v -> {
+            count++;
+            if (count == MAX_COUNTER_ELEMENTS) {
+                plusBtn.setEnabled(false);
+            }
+            if (!minusBtn.isEnabled()) minusBtn.setEnabled(true);
+            counterView.setText(String.valueOf(count));
+            BuysManager.buys.add(BuysManager.buys.get(position));
+            db.save();
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
+
+        });
+
+        minusBtn.setOnClickListener(v -> {
+            count--;
+            if (count == 1) {
+                minusBtn.setEnabled(false);
+            }
+            if (!plusBtn.isEnabled()) plusBtn.setEnabled(true);
+            counterView.setText(String.valueOf(count));
+            BuysManager.buys.remove(position);
+            db.save();
+            if (appDao.getLogin() != "") {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException ignored) {}
+                    }
+                }.start();
+            }
         });
         if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
@@ -92,7 +163,10 @@ public class EditActivity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
-            BuysManager.buys.set(position, s);
+            String item = BuysManager.buys.get(position);
+            for (int i = 0; i < BuysManager.buys.size(); i++) {
+                if (Objects.equals(item, BuysManager.buys.get(i))) BuysManager.buys.set(i, s);
+            }
             db.save();
             if (appDao.getLogin() != "") {
                 new Thread() {

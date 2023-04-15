@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,9 @@ public class AddActivity extends AppCompatActivity {
     public static ActionBar bar;
 
     FloatingActionButton back;
+    FloatingActionButton plusBtn, minusBtn;
+    TextView counterView;
+    int count;
 
     /**
      * String which we get from editText
@@ -60,9 +64,36 @@ public class AddActivity extends AppCompatActivity {
         }
         editText = findViewById(R.id.editProductName);
         back = findViewById(R.id.back_add);
+        plusBtn = findViewById(R.id.plusBtn);
+        minusBtn = findViewById(R.id.minusBtn);
+        counterView = findViewById(R.id.counter);
+        count = Integer.parseInt(counterView.getText().toString());
+        if (count == 1) {
+            minusBtn.setEnabled(false);
+        }
+        if (count == EditActivity.MAX_COUNTER_ELEMENTS) {
+            plusBtn.setEnabled(false);
+        }
         back.setOnClickListener(v -> {
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
+        });
+        plusBtn.setOnClickListener(v -> {
+            count++;
+            if (count == EditActivity.MAX_COUNTER_ELEMENTS) {
+                plusBtn.setEnabled(false);
+            }
+            if (!minusBtn.isEnabled()) minusBtn.setEnabled(true);
+            counterView.setText(String.valueOf(count));
+        });
+
+        minusBtn.setOnClickListener(v -> {
+            count--;
+            if (count == 1) {
+                minusBtn.setEnabled(false);
+            }
+            if (!plusBtn.isEnabled()) plusBtn.setEnabled(true);
+            counterView.setText(String.valueOf(count));
         });
         bar = getSupportActionBar();
         if (!ServerDB.hasConnection) {
@@ -80,7 +111,9 @@ public class AddActivity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
-            db.add(s);
+            for (int i = 0; i < count; i++) {
+                db.add(s);
+            }
             if (appDao.getLogin() != "" && syncApi != null) {
                 new Thread() {
                     @Override

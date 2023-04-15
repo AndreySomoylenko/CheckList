@@ -79,7 +79,8 @@ public class DBJson {
     public boolean removeByIndex(int index) {
         if (index == -1) return false;
         else {
-            BuysManager.buys.remove(index);
+            String name = BuysManager.buys.get(index);
+            while (BuysManager.buys.remove(name)) {}
             save();
             //sync();
             return true;

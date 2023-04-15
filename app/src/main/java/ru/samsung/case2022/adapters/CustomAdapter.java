@@ -30,7 +30,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
 
 
-    private List<String> localDataSet;
+    private List<Item> localDataSet;
     private final Context context;
 
     private final OnNoteListener mOnNoteListener;
@@ -55,13 +55,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param context is the application context
      * @param onNoteListener is the api we use to catch click on element
      */
-    public CustomAdapter(List<String> localDataSet, Context context, OnNoteListener onNoteListener) {
+    public CustomAdapter(List<Item> localDataSet, Context context, OnNoteListener onNoteListener) {
         this.localDataSet = localDataSet;
         this.context = context;
         this.mOnNoteListener = onNoteListener;
     }
 
-    public void refresh(List<String> localDataSet) {
+    public void refresh(List<Item> localDataSet) {
         this.localDataSet = localDataSet;
     }
 
@@ -89,23 +89,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-        viewHolder.getTextView().setText(localDataSet.get(position));
+        Item local = localDataSet.get(position);
+
+        viewHolder.getTextView().setText(local.name);
 
 
 
-        viewHolder.getPhoto().setImageResource(getIdByName(localDataSet.get(position)));
+        viewHolder.getPhoto().setImageResource(getIdByName(local.name));
 
 
         String rubles;
         String cents;
-        Money price = getMoneyByName(localDataSet.get(position));
+        Money price = getMoneyByName(local.name).multiply(local.count);
         rubles = String.valueOf(price.getRubles());
         cents = String.valueOf(price.getCents());
-        Log.d("FREQ", String.valueOf(Collections.frequency(BuysManager.buys, localDataSet.get(position))));
         Log.d("LOCAL DATASET", localDataSet.toString());
         Log.d("BUYSMANAG BUYS", BuysManager.buys.toString());
 
-        viewHolder.getPrice().setText(rubles + "руб " + cents + "коп " + "(" + String.valueOf(Collections.frequency(BuysManager.buys, localDataSet.get(position))) + " шт)");
+        viewHolder.getPrice().setText(rubles + "руб " + cents + "коп " + "(" + local.count + " шт)");
     }
 
 
