@@ -162,6 +162,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             photo = itemView.findViewById(R.id.productImage);
             price = itemView.findViewById(R.id.price);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             this.onNoteListener = onNoteListener;
         }
 
