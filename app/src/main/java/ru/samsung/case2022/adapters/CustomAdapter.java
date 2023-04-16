@@ -142,7 +142,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     /**
      * it is constructor of our class
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         TextView name;
 
         TextView price;
@@ -185,6 +185,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public void onClick(View view) {
             onNoteListener.OnNoteClick(getAdapterPosition());
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            onNoteListener.onLongClick(getAdapterPosition());
+            return true;
+        }
     }
 
     /**
@@ -192,5 +198,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      */
     public interface OnNoteListener {
         void OnNoteClick(int position);
+        void onLongClick(int position);
     }
+
 }

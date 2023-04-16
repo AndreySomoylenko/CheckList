@@ -55,4 +55,5 @@
     <string name="bag_sync">Только корзина</string>
     <string name="list_sync">Только список</string>
     <string name="your_name">Ваше имя</string>
+    <string name="sure_add">Вы хотите добавить данный элемент в корзину?</string>
 </resources>

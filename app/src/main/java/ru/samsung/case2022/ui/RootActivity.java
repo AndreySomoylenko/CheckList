@@ -57,6 +57,7 @@ import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.FullSync;
 import ru.samsung.case2022.db.ListSync;
+import ru.samsung.case2022.db.Money;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.db.SyncApi;
 import ru.samsung.case2022.retrofit.models.ServerString;
@@ -310,6 +311,33 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         startActivity(intent);
     }
 
+    @Override
+    public void onLongClick(int position) {
+        Log.d("s", "s");
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(getString(R.string.add));
+        alert.setMessage(R.string.sure_add);
+        alert.setPositiveButton("Да", (dialog, whichButton) -> {
+            db.addToBag(BuysManager.buys.get(position));
+            db.removeByIndex(position);
+            if (syncApi != null) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }.start();
+            }
+        });
+        alert.setNegativeButton("Нет", (dialog, whichButton) -> {
+        });
+        alert.show();
+    }
+
     /**
      * This method sets menu to AppBar
      * @param menu
@@ -392,7 +420,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     executorService.shutdown();
                 }
 
-            }, 4, 4, TimeUnit.SECONDS);
+            }, 1, 1, TimeUnit.SECONDS);
         } else {
             swipeRefreshLayout.setEnabled(false);
         }

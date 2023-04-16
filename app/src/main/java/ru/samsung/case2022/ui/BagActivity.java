@@ -129,6 +129,11 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.show();
     }
 
+    @Override
+    public void onLongClick(int position) {
+
+    }
+
 
     /**
      * This is function to create menu on AppBar
