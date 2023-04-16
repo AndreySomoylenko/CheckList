@@ -18,7 +18,7 @@
 
         <EditTextPreference
             app:key="name"
-            app:title="Ваше имя"
+            app:title="@string/your_name"
             app:defaultValue="User"
             app:useSimpleSummaryProvider="true" />
 

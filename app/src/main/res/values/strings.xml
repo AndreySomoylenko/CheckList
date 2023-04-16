@@ -43,26 +43,16 @@
     <string name="rub">руб.</string>
     <string name="kop">коп.</string>
     <string name="error_serv_req">Ошибка запроса на сервер</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your login</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">Настройки</string>
     <string name="sync_mode">Режим синхронизации</string>
     <string name="data_sync">Синхронизация данных</string>
     <string name="sync">Синхронизация</string>
     <string name="account_settings">Настройки аккаунта</string>
     <string name="language_settings">Настройки языка</string>
     <string name="language_choose">Выбор языка</string>
+    <string name="def">По умолчанию</string>
+    <string name="full_sync">Полная синхронизация</string>
+    <string name="bag_sync">Только корзина</string>
+    <string name="list_sync">Только список</string>
+    <string name="your_name">Ваше имя</string>
 </resources>

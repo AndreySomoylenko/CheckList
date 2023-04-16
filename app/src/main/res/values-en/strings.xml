@@ -44,19 +44,16 @@
     <string name="rub">rub.</string>
     <string name="kop">kop.</string>
     <string name="error_serv_req">"Server request error "</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-    <string name="signature_title">Your login</string>
-    <string name="reply_title">Default reply action</string>
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">"Automatically download attachments for incoming emails     "</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="sync_mode">Sync mode</string>
-    <string name="data_sync">Data sync</string>
+    <string name="data_sync">Data synchronization</string>
     <string name="sync">Sync</string>
     <string name="account_settings">Account settings</string>
     <string name="language_settings">Language settings</string>
     <string name="language_choose">Language</string>
+    <string name="def">Default</string>
+    <string name="full_sync">Full synchronization</string>
+    <string name="bag_sync">Only bag</string>
+    <string name="list_sync">Only list</string>
+    <string name="your_name">Your name</string>
 </resources>

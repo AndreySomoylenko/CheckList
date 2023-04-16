@@ -1,9 +1,9 @@
 <resources>
     <!-- Reply Preference -->
     <string-array name="reply_entries">
-        <item>Полная синхронизация</item>
-        <item>Только список</item>
-        <item>Только корзина</item>
+        <item>@string/full_sync</item>
+        <item>@string/list_sync</item>
+        <item>@string/bag_sync</item>
     </string-array>
 
     <string-array name="reply_values">
@@ -15,7 +15,7 @@
     <string-array name="language_entires">
         <item>Русский</item>
         <item>English</item>
-        <item>Default</item>
+        <item>@string/def</item>
     </string-array>
 
     <string-array name="languege_values">
