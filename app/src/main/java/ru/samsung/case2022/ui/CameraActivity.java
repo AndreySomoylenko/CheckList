@@ -1,7 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
-import static ru.samsung.case2022.ui.RootActivity.db;
 import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
@@ -20,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.IOException;
 
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.AppDao;
+import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
 import ru.samsung.case2022.tensorflow.TFLiteInterpreter;
 
@@ -36,10 +36,14 @@ public class CameraActivity extends AppCompatActivity {
      * ImageView for user to see preview of image
      */
     ImageView image;
+
+    AppDao appDao;
     /**
      * Button which start recognition of image
      */
     FloatingActionButton recognize;
+
+    DBJson db;
     /**
      * Button which cancel recognition if user doesn't like photo
      */
@@ -62,6 +66,8 @@ public class CameraActivity extends AppCompatActivity {
         recognize = findViewById(R.id.recognize);
         cancel = findViewById(R.id.cancel);
         image = findViewById(R.id.preview);
+        appDao = new AppDao(this);
+        db = new DBJson(this);
         bitmap = RootActivity.bitmap;
         //Check if the Bitmap has wrong rotation. If has, change rotation
         if (bitmap.getWidth() > bitmap.getHeight()) {
@@ -77,12 +83,11 @@ public class CameraActivity extends AppCompatActivity {
         });
         //Set Listener for the recognize button
         recognize.setOnClickListener(v -> {
-            String[] s = recognize();
-            db.removeByName(s[0].toLowerCase());
-            db.removeByName(s[1].toLowerCase());
-            Toast.makeText(this, s[0], Toast.LENGTH_SHORT).show();
+            String s = recognize();
+            db.removeByName(s);
+            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
 
-            if (appDao.getLogin() != "") {
+            if (appDao.getLogin() != "" && syncApi != null) {
                 new Thread() {
                     @Override
                     public void run() {
@@ -110,15 +115,14 @@ public class CameraActivity extends AppCompatActivity {
      * We use this method to recognize product from image
      * @return name of the product
      */
-    private String[] recognize() {
+    private String recognize() {
         try {
             TFLiteInterpreter tf = new TFLiteInterpreter(getApplicationContext());
             bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
             bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
             float[] output = tf.runInference(bitmap);
-            String[] a = new String[2];
-            a[0] = tf.getResult(output);
-            a[1] = tf.getResult2(output);
+            String a;
+            a = tf.getResult(output);
             return a;
 
         } catch (IOException e) {

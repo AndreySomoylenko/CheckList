@@ -1,6 +1,7 @@
 package ru.samsung.case2022.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 
@@ -10,11 +11,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import ru.samsung.case2022.adapters.Item;
 import ru.samsung.case2022.ui.RootActivity;
 
 /**
@@ -28,8 +32,8 @@ public class BuysManager {
      * List of products for the whole project
      * Creates ones at app startup
      */
-    public static List<String> buys = new ArrayList<>();
-    public static List<String> bag = new ArrayList<>();
+    public static List<Item> buys = new ArrayList<>();
+    public static List<Item> bag = new ArrayList<>();
 
 
 
@@ -47,7 +51,7 @@ public class BuysManager {
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -70,5 +74,43 @@ public class BuysManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public static List<String> unpack(List<Item> list) {
+        List<String> unpacked_list = new ArrayList<>();
+        for (Item x: list) {
+            for (int i = 0; i < x.count; i++) {
+                unpacked_list.add(x.name);
+            }
+        }
+        return unpacked_list;
+    }
+
+    public static List<Item> pack(List<String> buys) {
+        List<Item> res = new ArrayList<>();
+        for (int i = 0; i < buys.size(); i++) {
+            if (!containsName(res, buys.get(i))) {
+                res.add(new Item(buys.get(i), 1));
+            } else {
+                res.get(getPosByName(res, buys.get(i))).count++;
+            }
+        }
+        Log.d("PROCESSED BUYS", String.valueOf(res.size()));
+        return res;
+    }
+
+    private static int getPosByName(List<Item> list, String name) {
+        for (int i = 0; i < list.size(); i++) {
+            if (Objects.equals(list.get(i).name, name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static boolean containsName(List<Item> list, String name) {
+        for (int i = 0; i < list.size(); i++) {
+            if (Objects.equals(list.get(i).name, name)) return true;
+        }
+        return false;
     }
 }

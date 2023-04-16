@@ -35,7 +35,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private final OnNoteListener mOnNoteListener;
 
-    private int[] itemIds = {
+    private final int[] itemIds = {
             R.drawable.biscuits,
             R.drawable.broccoli,
             R.drawable.cheese,
@@ -91,6 +91,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         Item local = localDataSet.get(position);
 
+
         viewHolder.getTextView().setText(local.name);
 
 
@@ -100,7 +101,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         String rubles;
         String cents;
-        Money price = getMoneyByName(local.name).multiply(local.count);
+        Money price = getMoneyByName(local).multiply(local.count);
         rubles = String.valueOf(price.getRubles());
         cents = String.valueOf(price.getCents());
         Log.d("LOCAL DATASET", localDataSet.toString());
@@ -112,16 +113,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private int getIdByName(String name) {
         for (int i = 0; i < BuysManager.possibleItems.size(); i++) {
-            if (Objects.equals(name.toLowerCase(), BuysManager.possibleItems.get(i).toLowerCase()) || Objects.equals(name.toLowerCase(), BuysManager.possibleItems.get(i).split(" ")[0].toLowerCase())) {
+            if (Objects.equals(name.toLowerCase(), BuysManager.possibleItems.get(i).toLowerCase())) {
                 return itemIds[i];
             }
         }
         return R.drawable.unknown_product;
     }
 
-    public static Money getMoneyByName(String name) {
+    public static Money getMoneyByName(Item item) {
+        String name = item.name;
         for (String key: BuysManager.prices.keySet()) {
-            if (Objects.equals(name.toLowerCase(), key.toLowerCase()) || Objects.equals(name.toLowerCase(), key.split(" ")[0].toLowerCase())) {
+            if (Objects.equals(name.toLowerCase(), key.toLowerCase())) {
                 return BuysManager.prices.get(key);
             }
         }

@@ -12,6 +12,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
 
+import ru.samsung.case2022.adapters.Item;
+
 /**
  * The AppDao class
  * @author Philipp Schepnov
@@ -40,7 +42,7 @@ public class AppDao {
      * This method is used to write list of buys to Shared Preferences
      * @param strings is th list of products to be written in Shared Preferences
      */
-    public void putList(List<String> strings) {
+    public void putList(List<Item> strings) {
         // Creates class to convert list to json format string
         Gson gson = new Gson();
         String json = gson.toJson(strings);
@@ -51,7 +53,7 @@ public class AppDao {
                 .apply();
     }
 
-    public void putBagList(List<String> strings) {
+    public void putBagList(List<Item> strings) {
         // Creates class to convert list to json format string
         Gson gson = new Gson();
         String json = gson.toJson(strings);
@@ -66,22 +68,22 @@ public class AppDao {
      * This method is used to get list of buys from Shared Preferences
      * @return list of buys
      */
-    public List<String> getList() {
+    public List<Item> getList() {
         // Creates class to convert json format string to list of strings
         Gson gson = new Gson();
         String json = spref.getString("items", null);
         // Defines type of structure to which to convert from string
-        Type listType = new TypeToken<List<String>>(){}.getType();
+        Type listType = new TypeToken<List<Item>>(){}.getType();
         return gson.fromJson(json, listType);
     }
     
 
-    public List<String> getBagList() {
+    public List<Item> getBagList() {
         // Creates class to convert json format string to list of strings
         Gson gson = new Gson();
         String json = spref.getString("bag", null);
         // Defines type of structure to which to convert from string
-        Type listType = new TypeToken<List<String>>(){}.getType();
+        Type listType = new TypeToken<List<Item>>(){}.getType();
         return gson.fromJson(json, listType);
     }
 

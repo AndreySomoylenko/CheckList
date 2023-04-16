@@ -1,7 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,17 +17,21 @@ import java.util.Locale;
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.ServerDB;
 
 public class SettingsActivity extends AppCompatActivity {
 
     FloatingActionButton back;
 
+    AppDao appDao;
+
     public static ActionBar bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        appDao = new AppDao(this);
             if (!appDao.getLogin().equals(""))  getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())

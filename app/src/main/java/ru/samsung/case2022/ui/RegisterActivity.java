@@ -1,6 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
@@ -41,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
      */
 
     public static ActionBar bar;
+
+    AppDao appDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         
         Button loginBtn = findViewById(R.id.registerBtn);
         TextView hasAccount = findViewById(R.id.hasAccount);
+        appDao = new AppDao(this);
         FloatingActionButton back = findViewById(R.id.back_register);
         loginBtn.setOnClickListener(v -> {
             String name = ((EditText)findViewById(R.id.nameInput)).getText().toString().strip();
@@ -97,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onFailure(Call<ServerString> call, Throwable t) {
 
                         ServerDB.showConnectionError(RegisterActivity.this);
-                        System.out.println(t.toString());
+                        System.out.println(t);
                     }
                 });
             }

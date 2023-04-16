@@ -1,7 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
-import static ru.samsung.case2022.ui.RootActivity.db;
 import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import android.app.AlertDialog;
@@ -23,6 +21,7 @@ import java.util.Collections;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.Money;
@@ -35,6 +34,10 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
      * This is the recycler view which is used to show priducts in bag
      */
     static RecyclerView recyclerView;
+
+    DBJson db;
+
+    AppDao appDao;
 
     /**
      * This is the TextView to show sum of user's buys
@@ -63,7 +66,9 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bag);
         recyclerView = findViewById(R.id.recycler_bag);
-        adapter = new CustomAdapter(RootActivity.processBuys(BuysManager.bag), this, this);
+        appDao = new AppDao(this);
+        db = new DBJson(this);
+        adapter = new CustomAdapter(BuysManager.bag, this, this);
         recyclerView.setAdapter(adapter);
         suma = findViewById(R.id.sum);
         Money sum = BuysManager.sum;
@@ -97,26 +102,27 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             Money price = CustomAdapter.getMoneyByName(BuysManager.bag.get(position));
-            BuysManager.sum = BuysManager.sum.minus(price.multiply(Collections.frequency(BuysManager.bag, BuysManager.bag.get(position))));
-
+            BuysManager.sum = BuysManager.sum.minus(price.multiply(BuysManager.bag.get(position).count));
             Money sum = BuysManager.sum;
             String rubles = String.valueOf(sum.getRubles());
             String cents = String.valueOf(sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
-            RootActivity.db.removeByNameBag(RootActivity.processBuys(BuysManager.bag).get(position).name);
+            db.removeByIndexBag(position);
             db.save();
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        syncApi.sync().execute();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            if (syncApi != null) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            syncApi.sync().execute();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }
-            }.start();
+                }.start();
+            }
         });
         alert.setNegativeButton("Нет", (dialog, whichButton) -> {
         });
@@ -152,16 +158,19 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
                 alert.setMessage(getString(R.string.clear_bag_sure));
                 alert.setPositiveButton(getString(R.string.yes), (dialog, whichButton) -> {
                     (new DBJson(this)).clearBag();
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            try {
-                                syncApi.sync().execute();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+
+                    if (syncApi != null) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    syncApi.sync().execute();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                        }
-                    }.start();
+                        }.start();
+                    }
 
                     BuysManager.sum.makeZero();
                     suma.setText(getString(R.string.total_0_rub_0_kop));

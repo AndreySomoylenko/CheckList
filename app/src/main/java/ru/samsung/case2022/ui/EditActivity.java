@@ -1,7 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
-import static ru.samsung.case2022.ui.RootActivity.db;
 import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
@@ -26,6 +24,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.samsung.case2022.adapters.Item;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.db.DBJson;
@@ -44,6 +44,11 @@ public class EditActivity extends AppCompatActivity {
      */
     EditText editText;
 
+
+    DBJson db;
+
+    AppDao appDao;
+
     /**
      * String which we get from editText
      */
@@ -55,7 +60,7 @@ public class EditActivity extends AppCompatActivity {
     /**
      * Position of element, which we clicked on
      */
-    String name;
+    int position;
 
     int count;
 
@@ -74,15 +79,18 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        name = getIntent().getSerializableExtra("name").toString();
+        position = (int) getIntent().getSerializableExtra("position");
         editText = findViewById(R.id.editProductName);
+        db = new DBJson(this);
         plusBtn = findViewById(R.id.plusBtn);
         minusBtn = findViewById(R.id.minusBtn);
+        appDao = new AppDao(this);
         counterView = findViewById(R.id.counter);
-        counterView.setText(String.valueOf(Collections.frequency(BuysManager.buys, name)));
-        editText.setText(name);
+        count = BuysManager.buys.get(position).count;
+        counterView.setText(String.valueOf(count));
+        Item x = BuysManager.buys.get(position);
+        editText.setText(BuysManager.possibleItems.contains(x.name) ? x.name.split(" ")[0] : x.name);
         back = findViewById(R.id.back_edit);
-        count = Integer.parseInt(counterView.getText().toString());
         if (count == 1) {
             minusBtn.setEnabled(false);
         }
@@ -90,14 +98,6 @@ public class EditActivity extends AppCompatActivity {
             plusBtn.setEnabled(false);
         }
         back.setOnClickListener(v -> {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        syncApi.sync().execute();
-                    } catch (IOException ignored) {}
-                }
-            }.start();
             Intent intent = new Intent(this, RootActivity.class);
             startActivity(intent);
         });
@@ -109,19 +109,6 @@ public class EditActivity extends AppCompatActivity {
             }
             if (!minusBtn.isEnabled()) minusBtn.setEnabled(true);
             counterView.setText(String.valueOf(count));
-            BuysManager.buys.add(name);
-            db.save();
-            if (appDao.getLogin() != "") {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            syncApi.sync().execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
-
         });
 
         minusBtn.setOnClickListener(v -> {
@@ -131,18 +118,6 @@ public class EditActivity extends AppCompatActivity {
             }
             if (!plusBtn.isEnabled()) plusBtn.setEnabled(true);
             counterView.setText(String.valueOf(count));
-            BuysManager.buys.remove(name);
-            db.save();
-            if (appDao.getLogin() != "") {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            syncApi.sync().execute();
-                        } catch (IOException ignored) {}
-                    }
-                }.start();
-            }
         });
         if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
@@ -163,11 +138,22 @@ public class EditActivity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
+            for (String x: BuysManager.possibleItems) {
+                if (s.equalsIgnoreCase(x.split(" ")[0])) {
+                    s = x;
+                }
+            }
+            Item x = BuysManager.buys.get(position);
+            x.name = s;
+            x.count = count;
             for (int i = 0; i < BuysManager.buys.size(); i++) {
-                if (Objects.equals(name, BuysManager.buys.get(i))) BuysManager.buys.set(i, s);
+                if (BuysManager.buys.get(i).name.equals(s)) {
+                    BuysManager.buys.remove(x);
+                    db.add(s, count);
+                }
             }
             db.save();
-            if (appDao.getLogin() != "") {
+            if (appDao.getLogin() != "" && syncApi != null) {
                 new Thread() {
                     @Override
                     public void run() {
@@ -190,8 +176,8 @@ public class EditActivity extends AppCompatActivity {
      */
 
     public void deleteItem(View view) {
-        db.removeByNameBag(name);
-        if (appDao.getLogin() != "") {
+        db.removeByIndex(position);
+        if (appDao.getLogin() != "" && syncApi != null) {
             new Thread() {
                 @Override
                 public void run() {

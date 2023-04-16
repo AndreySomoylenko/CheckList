@@ -111,7 +111,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     /**
      * Class which help us to manage list of products
      */
-    public static DBJson db;
+    public DBJson db;
 
     public static AppDao appDao;
     private ServerDB serverDB;
@@ -152,18 +152,31 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             switch (choice) {
                 case "full":
                     syncApi = new FullSync(this);
+                    DBJson.startServ = true;
+                    swipeRefreshLayout.setEnabled(false);
                     break;
                 case "only_bag":
                     syncApi = new BagSync(this);
+                    swipeRefreshLayout.setEnabled(false);
+                    DBJson.startServ = true;
                     break;
                 case "only_list":
                     syncApi = new ListSync(this);
+                    swipeRefreshLayout.setEnabled(false);
+                    DBJson.startServ = true;
                     break;
                 default:
+                    swipeRefreshLayout.setEnabled(true);
                     syncApi = null;
             }
         } else {
             syncApi = null;
+            swipeRefreshLayout.setEnabled(true);
+        }
+
+        if (DBJson.startServ) {
+            startService();
+            DBJson.startServ = false;
         }
 
         bag.setOnClickListener(v -> {
@@ -171,7 +184,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             startActivity(intent);
         });
         if (DBJson.start) {
-            Start();
+            db.init();
+            BuysManager.getMapFromJSON(getApplicationContext());
             DBJson.start = false;
         }
         bar = getSupportActionBar();
@@ -199,6 +213,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
                 }
             });
+        } else {
+            swipeRefreshLayout.setEnabled(false);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -279,9 +295,8 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     protected void onResume() {
         super.onResume();
 
-        adapter = new CustomAdapter(processBuys(BuysManager.buys), this, this);
+        adapter = new CustomAdapter(BuysManager.buys, this, this);
         recycler.setAdapter(adapter);
-        Start();
     }
 
     /**
@@ -291,7 +306,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     @Override
     public void OnNoteClick(int position) {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("name", processBuys(BuysManager.buys).get(position).name);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 
@@ -364,19 +379,16 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
     }
 
 
-    private void Start() {
-        db.init();
-        BuysManager.getMapFromJSON(getApplicationContext());
+    private void startService() {
         String login = appDao.getLogin();
         if (!login.equals("")) {
             ScheduledExecutorService executorService
                     = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
-                if (!appDao.getLogin().equals("")) {
+                if (!appDao.getLogin().equals("") && syncApi != null) {
                     updateList(false, syncApi);
                 } else {
-                    swipeRefreshLayout.setEnabled(false);
                     executorService.shutdown();
                 }
 
@@ -417,15 +429,15 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     });
                 } else {
                     if (response.body()[0] != null) {
-                        BuysManager.buys = response.body()[0];
-                        RootActivity.adapter.refresh(processBuys(BuysManager.buys));
+                        BuysManager.buys = BuysManager.pack(response.body()[0]);
+                        RootActivity.adapter.refresh(BuysManager.buys);
                         RootActivity.recycler.setAdapter(adapter);
                         db.save();
                     }
                     if (response.body()[1] != null) {
-                        BuysManager.bag = response.body()[1];
+                        BuysManager.bag = BuysManager.pack(response.body()[1]);
                         try {
-                            BagActivity.adapter.refresh(processBuys(BuysManager.bag));
+                            BagActivity.adapter.refresh(BuysManager.bag);
                             BagActivity.recyclerView.setAdapter(BagActivity.adapter);
                         } catch (Exception ignored) {}
                         db.save();
@@ -455,35 +467,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 }
             }
         });
-    }
-
-    public static List<Item> processBuys(List<String> buys) {
-        List<Item> res = new ArrayList<>();
-        for (int i = 0; i < buys.size(); i++) {
-            if (!containsName(res, buys.get(i))) {
-                res.add(new Item(buys.get(i), 1));
-            } else {
-                res.get(getPosByName(res, buys.get(i))).count++;
-            }
-        }
-        Log.d("PROCESSED BUYS", String.valueOf(res.size()));
-        return res;
-    }
-
-    private static boolean containsName(List<Item> list, String name) {
-        for (int i = 0; i < list.size(); i++) {
-            if (Objects.equals(list.get(i).name, name)) return true;
-        }
-        return false;
-    }
-
-    private static int getPosByName(List<Item> list, String name) {
-        for (int i = 0; i < list.size(); i++) {
-            if (Objects.equals(list.get(i).name, name)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
 

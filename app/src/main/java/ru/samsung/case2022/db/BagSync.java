@@ -16,7 +16,7 @@ public class BagSync implements SyncApi{
     }
     @Override
     public Call<ResponseBody> sync() {
-        return db.sync(null, BuysManager.bag);
+        return db.sync(null, BuysManager.unpack(BuysManager.bag));
     }
 
     @Override

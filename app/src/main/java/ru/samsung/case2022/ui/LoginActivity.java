@@ -1,6 +1,5 @@
 package ru.samsung.case2022.ui;
 
-import static ru.samsung.case2022.ui.RootActivity.appDao;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
@@ -38,12 +38,14 @@ public class LoginActivity extends AppCompatActivity {
      * @param savedInstanceState
      */
 
+    AppDao appDao;
+
     public static ActionBar bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        appDao = new AppDao(this);
         Button loginBtn = findViewById(R.id.loginBtn);
         FloatingActionButton back = findViewById(R.id.back_login);
         loginBtn.setOnClickListener(v -> {
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(Call<List<String>[]> call, Response<List<String>[]> response) {
                                             Log.d("LOGIN LIST", response.body().toString());
-                                            BuysManager.buys = response.body()[0];
+                                            BuysManager.buys = BuysManager.pack(response.body()[0]);
                                             (new DBJson(getApplicationContext())).save();
                                             DBJson.start = true;
                                             Intent intent = new Intent(LoginActivity.this, RootActivity.class);

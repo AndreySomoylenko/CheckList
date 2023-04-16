@@ -1,8 +1,6 @@
 package ru.samsung.case2022.ui;
 
 import static ru.samsung.case2022.ui.RootActivity.syncApi;
-import static ru.samsung.case2022.ui.RootActivity.appDao;
-import static ru.samsung.case2022.ui.RootActivity.db;
 import static ru.samsung.case2022.ui.RootActivity.syncApi;
 
 import androidx.appcompat.app.ActionBar;
@@ -21,7 +19,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ru.samsung.case2022.R;
+import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
+import ru.samsung.case2022.db.DBJson;
 import ru.samsung.case2022.db.ServerDB;
 
 /**
@@ -38,6 +38,8 @@ public class AddActivity extends AppCompatActivity {
      */
     EditText editText;
 
+    AppDao appDao;
+
     public static ActionBar bar;
 
     FloatingActionButton back;
@@ -50,6 +52,8 @@ public class AddActivity extends AppCompatActivity {
      */
     String s;
 
+    DBJson db;
+
     /**
      * Method to start this activity
      * @param savedInstanceState
@@ -59,9 +63,11 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+        appDao = new AppDao(this);
         if (!appDao.getLogin().equals("")) {
             getSupportActionBar().setTitle(appDao.getName());
         }
+        db = new DBJson(this);
         editText = findViewById(R.id.editProductName);
         back = findViewById(R.id.back_add);
         plusBtn = findViewById(R.id.plusBtn);
@@ -111,9 +117,7 @@ public class AddActivity extends AppCompatActivity {
         if (Objects.equals(s, "")) {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
-            for (int i = 0; i < count; i++) {
-                db.add(s);
-            }
+            db.add(s, count);
             if (appDao.getLogin() != "" && syncApi != null) {
                 new Thread() {
                     @Override

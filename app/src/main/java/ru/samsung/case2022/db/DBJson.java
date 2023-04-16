@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.adapters.Item;
 
 /**
  * The DBJson class
@@ -22,29 +23,50 @@ public class DBJson {
     /**
      * This class is used to get data from Shared Preferences
      */
-    private static AppDao appDao;
+    private  AppDao appDao;
 
     public static boolean start = true;
-
+    public static boolean startServ = false;
     Context context;
 
     public DBJson(Context context) {
         this.context = context;
+        appDao = new AppDao(context);
     }
 
     /**
      * This method is used to add item in list of buys
      * @param item is the item to add
      */
-    public void add(String name) {
-        BuysManager.buys.add(name);
+    public void add(String name, int count) {
+        for (String x: BuysManager.possibleItems) {
+            if (name.equalsIgnoreCase(x.split(" ")[0])) {
+                name = x;
+            }
+        }
+        for (int i = 0; i < BuysManager.buys.size(); i++) {
+            Item x = BuysManager.buys.get(i);
+            if (x.name.equals(name))  {
+                x.count += count;
+                save();
+                return;
+            }
+        }
+        BuysManager.buys.add(new Item(name, count));
         save();
     }
 
-    public void addToBag(String name) {
-        BuysManager.bag.add(name);
-        save();
+    public void addToBag(Item item) {
+        for (int i = 0; i < BuysManager.bag.size(); i++) {
+            Item x = BuysManager.bag.get(i);
+            if (x.name.equals(item.name))  {
+                x.count += item.count;
+                return;
+            }
+        }
+        BuysManager.bag.add(item);
     }
+
 
     public void clearBag() {
         BuysManager.bag.clear();
@@ -56,30 +78,39 @@ public class DBJson {
      * @param item is the item to remove
      * @return true if item deleted or false if item not found
      */
-    public boolean removeByName(String item) {
-        if (!BuysManager.buys.contains(item)) return false;
+    public void removeByName(String name) {
         // This cycle is needed to delete all elements that equal to item
-        while (BuysManager.buys.contains(item)) {
-            BuysManager.buys.remove(item);
-            addToBag(item);
-            Money price = CustomAdapter.getMoneyByName(item);
-            BuysManager.sum = BuysManager.sum.plus(price);
+        for (int i = 0; i < BuysManager.buys.size(); i++) {
+            Item x = BuysManager.buys.get(i);
+            if (x.name.equals(name)) {
+                Money price = CustomAdapter.getMoneyByName(x).multiply(x.count);
+                BuysManager.buys.remove(x);
+                addToBag(x);
+                BuysManager.sum = BuysManager.sum.plus(price);
+                save();
+                break;
+            }
         }
-        save();
         //sync();
-        return true;
     }
+
+
 
 
     /**
      * This method is used to remove item from list of buys by its index
-     * @param index is the index of item to remove
+     * @param position is the index of item to remove
      * @return true if item deleted or false if index >= length of list
      */
-    public void removeByNameBag(String name) {
-        while (BuysManager.buys.remove(name)) {}
+    public void removeByIndex(int position) {
+        BuysManager.buys.remove(position);
         save();
         //sync();
+    }
+
+    public void removeByIndexBag(int position) {
+        BuysManager.bag.remove(position);
+        save();
     }
 
 
