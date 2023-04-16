@@ -41,8 +41,6 @@ public class BuysManager {
     public static List<String> possibleItems = new ArrayList<>();
     public static Map<String, Money> prices = new HashMap<>();
 
-    public static Money sum;
-
     public static String loadJSONFromAsset(Context context) {
         String json = null;
         try {

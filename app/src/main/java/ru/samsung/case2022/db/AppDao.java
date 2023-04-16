@@ -110,17 +110,6 @@ public class AppDao {
         spref.edit().putString("name", name).apply();
     }
 
-    public void putSum(int rubles, int cents) {
-        spref
-                .edit()
-                .putInt("rubles", rubles)
-                .putInt("cents", cents)
-                .apply();
-    }
-
-    public Money getSum() {
-        return new Money(spref.getInt("rubles", 0), spref.getInt("cents", 0));
-    }
 
     public String getLang() {
         return spref.getString("lang", "default");

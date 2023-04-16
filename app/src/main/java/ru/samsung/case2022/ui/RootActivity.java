@@ -316,10 +316,12 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         Log.d("s", "s");
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(getString(R.string.add));
-        alert.setMessage(R.string.sure_add);
+        alert.setMessage(getString(R.string.sure_add));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             db.addToBag(BuysManager.buys.get(position));
             db.removeByIndex(position);
+            adapter.refresh(BuysManager.buys);
+            recycler.setAdapter(adapter);
             if (syncApi != null) {
                 new Thread() {
                     @Override

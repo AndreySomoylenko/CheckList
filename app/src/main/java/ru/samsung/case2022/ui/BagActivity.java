@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import ru.samsung.case2022.R;
 import ru.samsung.case2022.adapters.CustomAdapter;
+import ru.samsung.case2022.adapters.Item;
 import ru.samsung.case2022.db.AppDao;
 import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.db.DBJson;
@@ -56,6 +57,8 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
 
     public static ActionBar bar;
 
+    Money sum;
+
 
     /**
      * This method calls on activity start
@@ -70,8 +73,8 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         db = new DBJson(this);
         adapter = new CustomAdapter(BuysManager.bag, this, this);
         recyclerView.setAdapter(adapter);
+        sum = countSum();
         suma = findViewById(R.id.sum);
-        Money sum = BuysManager.sum;
         String rubles = String.valueOf(sum.getRubles());
         String cents = String.valueOf(sum.getCents());
         suma.setText(getString(R.string.total) + " " + rubles +  getString(R.string.rub) + " " + cents + getString(R.string.kop));
@@ -102,8 +105,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             Money price = CustomAdapter.getMoneyByName(BuysManager.bag.get(position));
-            BuysManager.sum = BuysManager.sum.minus(price.multiply(BuysManager.bag.get(position).count));
-            Money sum = BuysManager.sum;
+            sum = sum.minus(price.multiply(BuysManager.bag.get(position).count));
             String rubles = String.valueOf(sum.getRubles());
             String cents = String.valueOf(sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
@@ -177,7 +179,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
                         }.start();
                     }
 
-                    BuysManager.sum.makeZero();
+                    sum.makeZero();
                     suma.setText(getString(R.string.total_0_rub_0_kop));
                     recyclerView.getAdapter().notifyDataSetChanged();
                     db.save();
@@ -191,5 +193,14 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private Money countSum() {
+        Money sum = new Money(0, 0);
+        for (Item x: BuysManager.bag) {
+            Money price = CustomAdapter.getMoneyByName(x);
+            sum = sum.plus(price.multiply(x.count));
+        }
+        return sum;
     }
 }

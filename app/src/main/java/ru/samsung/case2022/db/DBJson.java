@@ -83,10 +83,8 @@ public class DBJson {
         for (int i = 0; i < BuysManager.buys.size(); i++) {
             Item x = BuysManager.buys.get(i);
             if (x.name.equals(name)) {
-                Money price = CustomAdapter.getMoneyByName(x).multiply(x.count);
                 BuysManager.buys.remove(x);
                 addToBag(x);
-                BuysManager.sum = BuysManager.sum.plus(price);
                 save();
                 break;
             }
@@ -125,7 +123,6 @@ public class DBJson {
         if (appDao.getBagList() != null) {
             BuysManager.bag = appDao.getBagList();
         }
-        BuysManager.sum = appDao.getSum();
     }
 
     /**
@@ -134,7 +131,6 @@ public class DBJson {
     public void save() {
         appDao.putList(BuysManager.buys);
         appDao.putBagList(BuysManager.bag);
-        appDao.putSum(BuysManager.sum.getRubles(), BuysManager.sum.getCents());
     }
 
 
