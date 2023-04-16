@@ -107,7 +107,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Log.d("LOCAL DATASET", localDataSet.toString());
         Log.d("BUYSMANAG BUYS", BuysManager.buys.toString());
 
-        viewHolder.getPrice().setText(rubles + "руб " + cents + "коп " + "(" + local.count + " шт)");
+        viewHolder.getPrice().setText(rubles + context.getString(R.string.rub) + " " + cents + context.getString(R.string.kop) + " " + "(" + local.count + " " + context.getString(R.string.count_short) + ")");
     }
 
 
