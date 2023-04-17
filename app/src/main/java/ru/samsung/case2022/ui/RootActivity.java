@@ -79,7 +79,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     public static ActionBar bar;
 
-    private static boolean showDialog = true;
+    private static boolean showDialog = false;
 
     public static SyncApi syncApi;
 
