@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -78,10 +79,13 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     public static ActionBar bar;
 
+    private static boolean showDialog = true;
+
     public static SyncApi syncApi;
 
 
 
+    Handler mHandler;
 
     /**
      * Button which open AddActivity to add element to list
@@ -96,8 +100,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
     static CustomAdapter adapter;
     static RecyclerView recycler;
-
-    static SwipeRefreshLayout swipeRefreshLayout;
 
     /**
      * Path for imageFile
@@ -129,10 +131,10 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
          No night mode
          */
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        swipeRefreshLayout= findViewById(R.id.swipeRefreshLayout);
         recycler = findViewById(R.id.recycler);
         scan = findViewById(R.id.scan);
         add = findViewById(R.id.add);
+        mHandler = new Handler();
         bag = findViewById(R.id.bag);
         serverDB = new ServerDB(this);
         appDao = new AppDao(this);
@@ -154,25 +156,20 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                 case "full":
                     syncApi = new FullSync(this);
                     DBJson.startServ = true;
-                    swipeRefreshLayout.setEnabled(false);
                     break;
                 case "only_bag":
                     syncApi = new BagSync(this);
-                    swipeRefreshLayout.setEnabled(false);
                     DBJson.startServ = true;
                     break;
                 case "only_list":
                     syncApi = new ListSync(this);
-                    swipeRefreshLayout.setEnabled(false);
                     DBJson.startServ = true;
                     break;
                 default:
-                    swipeRefreshLayout.setEnabled(true);
                     syncApi = null;
             }
         } else {
             syncApi = null;
-            swipeRefreshLayout.setEnabled(true);
         }
 
         if (DBJson.startServ) {
@@ -214,18 +211,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
 
                 }
             });
-        } else {
-            swipeRefreshLayout.setEnabled(false);
         }
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.d("REFRESH", "ON REFRESH");
-                updateList(true, new ListSync(getApplicationContext()));
-
-            }
-        });
 
 
     }
@@ -416,15 +402,36 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleWithFixedDelay(() -> {
                 Log.d("Philipp", "Ismail");
-                if (!appDao.getLogin().equals("") && syncApi != null) {
+                if (!appDao.getLogin().equals("") && syncApi != null && !showDialog) {
                     updateList(false, syncApi);
+                    serverDB.getName().enqueue(new Callback<ServerString>() {
+                        @Override
+                        public void onResponse(Call<ServerString> call, Response<ServerString> response) {
+                            String s = response.body().str;
+                            appDao.setName(s);
+                            try {
+                                RootActivity.bar.setTitle(s);
+                                SettingsActivity.bar.setTitle(s);
+                                AddActivity.bar.setTitle(s);
+                                BagActivity.bar.setTitle(s);
+                                CameraActivity.bar.setTitle(s);
+                                EditActivity.bar.setTitle(s);
+                                LoginActivity.bar.setTitle(s);
+                                RegisterActivity.bar.setTitle(s);
+                            } catch (Exception ignored) {
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ServerString> call, Throwable t) {
+
+                        }
+                    });
                 } else {
-                    executorService.shutdown();
+                    executorService.shutdownNow();
                 }
 
             }, 1, 1, TimeUnit.SECONDS);
-        } else {
-            swipeRefreshLayout.setEnabled(false);
         }
     }
 
@@ -442,38 +449,63 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     LoginActivity.bar.setSubtitle("");
                     RegisterActivity.bar.setSubtitle("");
                 } catch (Exception ignored) {}
-                if (!ServerDB.hasConnection) {
-                    localSyncApi.sync().enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            ServerDB.hasConnection = true;
-                            swipeRefreshLayout.setEnabled(true);
-                        }
+                if (!ServerDB.hasConnection && !showDialog) {
+                    ServerDB.hasConnection = true;
+                    if (response.body()[0] != null && ((!Objects.equals(BuysManager.unpack(BuysManager.buys), response.body()[0])) ||  (response.body()[1] != null && (!Objects.equals(BuysManager.unpack(BuysManager.bag), response.body()[1]))))) {
+                        showDialog = true;
+                        mHandler.post(() -> {
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            ServerDB.hasConnection = true;
-                            swipeRefreshLayout.setEnabled(true);
+                            AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
+                            alert.setTitle("Несовпадение данных на сервере");
+                            alert.setMessage("Какой список оставить");
+                            alert.setPositiveButton("На устройстве", (dialog, whichButton) -> {
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            localSyncApi.sync().execute();
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }.start();
+                                showDialog = false;
+                                startService();
+                            });
+                            alert.setNegativeButton("На сервере", (dialog, whichButton) -> {
+                                showDialog = false;
+                                startService();
+                            });
+                            alert.show();
+                        });
+                    }
 
-                        }
-                    });
-                } else {
+                } else if (!showDialog){
                     if (response.body()[0] != null) {
-                        BuysManager.buys = BuysManager.pack(response.body()[0]);
-                        RootActivity.adapter.refresh(BuysManager.buys);
-                        RootActivity.recycler.setAdapter(adapter);
-                        db.save();
+                        if (!Objects.equals(BuysManager.unpack(BuysManager.buys), response.body()[0])) {
+                            BuysManager.buys = BuysManager.pack(response.body()[0]);
+                            RootActivity.adapter.refresh(BuysManager.buys);
+                            RootActivity.recycler.setAdapter(adapter);
+                            db.save();
+                        }
                     }
                     if (response.body()[1] != null) {
-                        BuysManager.bag = BuysManager.pack(response.body()[1]);
-                        try {
-                            BagActivity.adapter.refresh(BuysManager.bag);
-                            BagActivity.recyclerView.setAdapter(BagActivity.adapter);
-                        } catch (Exception ignored) {}
-                        db.save();
+                        if (!Objects.equals(BuysManager.unpack(BuysManager.bag), response.body()[1])) {
+                            BuysManager.bag = BuysManager.pack(response.body()[1]);
+                            try {
+                                BagActivity.adapter.refresh(BuysManager.bag);
+                                BagActivity.recyclerView.setAdapter(BagActivity.adapter);
+                                BuysManager.sum = BuysManager.countSum();
+                                try {
+                                    BagActivity.suma.setText(getString(R.string.total) + " " + BuysManager.sum.getRubles() +  getString(R.string.rub) + " " + BuysManager.sum.getCents() + getString(R.string.kop));
+                                } catch (Exception ignored) {}
+                                db.save();
+                                Log.d("refresss", "refr");
+                            } catch (Exception ignored) {
+                            }
+                        }
                     }
                     if (forRefresh) {
-                        swipeRefreshLayout.setRefreshing(false);
                         Log.d("REFRESH", "STOPPED");
                     }
                 }
@@ -482,7 +514,6 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
             @Override
             public void onFailure(Call<List<String>[]> call, Throwable t) {
                 ServerDB.hasConnection = false;
-                swipeRefreshLayout.setEnabled(false);
                 try {
                     String s = getString(R.string.no_connection);
                     RootActivity.bar.setSubtitle(s);

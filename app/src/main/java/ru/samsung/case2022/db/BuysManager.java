@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import ru.samsung.case2022.adapters.CustomAdapter;
 import ru.samsung.case2022.adapters.Item;
 import ru.samsung.case2022.ui.RootActivity;
 
@@ -34,6 +35,8 @@ public class BuysManager {
      */
     public static List<Item> buys = new ArrayList<>();
     public static List<Item> bag = new ArrayList<>();
+
+    public static Money sum;
 
 
 
@@ -110,5 +113,14 @@ public class BuysManager {
             if (Objects.equals(list.get(i).name, name)) return true;
         }
         return false;
+    }
+
+    public static   Money countSum() {
+        Money sum = new Money(0, 0);
+        for (Item x: BuysManager.bag) {
+            Money price = CustomAdapter.getMoneyByName(x);
+            sum = sum.plus(price.multiply(x.count));
+        }
+        return sum;
     }
 }

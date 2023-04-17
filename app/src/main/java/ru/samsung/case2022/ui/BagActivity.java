@@ -43,7 +43,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
     /**
      * This is the TextView to show sum of user's buys
      */
-    TextView suma;
+    public static TextView suma;
 
     /**
      * This is button to return to home
@@ -56,8 +56,6 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
     static CustomAdapter adapter;
 
     public static ActionBar bar;
-
-    Money sum;
 
 
     /**
@@ -73,10 +71,10 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         db = new DBJson(this);
         adapter = new CustomAdapter(BuysManager.bag, this, this);
         recyclerView.setAdapter(adapter);
-        sum = countSum();
+        BuysManager.sum = BuysManager.countSum();
         suma = findViewById(R.id.sum);
-        String rubles = String.valueOf(sum.getRubles());
-        String cents = String.valueOf(sum.getCents());
+        String rubles = String.valueOf(BuysManager.sum.getRubles());
+        String cents = String.valueOf(BuysManager.sum.getCents());
         suma.setText(getString(R.string.total) + " " + rubles +  getString(R.string.rub) + " " + cents + getString(R.string.kop));
         back = findViewById(R.id.back_bag);
         back.setOnClickListener(v -> {
@@ -105,9 +103,9 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
         alert.setMessage(getString(R.string.delete_sure));
         alert.setPositiveButton("Да", (dialog, whichButton) -> {
             Money price = CustomAdapter.getMoneyByName(BuysManager.bag.get(position));
-            sum = sum.minus(price.multiply(BuysManager.bag.get(position).count));
-            String rubles = String.valueOf(sum.getRubles());
-            String cents = String.valueOf(sum.getCents());
+            BuysManager.sum = BuysManager.sum.minus(price.multiply(BuysManager.bag.get(position).count));
+            String rubles = String.valueOf(BuysManager.sum.getRubles());
+            String cents = String.valueOf(BuysManager.sum.getCents());
             suma.setText("ИТОГО: " + rubles + "руб " + cents + "коп");
             db.removeByIndexBag(position);
             db.save();
@@ -179,7 +177,7 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
                         }.start();
                     }
 
-                    sum.makeZero();
+                    BuysManager.sum.makeZero();
                     suma.setText(getString(R.string.total_0_rub_0_kop));
                     recyclerView.getAdapter().notifyDataSetChanged();
                     db.save();
@@ -193,14 +191,5 @@ public class BagActivity extends AppCompatActivity implements CustomAdapter.OnNo
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    private Money countSum() {
-        Money sum = new Money(0, 0);
-        for (Item x: BuysManager.bag) {
-            Money price = CustomAdapter.getMoneyByName(x);
-            sum = sum.plus(price.multiply(x.count));
-        }
-        return sum;
     }
 }

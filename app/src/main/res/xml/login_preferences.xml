@@ -29,6 +29,7 @@
         <SwitchPreferenceCompat
             app:key="sync"
             app:title="@string/data_sync"
+            app:defaultValue="true"
             />
 
         <ListPreference

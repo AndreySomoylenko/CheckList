@@ -78,27 +78,30 @@ public class RegisterActivity extends AppCompatActivity {
                         if (dataCorrect) {
                             appDao.setLogin(login);
                             appDao.setName(name);
-//                            new Thread() {
-//                                @Override
-//                                public void run() {
-//                                    try {
-//                                        new ServerDB(RegisterActivity.this).sync(BuysManager.buys).execute();
-//                                    } catch (IOException ignored) {}
-//                                }
-//                            }.start();
-                            DBJson.start = true;
-                            Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
-                            startActivity(intent);
-                            finish();
+                            new ServerDB(RegisterActivity.this).sync(BuysManager.unpack(BuysManager.buys), BuysManager.unpack(BuysManager.bag)).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    DBJson.start = true;
+                                    Intent intent = new Intent(RegisterActivity.this, RootActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
                         } else {
                             loginBtn.setClickable(true);
                             Toast.makeText(RegisterActivity.this, getString(R.string.account_exists), Toast.LENGTH_LONG).show();
+                            loginBtn.setClickable(true);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ServerString> call, Throwable t) {
-
+                        loginBtn.setClickable(true);
                         ServerDB.showConnectionError(RegisterActivity.this);
                         System.out.println(t);
                     }
