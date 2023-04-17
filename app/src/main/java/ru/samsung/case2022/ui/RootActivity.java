@@ -449,7 +449,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     LoginActivity.bar.setSubtitle("");
                     RegisterActivity.bar.setSubtitle("");
                 } catch (Exception ignored) {}
-                if (!ServerDB.hasConnection && !showDialog) {
+                if (!ServerDB.hasConnection && !showDialog && response.body() != null) {
                     ServerDB.hasConnection = true;
                     if (response.body()[0] != null && ((!Objects.equals(BuysManager.unpack(BuysManager.buys), response.body()[0])) ||  (response.body()[1] != null && (!Objects.equals(BuysManager.unpack(BuysManager.bag), response.body()[1]))))) {
                         showDialog = true;
@@ -480,7 +480,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         });
                     }
 
-                } else if (!showDialog){
+                } else if (!showDialog && response.body() != null){
                     if (response.body()[0] != null) {
                         if (!Objects.equals(BuysManager.unpack(BuysManager.buys), response.body()[0])) {
                             BuysManager.buys = BuysManager.pack(response.body()[0]);
