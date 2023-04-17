@@ -407,18 +407,20 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                     serverDB.getName().enqueue(new Callback<ServerString>() {
                         @Override
                         public void onResponse(Call<ServerString> call, Response<ServerString> response) {
-                            String s = response.body().str;
-                            appDao.setName(s);
-                            try {
-                                RootActivity.bar.setTitle(s);
-                                SettingsActivity.bar.setTitle(s);
-                                AddActivity.bar.setTitle(s);
-                                BagActivity.bar.setTitle(s);
-                                CameraActivity.bar.setTitle(s);
-                                EditActivity.bar.setTitle(s);
-                                LoginActivity.bar.setTitle(s);
-                                RegisterActivity.bar.setTitle(s);
-                            } catch (Exception ignored) {
+                            if (response.body() != null) {
+                                String s = response.body().str;
+                                appDao.setName(s);
+                                try {
+                                    RootActivity.bar.setTitle(s);
+                                    SettingsActivity.bar.setTitle(s);
+                                    AddActivity.bar.setTitle(s);
+                                    BagActivity.bar.setTitle(s);
+                                    CameraActivity.bar.setTitle(s);
+                                    EditActivity.bar.setTitle(s);
+                                    LoginActivity.bar.setTitle(s);
+                                    RegisterActivity.bar.setTitle(s);
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
 
