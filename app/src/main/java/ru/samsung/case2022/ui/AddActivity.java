@@ -118,7 +118,7 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.empty_input), Toast.LENGTH_SHORT).show();
         } else {
             db.add(s, count);
-            if (appDao.getLogin() != "" && syncApi != null) {
+            if (!appDao.getLogin().equals("") && syncApi != null) {
                 new Thread() {
                     @Override
                     public void run() {

@@ -34,7 +34,7 @@
 
         <ListPreference
             app:dependency="sync"
-            app:defaultValue="only_list"
+            app:defaultValue="full"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
             app:key="reply"

@@ -458,9 +458,9 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                         mHandler.post(() -> {
 
                             AlertDialog.Builder alert = new AlertDialog.Builder(RootActivity.this);
-                            alert.setTitle("Несовпадение данных на сервере");
-                            alert.setMessage("Какой список оставить");
-                            alert.setPositiveButton("На устройстве", (dialog, whichButton) -> {
+                            alert.setTitle(R.string.server_difference);
+                            alert.setMessage(R.string.what_is_actual);
+                            alert.setPositiveButton(R.string.on_device, (dialog, whichButton) -> {
                                 new Thread() {
                                     @Override
                                     public void run() {
@@ -474,12 +474,14 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
                                 showDialog = false;
                                 startService();
                             });
-                            alert.setNegativeButton("На сервере", (dialog, whichButton) -> {
+                            alert.setNegativeButton(R.string.on_server, (dialog, whichButton) -> {
                                 showDialog = false;
                                 startService();
                             });
                             alert.show();
                         });
+                    } else {
+                        showDialog = false;
                     }
 
                 } else if (!showDialog && response.body() != null){

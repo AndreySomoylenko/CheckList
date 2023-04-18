@@ -1,56 +1,297 @@
 @startuml
+class ru.samsung.case2022.ui.LoginActivity {
+~ AppDao appDao
++ {static} ActionBar bar
+# void onCreate(Bundle)
+}
+class ru.samsung.case2022.db.FullSync {
+~ ServerDB db
++ Call<ResponseBody> sync()
++ Call<List<String>[]> getList()
+}
+class ru.samsung.case2022.db.AppDao {
+~ SharedPreferences spref
+~ Context context
++ void putList(List<Item>)
++ void putBagList(List<Item>)
++ List<Item> getList()
++ List<Item> getBagList()
++ String getLogin()
++ String getName()
++ void setLogin(String)
++ void setName(String)
++ String getLang()
++ void setLocale(String)
++ void setLocale()
+}
+class ru.samsung.case2022.retrofit.UnsafeOkHttpClient {
++ {static} OkHttpClient getUnsafeOkHttpClient()
+}
+class ru.samsung.case2022.db.Money {
+- int rubles
+- int cents
++ Money plus(Money)
++ Money minus(Money)
++ Money multiply(int)
++ int getRubles()
++ int getCents()
++ void makeZero()
+}
+class ru.samsung.case2022.adapters.Item {
++ String name
++ int count
+}
+class ru.samsung.case2022.db.ListSync {
+~ ServerDB db
++ Call<ResponseBody> sync()
++ Call<List<String>[]> getList()
+}
+class ru.samsung.case2022.ui.BagActivity {
+~ {static} RecyclerView recyclerView
+~ DBJson db
+~ AppDao appDao
++ {static} TextView suma
+~ FloatingActionButton back
+~ {static} CustomAdapter adapter
++ {static} ActionBar bar
+# void onCreate(Bundle)
++ void OnNoteClick(int)
++ void onLongClick(int)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+}
 class ru.samsung.case2022.ui.RootActivity {
-~ Button scan
-~ Button add
-~ RecyclerView recycler
+~ FloatingActionButton scan
++ {static} ActionBar bar
+- {static} boolean showDialog
++ {static} SyncApi syncApi
+~ Handler mHandler
+~ FloatingActionButton add
+~ FloatingActionButton bag
+~ {static} CustomAdapter adapter
+~ {static} RecyclerView recycler
 - String pictureImagePath
 + {static} Bitmap bitmap
-+ {static} DBJson db
++ DBJson db
++ {static} AppDao appDao
+- ServerDB serverDB
 ~ ActivityResultLauncher<Intent> someActivityResultLauncher
 # void onCreate(Bundle)
 - void takePicture()
 # void onResume()
 + void OnNoteClick(int)
++ void onLongClick(int)
 + boolean onCreateOptionsMenu(Menu)
 + boolean onOptionsItemSelected(MenuItem)
 # void onStop()
+- void startService()
++ void updateList(boolean,SyncApi)
+# void onDestroy()
 }
-
-interface ru.samsung.case2022.adapters.OnNoteListener
+class ru.samsung.case2022.ui.AddActivity {
+~ EditText editText
+~ AppDao appDao
++ {static} ActionBar bar
+~ FloatingActionButton back
+~ FloatingActionButton plusBtn
+~ TextView counterView
+~ int count
+~ String s
+~ DBJson db
+# void onCreate(Bundle)
++ void updateText(View)
+}
+class ru.samsung.case2022.tensorflow.TFLiteInterpreter {
+~ Model model
+~ String[] products
++ float[] runInference(Bitmap)
++ String getResult(float[])
+}
+class ru.samsung.case2022.db.DBJson {
+- AppDao appDao
++ {static} boolean start
++ {static} boolean startServ
+~ Context context
++ void add(String,int)
++ void addToBag(Item)
++ void clearBag()
++ void removeByName(String)
++ void removeByIndex(int)
++ void removeByIndexBag(int)
++ void init()
++ void save()
+}
+class ru.samsung.case2022.db.DBManager {
+- Context context
+- DBHelper dbHelper
+- SQLiteDatabase db
++ void openDB()
++ void insertNewElement(String)
++ ArrayList<String> getList()
++ void updateList(int,String)
++ void closeDB()
+}
+class ru.samsung.case2022.retrofit.RetrofitClient {
+- {static} RetrofitClient instance
+- Api api
++ {static} RetrofitClient getInstance()
++ Api getApi()
+}
+class ru.samsung.case2022.adapters.CustomAdapter {
+- List<Item> localDataSet
+- Context context
+- OnNoteListener mOnNoteListener
+- int[] itemIds
++ void refresh(List<Item>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
+- int getIdByName(String)
++ {static} Money getMoneyByName(Item)
++ int getItemCount()
+}
+class ru.samsung.case2022.adapters.CustomAdapter.ViewHolder {
+~ TextView name
+~ TextView price
+~ ImageView photo
+~ OnNoteListener onNoteListener
++ TextView getTextView()
++ TextView getPrice()
++ ImageView getPhoto()
++ void onClick(View)
++ boolean onLongClick(View)
+}
+interface ru.samsung.case2022.adapters.CustomAdapter.OnNoteListener {
+~ void OnNoteClick(int)
+~ void onLongClick(int)
+}
+interface ru.samsung.case2022.db.SyncApi {
+~ Call<ResponseBody> sync()
+~ Call<List<String>[]> getList()
+}
+interface ru.samsung.case2022.retrofit.Api {
+~ String BASE_URL
+~ Call<List<String>[]> getList(String,ServerDB.ListType)
+~ Call<ResponseBody> sync(String,String,String)
+~ Call<ServerString> check_login(String,String)
+~ Call<ServerString> check_register(String,String,String)
+~ Call<ServerString> get_name(String)
+~ Call<ResponseBody> set_name(String,String)
+}
+class ru.samsung.case2022.ui.RegisterActivity {
++ {static} ActionBar bar
+~ AppDao appDao
+# void onCreate(Bundle)
+}
+class ru.samsung.case2022.db.BagSync {
+~ ServerDB db
++ Call<ResponseBody> sync()
++ Call<List<String>[]> getList()
+}
+class ru.samsung.case2022.ui.CameraActivity {
+~ ImageView image
+~ AppDao appDao
+~ FloatingActionButton recognize
+~ DBJson db
+~ FloatingActionButton cancel
+~ Bitmap bitmap
++ {static} ActionBar bar
+# void onCreate(Bundle)
+- String recognize()
+}
 class ru.samsung.case2022.ui.EditActivity {
 ~ EditText editText
+~ DBJson db
+~ AppDao appDao
 ~ String s
++ {static} ActionBar bar
 ~ int position
+~ int count
+~ FloatingActionButton back
+~ FloatingActionButton plusBtn
+~ TextView counterView
++ {static} int MAX_COUNTER_ELEMENTS
 # void onCreate(Bundle)
 + void updateText(View)
 + void deleteItem(View)
 }
-class ru.samsung.case2022.ui.AddActivity {
-~ EditText editText
-~ String s
-# void onCreate(Bundle)
-+ void updateText(View)
+class ru.samsung.case2022.db.ServerDB {
+- {static} AppDao appDao
+~ Context context
++ {static} boolean syncTurnedOn
++ {static} boolean hasConnection
++ Call<List<String>[]> getList(ListType)
++ Call<ResponseBody> sync(List<String>,List<String>)
++ Call<ServerString> checkLogin(String,String)
++ Call<ServerString> checkRegister(String,String,String)
++ Call<ServerString> getName()
++ Call<ResponseBody> setName(String)
++ {static} void showConnectionError(Context)
++ {static} void showConnectionError(Context,String)
 }
-class ru.samsung.case2022.ui.MainActivity1 {
-- ServerDB db
-- AppDao appDao
+enum ru.samsung.case2022.db.ListType {
++  ALL
++  BUYS
++  BAG
+}
+class ru.samsung.case2022.db.DBHelper {
++ {static} String DB_NAME
++ {static} int DB_VERSION
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
+}
+class ru.samsung.case2022.retrofit.models.ServerString {
++ String str
+}
+class ru.samsung.case2022.db.BuysManager {
++ {static} List<Item> buys
++ {static} List<Item> bag
++ {static} Money sum
++ {static} List<String> possibleItems
++ {static} Map<String,Money> prices
++ {static} String loadJSONFromAsset(Context)
++ {static} void getMapFromJSON(Context)
++ {static} List<String> unpack(List<Item>)
++ {static} List<Item> pack(List<String>)
+- {static} int getPosByName(List<Item>,String)
+- {static} boolean containsName(List<Item>,String)
++ {static} Money countSum()
+}
+class ru.samsung.case2022.ui.SettingsActivity {
+~ FloatingActionButton back
+~ AppDao appDao
++ {static} ActionBar bar
 # void onCreate(Bundle)
 }
-class ru.samsung.case2022.ui.CameraActivity {
-~ ImageView image
-~ Button recognize
-~ Button cancel
-~ Bitmap bitmap
-# void onCreate(Bundle)
-- String recognize()
+class ru.samsung.case2022.ui.SettingsActivity.SettingsFragment {
++ void onCreatePreferences(Bundle,String)
+}
+class ru.samsung.case2022.ui.SettingsActivity.SettingsFragment2 {
++ void onCreatePreferences(Bundle,String)
 }
 
 
-
-ru.samsung.case2022.adapters.OnNoteListener <|.. ru.samsung.case2022.ui.RootActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.LoginActivity
+ru.samsung.case2022.db.SyncApi <|.. ru.samsung.case2022.db.FullSync
+ru.samsung.case2022.db.SyncApi <|.. ru.samsung.case2022.db.ListSync
+ru.samsung.case2022.ui.OnNoteListener <|.. ru.samsung.case2022.ui.BagActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.BagActivity
+ru.samsung.case2022.ui.OnNoteListener <|.. ru.samsung.case2022.ui.RootActivity
 androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.RootActivity
-androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.EditActivity
 androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.AddActivity
-androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.MainActivity1
+ru.samsung.case2022.adapters.Adapter <|-- ru.samsung.case2022.adapters.CustomAdapter
+ru.samsung.case2022.adapters.CustomAdapter +.. ru.samsung.case2022.adapters.CustomAdapter.ViewHolder
+ru.samsung.case2022.adapters.OnClickListener <|.. ru.samsung.case2022.adapters.CustomAdapter.ViewHolder
+ru.samsung.case2022.adapters.OnLongClickListener <|.. ru.samsung.case2022.adapters.CustomAdapter.ViewHolder
+ru.samsung.case2022.adapters.ViewHolder <|-- ru.samsung.case2022.adapters.CustomAdapter.ViewHolder
+ru.samsung.case2022.adapters.CustomAdapter +.. ru.samsung.case2022.adapters.CustomAdapter.OnNoteListener
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.RegisterActivity
+ru.samsung.case2022.db.SyncApi <|.. ru.samsung.case2022.db.BagSync
 androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.CameraActivity
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.EditActivity
+android.database.sqlite.SQLiteOpenHelper <|-- ru.samsung.case2022.db.DBHelper
+androidx.appcompat.app.AppCompatActivity <|-- ru.samsung.case2022.ui.SettingsActivity
+ru.samsung.case2022.ui.SettingsActivity +.. ru.samsung.case2022.ui.SettingsActivity.SettingsFragment
+ru.samsung.case2022.ui.PreferenceFragmentCompat <|-- ru.samsung.case2022.ui.SettingsActivity.SettingsFragment
+ru.samsung.case2022.ui.SettingsActivity +.. ru.samsung.case2022.ui.SettingsActivity.SettingsFragment2
+ru.samsung.case2022.ui.PreferenceFragmentCompat <|-- ru.samsung.case2022.ui.SettingsActivity.SettingsFragment2
 @enduml

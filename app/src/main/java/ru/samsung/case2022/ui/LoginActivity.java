@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ServerString> call, Throwable t) {
-
+                                    loginBtn.setClickable(true);
                                 }
                             });
                         } else {
@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ServerString> call, Throwable t) {
                         ServerDB.showConnectionError(LoginActivity.this);
+                        loginBtn.setClickable(true);
                     }
                 });
             }
