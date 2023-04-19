@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import ru.samsung.case2022.db.BuysManager;
 import ru.samsung.case2022.ml.Model;
 
 /**
@@ -29,7 +30,7 @@ public class TFLiteInterpreter {
      * List of products for model
      */
 
-    String[] products = {"Печенье сладкое с маком", "Капуста брокколи", "Сыр полутвердый", "Кофе растворимый с добавлением молотого", "Творог мягкий 2%", "Тесто замороженное дрожжевое", "Молоко 3,2% пастеризованное", "Блинчики с мясом", "Сметана из топленых сливок 15%", "Чай черный листовой"};
+    String[] products = BuysManager.possibleItems.toArray(new String[0]);
 
     /**
      * Constructor of class
