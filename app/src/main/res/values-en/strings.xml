@@ -28,7 +28,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="you_logged_out">You logged out</string>
-    <string name="no_connection">No connection to server</string>
+    <string name="no_connection">ВСЁ!</string>
     <string name="camera_not_recog">Camera  not found</string>
     <string name="enter_data">Enter data</string>
     <string name="name_len_limit">Name length from 4 to 16 characters</string>

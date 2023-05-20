@@ -139,6 +139,7 @@ public class RootActivity extends AppCompatActivity implements CustomAdapter.OnN
         serverDB = new ServerDB(this);
         appDao = new AppDao(this);
         db = new DBJson(this);
+        Toast.makeText(this, "ВСЁ!", Toast.LENGTH_LONG).show();
         // Listener for scan button
         scan.setOnClickListener(v -> {
             takePicture();
